@@ -1,0 +1,9 @@
+Description: Alphafold is an artificial intelligence program developed by Alphabets's/Google's DeepMind which performs predictions of protein structure.
+Home Page: https://github.com/deepmind/alphafold
+Programs: run_alphafold.sh
+
+version("2.3.1", uri="docker://tacc/alphafold:2.3.1")
+version("2.3.0", uri="docker://tacc/alphafold:2.3.0")
+version("2.2.3", uri="docker://tacc/alphafold:2.2.3")
+version("2.2.0", uri="docker://tacc/alphafold:2.2.0")
+version("2.1.1", uri="docker://tacc/alphafold:2.1.1")

@@ -1,0 +1,5 @@
+Description: Bamliquidator is a set of tools for analyzing the density of short DNA sequence read alignments in the BAM file format.
+Home Page: https://github.com/BradnerLab/pipeline/wiki/bamliquidator
+Programs: bamliquidator,bamliquidator_bins,bamliquidator_regions,bamliquidator_batch.py,flattener.py,normalize_plot_and_summarize.py
+
+version("1.5.2", uri="docker://bioliquidator/bamliquidator:1.5.2")

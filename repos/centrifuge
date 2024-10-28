@@ -1,0 +1,5 @@
+Description: Centrifuge is a novel microbial classification engine that enables rapid, accurate, and sensitive labeling of reads and quantification of species on desktop computers.
+Home Page: http://www.ccb.jhu.edu/software/centrifuge/
+Programs: centrifuge,centrifuge-BuildSharedSequence.pl,centrifuge-RemoveEmptySequence.pl,centrifuge-RemoveN.pl,centrifuge-build,centrifuge-build-bin,centrifuge-class,centrifuge-compress.pl,centrifuge-download,centrifuge-inspect,centrifuge-inspect-bin,centrifuge-kreport,centrifuge-sort-nt.pl,centrifuge_evaluate.py,centrifuge_simulate_reads.py
+
+version("1.0.4_beta", uri="docker://quay.io/biocontainers/centrifuge:1.0.4_beta--h9a82719_6")

@@ -1,0 +1,5 @@
+Description: fastStructure is an algorithm for inferring population structure from large SNP genotype data. It is based on a variational Bayesian framework for posterior inference and is written in Python2.x.
+Home Page: https://rajanil.github.io/fastStructure/
+Programs: structure.py,chooseK.py,distruct.py
+
+version("py27", uri="docker://quay.io/biocontainers/faststructure:1.0--py27h813d008_3")

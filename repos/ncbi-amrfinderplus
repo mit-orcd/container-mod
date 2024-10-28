@@ -1,0 +1,7 @@
+Description: Ncbi-amrfinderplus and the accompanying database identify acquired antimicrobial resistance genes in bacterial protein and/or assembled nucleotide sequences as well as known resistance-associated point mutations for several taxa.
+Home Page: https://github.com/ncbi/amr
+Programs: amrfinder,amr_report,amrfinder_update
+
+version("3.11.2", uri="docker://staphb/ncbi-amrfinderplus:3.11.2-2023-02-23.1")
+version("3.10.42", uri="docker://quay.io/biocontainers/ncbi-amrfinderplus:3.10.42--h6e70893_0")
+version("3.10.30", uri="docker://quay.io/biocontainers/ncbi-amrfinderplus:3.10.30--h6e70893_0")

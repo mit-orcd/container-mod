@@ -1,0 +1,8 @@
+Description: Snpsift is a tool used to annotate genomic variants using databases, filters, and manipulates genomic annotated variants.
+Home Page: http://pcingola.github.io/SnpEff/
+Programs: SnpSift
+
+version("5.2", uri="docker://quay.io/biocontainers/snpsift:5.2--hdfd78af_0")
+version("5.1d", uri="docker://quay.io/biocontainers/snpsift:5.1d--hdfd78af_0")
+version("5.1", uri="docker://quay.io/biocontainers/snpsift:5.1--hdfd78af_0")
+version("4.3.1t", uri="docker://quay.io/biocontainers/snpsift:4.3.1t--hdfd78af_3")

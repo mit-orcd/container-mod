@@ -1,0 +1,8 @@
+Description: Angsd is a software for analyzing next generation sequencing data.
+Home Page: http://www.popgen.dk/angsd/index.php/ANGSD
+Programs: angsd,realSFS,msToGlf,thetaStat,supersim,NGSadmix,contamination,contamination2,haploToPlink,ibs,msHOT2glf,ngsPSMC,printIcounts,scounts,smartCount,splitgl
+
+version("0.940", uri="")
+version("0.939", uri="")
+version("0.937", uri="")
+version("0.935", uri="")

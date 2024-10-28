@@ -1,0 +1,5 @@
+Description: CICERO (Clipped-reads Extended for RNA Optimization) is an assembly-based algorithm to detect diverse classes of driver gene fusions from RNA-seq.
+Home Page: https://github.com/stjude/CICERO
+Programs: Cicero.sh
+
+version("1.8.1", uri="docker://ghcr.io/stjude/cicero:v1.8.1")

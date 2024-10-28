@@ -1,0 +1,5 @@
+Description: Samblaster is a tool to mark duplicates and extract discordant and split reads from sam files.
+Home Page: https://github.com/GregoryFaust/samblaster
+Programs: samblaster
+
+version("0.1.26", uri="docker://quay.io/biocontainers/samblaster:0.1.26--h9f5acd7_2")

@@ -1,0 +1,5 @@
+Description: LTR_Finder is an efficient program for finding full-length LTR retrotranspsons in genome sequences.
+Home Page: https://github.com/xzhub/LTR_Finder
+Programs: ltr_finder,check_result.pl,down_tRNA.pl,filter_rt.pl,genome_plot.pl,genome_plot2.pl,genome_plot_svg.pl
+
+version("1.07", uri="")

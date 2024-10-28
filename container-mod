@@ -1,0 +1,884 @@
+#!/bin/bash
+
+# Yucheng Zhang
+
+# Copyright (c) 2024 Tufts University
+# Copyright (c) 2021 Purdue University
+# Copyright (c) 2020 NVIDIA Corporation
+
+# This script assumes that you have Singularity or Apptainer 
+# installed on your system.
+# 
+# Usage: Run "container-mod --help" for instructions.
+
+# Prerequisites: Ensure Singularity or Apptainer is available
+# Load Singularity if it is not already loaded; consider adding support for Apptainer.
+if ! command -v singularity > /dev/null 2>&1; then
+    module load singularity
+fi
+
+VERSION="0.1"  # Increment this version for updates
+
+# ----------------------------------------------------------------------
+
+# Function to send warning messages to stderr.
+warn() {
+    # warn [-p] "message" ["message"...]
+    # Sends message(s) to stderr, optionally prefixing with "PROGNAME: ".
+    local msg
+    local withname=0
+    local opt OPTIND
+
+    while getopts :p opt; do
+        case $opt in
+            p) withname=1 ;;
+        esac
+    done
+    shift $((OPTIND - 1))  # Shift away the processed options
+
+    # Output messages
+    for msg in "$@" ; do
+        if [[ $withname -ne 0 ]]; then
+            msg="$PROGNAME: $msg"
+        fi
+        echo -e "$msg" 1>&2
+    done
+}
+
+# Function to output bold text
+bold() {
+    if [ -t 1 ]; then  # Check if the output is a terminal
+        tput bold; echo -n "$@"; tput sgr0;  # Output bold text
+    else
+        echo -n "$@";  # If not a terminal, just output normally
+    fi
+}
+
+# Function to display the help message
+help_message() {
+    cat <<-EOF
+$scriptname  version: $VERSION
+
+This script facilitates the management of container images and associated files for 
+Singularity and Apptainer. It enables users to pull container images using URIs, 
+generate Lmod-format module files, and create executable wrapper bash scripts.
+
+$(bold Usage:) 
+    ${scriptname} <subcommand> [options] <URIs>
+
+${bold Subcommands:}
+    pull        Pull the container image from the specified URI.
+    generate    Generate module files and wrapper scripts for the specified URI.
+
+${bold Options:}
+  -d, --dir DIR           Specify the output directory for images and module files (default is the current directory).
+  -f, --force             Force overwrite of existing images and module files (default behavior is to skip).
+  -m, --moduledir DIR     Specify the directory for storing generated module files.
+  -u, --update            Update the app file in the repos directory with the new version (default is no).
+  -h, --help              Display this help message and exit.
+
+${bold Examples:}
+    ${scriptname} pull docker://quay.io/biocontainers/vcftools:0.1.16
+    ${scriptname} generate docker://quay.io/biocontainers/vcftools:0.1.16
+
+For further assistance, visit the documentation or run '${scriptname} help'.
+EOF
+}
+
+uri2imgname() {
+	# uri2imgname "URI"
+	# Takes an image URI ($1) and converts into desired Singularity
+	# image name according to our conventions (which is really a
+	# Scott McMillan's convention in his NGC Containers Modules collection
+	# (https://github.com/NVIDIA/ngc-container-environment-modules/).
+	# E.g.:
+	#   URI:  [docker://]quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
+	#   IMG:  quay.io_biocontainers_vcftools:0.1.16--h9a82719_5.sif
+	#
+	# Note: VERY PRIMITIVE! Fancy URIs (e.g. usernames/passwords) may fail.
+
+	local uri="$1" file=""
+	file="${uri#*://}" 		# Drop {docker,https}:// prefix, if any
+	file="${file//\//_}.sif" 	# And replace '/' with '_'
+	echo "$file"
+}
+
+pull() {
+    # pull "URI"
+    # Pulls a Singularity image from the specified URI and stores it
+    # in the directory defined by the IMG_OUTDIR variable, and updates
+    # the corresponding app file in the repos directory if the update option is set.
+    
+    local uri=$1
+    local imgname="$(uri2imgname "$uri")"
+    local app="$(uri2app "$uri")"  # Extract app name from URI
+    local version="$(uri2ver "$uri")"  # Extract version from URI
+    local app_file="repos/$app"  # Path to the app's file
+
+    # Check if the image file already exists
+    if [ -f "${IMG_OUTDIR}/${imgname}" ]; then
+        echo "Image already exists: ${IMG_OUTDIR}/${imgname}"
+        return
+    fi
+
+    echo "Pulling image: $uri"
+    mkdir -p "${IMG_OUTDIR}"  # Create the output directory if it doesn't exist
+    singularity pull "${IMG_OUTDIR}/${imgname}" "$uri"  # Pull the Singularity image
+
+    # Update the app file if the update option is enabled
+    if [[ $update_repo -eq 1 ]]; then
+        if [[ -f "$app_file" ]]; then
+            # Create a temporary file for the updated app file
+            {
+                # Output the existing content before version lines
+                grep -v '^version(' "$app_file"
+
+                # Prepend the new version entry just above existing version entries
+                echo "version(\"$version\", uri=\"$uri\")"
+
+                # Output existing version lines
+                grep '^version(' "$app_file"
+            } > "$app_file.tmp" && mv "$app_file.tmp" "$app_file"
+            echo "Updated app file: $app_file with new version $version"
+        else
+            echo "Error: App file '$app_file' not found. Cannot update version."
+        fi
+    fi
+}
+
+module() {
+    # module "URI"
+    # Generates a module file for a given application URI and saves it
+    # in the specified output directory.
+    #
+    # This function performs the following tasks:
+    # 1. Takes the provided URI and converts it into a module file name
+    #    using the uri2modname function.
+    # 2. Checks if the module file already exists. If it does and the
+    #    force option is not enabled, the function skips the generation
+    #    process and adds the URI to the SKIPPED_URIS array.
+    # 3. Creates the necessary directory structure for the module file.
+    # 4. Generates the content of the module file using the
+    #    print_modulefile function.
+    # 5. Writes the generated content to the module file and provides
+    #    a reminder to edit the stub for additional modifications.
+    #
+    # Arguments:
+    #   URI - The application URI that identifies the desired image.
+    #
+    # Example Usage:
+    #   module "docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5"
+    #
+    # Errors:
+    # If the output directory cannot be created or if there is an
+    # issue writing to the module file, an error message will be displayed
+    # and the function will exit with a non-zero status.
+
+    local URI="$1"
+    local OUTFILE="${MOD_OUTDIR}/$(uri2modname "$URI")"
+    
+    # If modulefile already exists, skip it (unless --force is in effect)
+    if [[ -f "$OUTFILE" && $force -eq 0 ]]; then
+        echo "SKIPPED: $URI --> $OUTFILE (file exists)"
+        SKIPPED_URIS+=("$URI")
+        return 0
+    fi
+    
+    # Create the directory, exit on failure
+    mkdir -p "$(dirname "$OUTFILE")" || {
+        echo "Error: Failed to create directory for '$OUTFILE'"
+        exit 1
+    }
+    
+    # Generate module file content
+    MODULE=$(print_modulefile "$URI")
+    
+    # Write module content to the file, exit on failure
+    if echo "$MODULE" > "$OUTFILE"; then
+        echo "Remember to edit '$OUTFILE' stub (look for TODO: labels!)"
+    else
+        echo "Error: Failed to write to '$OUTFILE'"
+        exit 1
+    fi
+}
+
+exec() {
+    # exec "URI"
+    # Processes a given application URI to generate the corresponding
+    # executables in the designated output directory.
+    #
+    # This function performs the following tasks:
+    # 1. Parses the provided URI to extract the application name,
+    #    version, and image name.
+    # 2. Calls `parse_exec` to obtain an array of predefined
+    #    executables for the application.
+    # 3. Creates the output directory for the executables.
+    # 4. Checks if the executables exist and generates them.
+    #
+    # Note: If the force option is enabled, the existing output
+    #       directory will be removed before creating a new one.
+    # 
+    # Arguments:
+    #   URI - The application URI that identifies the desired image.
+    #
+    # Example Usage:
+    #   exec "docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5"
+    #
+    # Errors:
+    # If no executables are defined for the application, or if
+    # there is an issue creating directories, an error message will be
+    # displayed and the function will exit with a non-zero status.
+
+    local uri="$1"
+    echo "Processing $uri"
+
+    # Parse the URI into app, version, and image
+    local app=$(uri2app "$uri")
+    local ver=$(uri2ver "$uri")
+    local image=$(uri2imgname "$uri")
+
+    # Call the parse_exec function and capture output into an array
+    exec_array=($(parse_exec))
+
+    # Error check for parse_exec
+    if [ $? -ne 0 ]; then
+        echo "Error: No executables are defined for $app"
+        exit 1
+    fi
+
+    # Define the output directory
+    local AppTool_dir="$EXEC_OUTDIR/$app/$ver/bin"
+
+    # If AppTool_dir exists and force is not set, skip executable generation
+    if [[ -d "$AppTool_dir" && $force -eq 0 ]]; then
+        echo "Output directory $AppTool_dir already exists. Skipping executable generation."
+        return 0
+    fi
+
+    # If force is true and directory exists, remove it before creating a new one
+    if [[ -d "$AppTool_dir" && $force -eq 1 ]]; then
+        echo "Force option enabled, removing existing directory $AppTool_dir"
+        rm -rf "$AppTool_dir" || {
+            echo "Error: Failed to remove directory $AppTool_dir"
+            exit 1
+        }
+    fi
+
+    # Create the directory if it doesn't exist or was just removed
+    mkdir -p "$AppTool_dir" || {
+        echo "Error: Failed to create directory $AppTool_dir"
+        exit 1
+    }
+
+    # Check if exec_array is empty
+    if [ ${#exec_array[@]} -eq 0 ]; then
+        echo "Warning: No executables are predefined for $app version $ver."
+    else
+        # Iterate over the exec_array and process each executable
+        for exec in "${exec_array[@]}"; do
+            # Check if the executable exists
+            confirm_exec_exists "$exec" || {
+                echo "Warning: Executable $exec does not exist."
+                continue
+            }
+            echo "Generating executable for $exec"
+            generate_executable "$app" "$ver" "$image" "$exec"
+        done
+    fi
+}
+
+uri2modname() {
+	# uri2modname "URI"
+	# Takes an image URI  and converts into desired modulefile
+	# name according to our naming conventions.
+	#
+	# Note: biocontainers often have additional interpreter, unique hash
+	# and/or container release information appended, in the form of a
+	#	--<pyXY|plXYZ>h<hash>_<release>
+	# string (where XYZ version numbers may or may not be present).
+	# We strip hash and release number, but keep the interpreter
+	# information in the module name just in case.
+	# E.g.:
+	#   URI:  [docker://]quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
+	#   MOD:  vcftools/0.1.16.lua
+	# and
+	#   URI:  [docker://]quay.io/biocontainers/bowtie2:2.4.2--py36hff7a194_2
+	#   MOD:  bowtie2/2.4.2-py36
+	#
+	# Note: VERY PRIMITIVE! Fancy URIs (e.g. usernames/passwords) may fail.
+
+	local uri="$1" file
+	local app=$(uri2app "$uri") 	# Application name
+	local buf="${uri##*/}" 		# Drop all until just name:version
+	local modver=${buf##*:} 	# Version starts after last ':'
+
+	# Handle interpreter/hash/release string.
+	# First, if there is an '--interpreter' (or '--extralibNNinterpreterMM')
+	# part, make it single dash and move the '--' after it:
+	#       deeptools:3.5.1--py_0         -> deeptools:3.5.1-py--_0 
+	# 	bowtie2:2.4.2--py36hff7a194_2 -> bowtie2:2.4.2-py36--hff7a194_2
+	#       biopython:1.70--np112py36_1   -> biopython:1.70-np112py36--_1
+	# And then trim hash and release (everything past '--' or '_$')
+	modver=$(echo "$modver" | sed -re 's/(--.*)?(_[0-9]+)?$//') # trim --hash_release
+
+	file="$app/$modver.lua"
+	echo "$file"
+}
+
+
+uri2app() {
+	# uri2app "URI"
+	# Takes an image URI ($1) and extracts the application name according
+	# to our conventions.  Handles some applications specially
+	# E.g.:
+	#   URI:  [docker://]quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
+	#   APP:  vcftools
+	# Special:
+	#   URI:  [docker://]quay.io/qiime2/core:2021.2
+	#   APP:  qiime2
+	#   URI:  [docker://]r-base:4.1.1
+	#   APP:  r
+	#   URI:  [docker://]nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1
+	#   APP:  parabricks
+	# etc.
+
+	local uri="$1" app
+
+	# Some special apps have their own dedicated repositories (as opposed
+	# to a central 'biocontainers' one), handle them first.
+	if [[ "$uri" == */qiime2/core:* ]]; then
+		app="qiime2"
+	elif [[ "$uri" == */r-base:* ]]; then
+		app="r"
+	elif [[ "$uri" == */cumulusprod_cellranger:* ]]; then
+		app="cellranger"
+	elif [[ "$uri" == */nvidia/clara/clara-parabricks:* ]]; then
+		app="parabricks"
+	else
+		# And all "normal" apps will fall here
+		app="${uri##*/}" 	# Drop all until just name:version
+		app=${app%%:*} 		# And drop ":version"
+	fi
+	echo "$app"
+}
+
+
+uri2ver() {
+	# uri2ver "URI"
+	# Takes an image URI ($1) and extracts the application version
+	# according to our conventions.  Biocontainers often have
+	# a "--<interpreter>h<hash>_<release>" appended to the application
+	# version - these are not part of application version (and get removed).
+	# E.g.:
+	#   URI:  [docker://]quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
+	#   VER:  0.1.16
+
+	local uri="$1" ver
+	ver="${uri##*/}" 		# Drop all until just name:version
+	ver=${ver##*:} 			# And drop "name:"
+
+	# Trim all "--<interpreter>h<hash>_<release>" extras.
+	ver=$(echo "$ver" | sed -re 's/(--.*)?(_[0-9]+)?$//')
+	echo "$ver"
+}
+
+print_modulefile() {
+    # print_modulefile "URI"
+    # Generates or repurposes a modulefile for the specified application based
+    # on the provided image URI.
+    #
+    # This function performs the following steps:
+    # 1. Accepts an image URI as input, which is expected to be in a format
+    #    recognizable by the modulefile generation system.
+    # 2. Extracts the application name from the URI using the uri2app function.
+    # 3. Checks for the existence of any previously created modulefiles for
+    #    the application by calling find_latest_modulefile.
+    # 4. If no prior modulefiles are found, it generates a new modulefile
+    #    using the generate_new_modulefile function.
+    # 5. If an existing modulefile is found, it repurposes that file as a
+    #    template for the new modulefile using the repurpose_old_modulefile function.
+    #
+    # Arguments:
+    #   uri - The image URI for which to generate or repurpose the modulefile.
+    #
+    # Returns:
+    #   0 if successful, or 1 if an error occurred during modulefile generation
+    #   or repurposing.
+    
+    local uri="$1"
+    local app=$(uri2app "$uri")             # e.g., vcftools
+    local latest_modulefile=$(find_latest_modulefile "$app") # file or empty
+
+    # Check if no latest modulefile exists
+    if [[ -z "$latest_modulefile" ]]; then
+        # Generate a new modulefile
+        generate_new_modulefile "$uri" || {
+            echo "Error: Failed to generate new modulefile for $app"
+            return 1
+        }
+    else
+        # Repurpose the old modulefile
+        repurpose_old_modulefile "$uri" "$latest_modulefile" || {
+            echo "Error: Failed to repurpose modulefile for $app"
+            return 1
+        }
+    fi
+
+    # Return the status of the last executed command (generator)
+    return $?
+}
+
+
+find_latest_modulefile() {
+    # find_latest_modulefile "app"
+    # Searches for the latest modulefile for the specified application.
+    #
+    # This function performs the following tasks:
+    # 1. Accepts the application name as an argument.
+    # 2. Checks for the existence of modulefiles (Lua files) in the
+    #    designated module directory for the specified application.
+    # 3. If modulefiles are found, it sorts them by their last modified
+    #    time and retrieves the most recently modified modulefile.
+    # 4. If no modulefiles are found, it issues a warning message.
+    #
+    # Arguments:
+    #   app - The name of the application for which to find the latest
+    #         modulefile.
+    #
+    # Returns:
+    #   The path to the latest modulefile, or an empty string if no
+    #   modulefiles are found.
+
+    local app="$1"
+    local modulefile=""
+
+    # Check if there are any modulefiles for the app
+    if ls "$MOD_EXISTING_DIR/$app/"*.lua 1> /dev/null 2>&1; then
+        # Sort by last modified and get the latest
+        modulefile=$(ls -t "$MOD_EXISTING_DIR/$app/"*.lua | head -n 1)
+    else
+        warn -p "No previous modulefiles found for $app"
+    fi
+
+    echo "$modulefile"
+}
+
+
+generate_new_modulefile() {
+    # generate_new_modulefile "URI"
+    # Generates a new modulefile for a given application based on the provided
+    # image URI. This function extracts metadata from the URI, checks for
+    # the existence of a template file, and populates the modulefile content
+    # by substituting placeholders with actual values.
+    #
+    # The generated modulefile contains information such as the application name,
+    # version, description, homepage, registry details, and executable directory.
+    #
+    # Arguments:
+    #   uri - The image URI for which to generate the modulefile.
+    #
+    # Returns:
+    #   0 if the modulefile was successfully generated and outputted,
+    #   1 if the template file is not found or if an error occurs during
+    #   generation.
+
+    local uri="$1"
+    local executable_dir=${PUBLIC_EXECUTABLE_DIR}
+    local image=$(uri2imgname "$uri")
+    local app=$(uri2app "$uri")
+    local ver=$(uri2ver "$uri")
+
+    # Initialize description and homepage variables
+    local homepage=""
+    local description=""
+    parse_home_description
+
+    # Determine the registry and registry URL
+    local registry=""
+    local registry_url=""
+
+    case "$uri" in
+        *"biocontainers"*)
+            registry="BioContainers"
+            registry_url="https://biocontainers.pro/tools/$app"
+            ;;
+        *"quay.io"*)
+            registry="Quay.io"
+            registry_url="https://quay.io/repository/$app"
+            ;;
+        *"nvcr.io"*)
+            registry="Nvidia NGC"
+            registry_url="https://catalog.ngc.nvidia.com/containers"
+            ;;
+        *"gcr.io"*)
+            registry="Google Container Registry"
+            registry_url="$uri"
+            ;;
+        *)
+            registry="DockerHub"
+            docker_repo=$(echo "$uri" | sed 's|docker://\([^:]*\):.*|\1|')
+            registry_url="https://hub.docker.com/r/${docker_repo}"
+            ;;
+    esac
+
+    # Ensure template file exists
+    local template_file="${TEMPLATE_DIR}/module_template.lua"
+    if [[ ! -f "$template_file" ]]; then
+        echo "Error: Template file '$template_file' not found."
+        return 1
+    fi
+
+    # Substitute placeholders in the template
+    local modulefile_content=$(sed -e "s|\${DESCRIPTION}|$description|g" \
+                                   -e "s|\${REGISTRY}|$registry|g" \
+                                   -e "s|\${REGISTRY_URL}|$registry_url|g" \
+                                   -e "s|\${HOMEPAGE}|$homepage|g" \
+                                   -e "s|\${IMAGE}|$image|g" \
+                                   -e "s|\${URI}|$uri|g" \
+                                   -e "s|\${VERSION}|$ver|g" \
+                                   -e "s|\${EXECUTABLE_DIR}|$executable_dir|g" \
+                                   -e "s|\${APP}|$app|g" \
+                                   "$template_file")
+
+    # Output the generated modulefile
+    echo "$modulefile_content"
+    return $MODTYPE_NEW
+}
+
+repurpose_old_modulefile() {
+    # repurpose_old_modulefile "URI" "TEMPLATE"
+    # Repurposes an existing modulefile template for a given application by
+    # updating it with the new version, image, and URI information. This function
+    # reads the specified template file, modifies relevant fields, and outputs
+    # the updated modulefile content.
+    #
+    # Arguments:
+    #   uri      - The image URI associated with the application.
+    #   template - The path to the existing modulefile that serves as the template.
+    #
+    # Returns:
+    #   0 if the modulefile was successfully updated and outputted,
+    #   1 if the modification fails and a new modulefile is generated instead.
+
+    local uri="$1"
+    local template="$2"
+    local image=$(uri2imgname "$uri")
+    local app=$(uri2app "$uri")
+    local ver=$(uri2ver "$uri")
+
+    echo "Using existing modulefile '$template' as template."
+
+    # Modify the template with new version, image, and URI
+    local buf=$(awk -v ver="$ver" -v image="$image" -v uri="$uri" '
+        /^[[:blank:]]*whatis.*Version:/ { $0 = "whatis(\"Version: " ver "\")" }
+        /^[[:blank:]]*local[[:blank:]]+version[[:blank:]]*=/ { $0 = "local version = \"" ver "\"" }
+        /^[[:blank:]]*local[[:blank:]]+image[[:blank:]]*=/ { $0 = "local image = \"" image "\"" }
+        /^[[:blank:]]*local[[:blank:]]+uri[[:blank:]]*=/ { $0 = "local uri = \"" uri "\"" }
+        { print }
+    ' < "$template")
+
+    # Check if the template modification succeeded
+    if [[ $? -ne 0 || -z "$buf" ]]; then
+        warn -p "Error: Failed to repurpose template '$template' for '$uri'"
+        generate_new_modulefile "$uri"
+        return $?
+    fi
+
+    echo "$buf"
+    return $MODTYPE_EXISTING
+}
+
+parse_home_description() {
+    # parse_home_description
+    # Parses the application file located in the 'repos' folder to extract the
+    # 'Description' and 'Home Page' fields. If the application file is not found,
+    # or if the fields cannot be extracted, appropriate error messages are displayed.
+    #
+    # This function sets the 'description' and 'homepage' variables with the
+    # extracted values or sets them to empty if not found. The function does not
+    # take any arguments.
+    #
+    # Returns:
+    #   0 if the fields are found and extracted successfully,
+    #   1 if the application file does not exist or the fields are missing.
+
+    # Path to the app's file in the repos folder
+    local app_file="repos/$app"
+
+    # Check if the app file exists
+    if [[ ! -f "$app_file" ]]; then
+        echo "Error: Application file '$app_file' not found."
+        description=""
+        homepage=""
+        return 1
+    fi
+
+    # Extract Description and Home Page using grep and sed
+    description=$(grep -m1 "^Description:" "$app_file" | sed 's/^Description: //')
+    homepage=$(grep -m1 "^Home Page:" "$app_file" | sed 's/^Home Page: //')
+
+    # Check if fields were extracted
+    if [[ -z "$description" ]]; then
+        echo "Warning: No 'Description' found in $app_file."
+    fi
+    if [[ -z "$homepage" ]]; then
+        echo "Warning: No 'Home Page' found in $app_file."
+    fi
+}
+
+parse_exec() {
+    # parse_exec
+    # Parses the application file located in the 'repos' folder to extract the 
+    # 'Programs' field, which contains a list of executable names. The function
+    # checks if the file exists and whether the 'Programs' field is populated.
+    #
+    # This function sets the 'executables' variable with the extracted values
+    # and prints them as an array for debugging. It returns a non-zero status 
+    # if the application file does not exist or if the 'Programs' field is empty.
+    #
+    # Returns:
+    #   0 if executables are found and extracted successfully,
+    #   1 if the application file does not exist or if the 'Programs' field is empty.
+
+    # Path to the app's file in the repos folder
+    local app_file="repos/$app"
+
+    # Check if the app file exists
+    if [[ ! -f "$app_file" ]]; then
+        echo "Error: Application file '$app_file' not found."
+        return 1   # Exit with a non-zero status if the file doesn't exist
+    fi
+
+    # Extract the "Programs" field from the app's file
+    executables=$(grep -m1 "^Programs:" "$app_file" | sed 's/^Programs: //')
+
+    # Check if executables are empty
+    if [[ -z "$executables" ]]; then
+        echo "No executables defined in 'Programs' for $app."
+        return 1   # Exit with a non-zero status if 'Programs' is empty
+    fi
+
+    # Split the comma-delimited string into an array
+    IFS=',' read -r -a arr <<< "$executables"
+
+    # Print the array of executables (for debugging)
+    echo "${arr[@]}"
+
+    # Return the array (if needed for further processing in the calling function)
+    echo "${arr[@]}"  # This could be redirected to an array in the calling function
+}
+
+confirm_exec_exists() {
+    # confirm_exec_exists
+    # Checks if a specified executable is installed within a Singularity container.
+    #
+    # This function takes the name of an executable as an argument and uses 
+    # the `singularity exec` command to determine if the executable is present 
+    # in the container's environment. If the executable is found, a confirmation 
+    # message is printed; otherwise, an error message is displayed, and the script 
+    # exits with a non-zero status.
+    #
+    # Arguments:
+    #   exec: The name of the executable to check for within the container.
+    #
+    # Exits with:
+    #   0 if the executable is found,
+    #   1 if the executable is not found.
+
+    local exec=$1
+    if singularity exec "$IMG_OUTDIR/$image" which "$exec" &> /dev/null; then
+        echo "Executable '$exec' is installed in the container."
+    else
+        echo "Executable '$exec' is NOT installed in the container."
+        exit 1
+    fi
+}
+
+generate_executable() {
+    # generate_executable $app $version $image $command
+    # Generates a Bash wrapper script for executing application commands 
+    # within a Singularity container.
+    #
+    # This function takes the application name, version, container image, 
+    # and command as arguments. It checks for required variables, creates 
+    # a directory for the executable if necessary, and generates a Bash 
+    # script that acts as a wrapper to call the application command within 
+    # the specified Singularity container. The script includes provisions 
+    # for loading the Singularity module and handling Nvidia or AMD GPU 
+    # options.
+    #
+    # Arguments:
+    #   app: The name of the application for which the wrapper is being created.
+    #   version: The version of the application.
+    #   image: The name of the container image to use.
+    #   command: The command or program to execute within the container.
+    #
+    # Returns:
+    #   0 on success, 
+    #   1 if there are missing arguments or errors in execution.
+
+    local app=$1
+    local version=$2
+    local image=$3
+    local command=$4
+    local executable="$AppTool_dir/$command"
+
+    # Ensure necessary variables are set
+    if [[ -z "$app" || -z "$version" || -z "$image" || -z "$command" ]]; then
+        echo "Error: Missing arguments for generate_executable: app=$app, version=$version, image=$image, command=$command"
+        return 1
+    fi
+
+    # Ensure PUBLIC_IMAGEDIR is set
+    if [[ -z "$PUBLIC_IMAGEDIR" ]]; then
+        echo "Error: PUBLIC_IMAGEDIR environment variable is not set."
+        return 1
+    fi
+
+    # Create the executable directory if it doesn't exist
+    mkdir -p "$(dirname "$executable")"
+
+    # Generate the bash wrapper script
+    cat <<EOF >"$executable"
+#!/usr/bin/env bash
+
+# Set variables
+VER="$version"
+PKG="$app"
+PROGRAM="$command"
+IMAGE_DIR="$PUBLIC_IMAGEDIR"
+IMAGE="$image"
+
+# Load Singularity if it is not already loaded
+if ! command -v singularity &> /dev/null; then
+    module load singularity || { echo "Failed to load Singularity module"; exit 1; }
+fi
+
+# Determine Nvidia GPUs (to pass the corresponding flag to Singularity)
+if nvidia-smi -L &> /dev/null; then
+    OPTIONS="--nv"
+fi
+
+# Determine AMD GPUs (to pass the corresponding flag to Singularity)
+if rocm-smi -L &> /dev/null; then
+    OPTIONS="\$OPTIONS --rocm"
+fi
+
+# Run the container with appropriate options
+singularity exec \$OPTIONS "\$IMAGE_DIR/\$IMAGE" "\$PROGRAM" "\$@"
+EOF
+
+    # Make the wrapper script executable
+    chmod +x "$executable"
+
+    if [[ $? -eq 0 ]]; then
+        echo "Successfully generated wrapper for $command at $executable"
+    else
+        echo "Error: Failed to generate wrapper for $command"
+        return 1
+    fi
+}
+
+###############################################################################
+# Main script starts here
+###############################################################################
+
+## Default directories
+OUTDIR_DEF="."  # Default output directory
+MOD_EXISTING_DIR="modulefiles"  # Directory to store ready-to-use modulefiles
+force=0 				# Overwrite modulefile and execs if they exists?
+# Ensure SUBCOMMAND is provided, else show help
+SUBCOMMAND="$1"
+if [[ -z "$SUBCOMMAND" ]]; then
+    echo "Error: You must specify a subcommand."
+    echo "Enter: '${0##*/} help' for usage instructions."
+    exit 1
+fi
+
+# Skip the first argument (subcommand) for further processing
+shift
+
+declare -a ARGV SING_OPTS
+
+# Parse command line options
+while [[ -n "$1" ]]; do
+    case $1 in
+        -d|--dir|--directory)
+            shift
+            OUTDIR="$1" ;;
+		-f|--force)
+			force=1 ;;
+        -m|--module-dir|--module-directory|--moduledir|--moduledirectory)
+            shift
+            MOD_EXISTING_DIR="$1" ;;
+        -u|--update)
+            update_repo=1
+            ;;
+        -h|--help)
+            help_message
+            graceful_exit ;;
+        --)
+            shift
+            break ;;  # Stop processing options at --
+        -*|--*)
+            echo "Unknown option '$1'"
+            usage
+            exit 1 ;;
+        *)
+            ARGV+=("$1")  # Add non-option arguments to ARGV
+            ;;
+    esac
+    shift
+done
+
+# Set default output directory if not specified
+OUTDIR="${OUTDIR:-$OUTDIR_DEF}"
+
+# Configurable settings
+#########################################
+IMG_OUTDIR="${OUTDIR}/images"           # Directory to store images
+MOD_OUTDIR="${OUTDIR}/incomplete"       # Directory to store incomplete modulefiles
+EXEC_OUTDIR="${OUTDIR}/executables"     # Directory to store executables
+TEMPLATE_DIR="templates"                # Directory to store template files
+SCRIPT_TOP_DIR="$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"
+PUBLIC_IMAGEDIR="/cluster/tufts/biocontainers/images"
+PUBLIC_EXECUTABLE_DIR="/cluster/tufts/biocontainers/tools"
+#########################################
+
+# Restore positional parameters
+set -- "${ARGV[@]}"
+ARGC=${#ARGV[@]}  # Count of accumulated arguments
+
+# Debug: print the accumulated ARGV for verification
+printf "Accumulated URLs: %s\n" "${ARGV[@]}"
+
+# Helper function for handling subcommands
+handle_subcommand() {
+    local cmd="$1"
+    shift
+
+    for URI in "${@}"; do
+        "$cmd" "$URI" || { echo "Error executing command '$cmd' for URI: $URI"; return 1; }
+    done
+}
+
+# Subcommand switch
+case "$SUBCOMMAND" in
+    pull)
+        handle_subcommand pull "${ARGV[@]}" ;;
+    module)
+        handle_subcommand module "${ARGV[@]}" ;;
+    exec)
+        handle_subcommand exec "${ARGV[@]}" ;;
+    pipe)
+        for URI in "${ARGV[@]}"; do
+            pull "$URI" && module "$URI" && exec "$URI"
+        done
+        ;;
+    help)
+        help_message ;;
+    *)
+        echo "Invalid subcommand: $SUBCOMMAND"
+        echo "Enter: '${0##*/} help' for usage instructions."
+        exit 1 ;;
+esac

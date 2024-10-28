@@ -1,0 +1,5 @@
+Description: Kmc is a tool for efficient k-mer counting and filtering of reads based on k-mer content.
+Home Page: https://github.com/refresh-bio/kmc
+Programs: kmc,kmc_dump,kmc_tools
+
+version("3.2.1", uri="docker://quay.io/biocontainers/kmc:3.2.1--hf1761c0_2")

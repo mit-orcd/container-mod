@@ -1,0 +1,8 @@
+Description: Bactopia is a flexible pipeline for complete analysis of bacterial genomes.
+Home Page: https://github.com/bactopia/bactopia
+Programs: bactopia
+
+version("3.0.0", uri="")
+version("2.2.0", uri="docker://bactopia/bactopia:2.2.0")
+version("2.1.1", uri="docker://bactopia/bactopia:2.1.1")
+version("2.0.3", uri="docker://bactopia/bactopia:2.0.3")

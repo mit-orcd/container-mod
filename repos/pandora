@@ -1,0 +1,5 @@
+Description: Pandora is a tool for bacterial genome analysis using a pangenome reference graph (PanRG). It allows gene presence/absence detection and genotyping of SNPs, indels and longer variants in one or a number of samples.
+Home Page: https://github.com/rmcolq/pandora
+Programs: pandora
+
+version("0.9.1", uri="docker://quay.io/rmcolq/pandora")

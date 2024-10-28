@@ -1,0 +1,5 @@
+Description: MetaEuk is a modular toolkit designed for large-scale gene discovery and annotation in eukaryotic metagenomic contigs.
+Home Page: https://github.com/soedinglab/metaeuk
+Programs: metaeuk
+
+version("6.a5d39d9", uri="docker://quay.io/biocontainers/metaeuk:6.a5d39d9--pl5321h6a68c12_3")

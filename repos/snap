@@ -1,0 +1,5 @@
+Description: Snap is a semi-HMM-based Nucleic Acid Parser -- gene prediction tool.
+Home Page: http://korflab.ucdavis.edu/software.html
+Programs: snap
+
+version("2013_11_29", uri="docker://quay.io/biocontainers/snap:2013_11_29--h779adbc_3")

@@ -1,0 +1,6 @@
+Description: pyGenomeViz is a genome visualization python package for comparative genomics implemented based on matplotlib.
+Home Page: https://github.com/moshi4/pyGenomeViz#cli-examples
+Programs: pgv-download-dataset,pgv-mmseqs,pgv-mummer,pgv-pmauve,python,python3
+
+version("0.3.2", uri="docker://staphb/pygenomeviz:0.3.2")
+version("0.2.2", uri="docker://staphb/pygenomeviz:0.2.2")

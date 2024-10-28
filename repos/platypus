@@ -1,0 +1,5 @@
+Description: Platypus-variant is a tool designed for efficient and accurate variant-detection in high-throughput sequencing data.
+Home Page: https://www.well.ox.ac.uk/research/research-groups/lunter-group/lunter-group/platypus-a-haplotype-based-variant-caller-for-next-generation-sequence-data
+Programs: platypus
+
+version("0.8.1", uri="")

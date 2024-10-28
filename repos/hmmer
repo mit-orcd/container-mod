@@ -1,0 +1,5 @@
+Description: Hmmer is used for searching sequence databases for sequence homologs, and for making sequence alignments.
+Home Page: http://hmmer.org
+Programs: alimask,easel,esl-afetch,esl-alimanip,esl-alimap,esl-alimask,esl-alimerge,esl-alipid,esl-alirev,esl-alistat,esl-compalign,esl-compstruct,esl-construct,esl-histplot,esl-mask,esl-mixdchlet,esl-reformat,esl-selectn,esl-seqrange,esl-seqstat,esl-sfetch,esl-shuffle,esl-ssdraw,esl-translate,esl-weight,hmmalign,hmmbuild,hmmconvert,hmmemit,hmmfetch,hmmlogo,hmmpgmd,hmmpgmd_shard,hmmpress,hmmscan,hmmsearch,hmmsim,hmmstat,jackhmmer,makehmmerdb,nhmmer,nhmmscan,phmmer
+
+version("3.3.2", uri="docker://quay.io/biocontainers/hmmer:3.3.2--h1b792b2_1")

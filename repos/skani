@@ -1,0 +1,5 @@
+Description: Skani is a program for calculating average nucleotide identity (ANI) from DNA sequences (contigs/MAGs/genomes) for ANI > ~80%.
+Home Page: 
+Programs: skani
+
+version("0.2.0", uri="docker://staphb/skani:0.2.0")

@@ -1,0 +1,7 @@
+Description: Bowtie 2 is an ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences. It is particularly good at aligning reads of about 50 up to 100s or 1,000s of characters, and particularly good at aligning to relatively long (e.g. mammalian) genomes. Bowtie 2 indexes the genome with an FM Index to keep its memory footprint small: for the human genome, its memory footprint is typically around 3.2 GB. Bowtie 2 supports gapped, local, and paired-end alignment modes.
+Home Page: https://github.com/BenLangmead/bowtie2
+Programs: bowtie2,bowtie2-build,bowtie2-inspect
+
+version("2.5.4", uri="docker://quay.io/biocontainers/bowtie2:2.5.4--h7071971_4")
+version("2.5.1", uri="docker://quay.io/biocontainers/bowtie2:2.5.1--py310h8d7afc0_0")
+version("2.4.2", uri="docker://quay.io/biocontainers/bowtie2:2.4.2--py38hc2f83ea_2")

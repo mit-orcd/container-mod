@@ -1,0 +1,5 @@
+Description: Shigeifinder is a tool that is used to identify differentiate Shigella/EIEC using cluster-specific genes and identify the serotype using O-antigen/H-antigen genes.
+Home Page: https://github.com/LanLab/ShigEiFinder
+Programs: shigeifinder
+
+version("1.3.2", uri="docker://staphb/shigeifinder:1.3.2")

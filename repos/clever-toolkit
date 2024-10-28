@@ -1,0 +1,5 @@
+Description: Clever-toolkit is a collection of tools to discover and genotype structural variations in genomes from paired-end sequencing reads. The main software is written in C++ with some auxiliary scripts in Python.
+Home Page: https://bitbucket.org/tobiasmarschall/clever-toolkit/src/master/
+Programs: clever,laser,bam-to-alignment-priors,split-priors-by-chromosome,clever-core,postprocess-predictions,evaluate-sv-predictions,split-reads,laser-core,laser-recalibrate,genotyper,insert-length-histogram,add-score-tags-to-bam,bam2fastq,remove-redundant-variations,precompute-distributions,extract-bad-reads,filter-variations,merge-to-vcf,multiline-to-xa,filter-bam,read-group-stats
+
+version("2.4", uri="docker://quay.io/biocontainers/clever-toolkit:2.4--py37hec3ac39_10")

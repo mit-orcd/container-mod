@@ -1,0 +1,5 @@
+Description: aTRAM (automated target restricted assembly method) is an iterative assembler that performs reference-guided local de novo assemblies using a variety of available methods.
+Home Page: https://github.com/juliema/aTRAM
+Programs: atram_preprocessor.py,atram.py,atram_stitcher.py
+
+version("2.4.3", uri="")

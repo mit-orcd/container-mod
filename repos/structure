@@ -1,0 +1,5 @@
+Description: Structure is a software package for using multi-locus genotype data to investigate population structure.
+Home Page: https://web.stanford.edu/group/pritchardlab/structure.html
+Programs: structure
+
+version("2.3.4", uri="")

@@ -1,0 +1,5 @@
+Description: T-coffee is a multiple sequence alignment software using a progressive approach.
+Home Page: https://github.com/cbcrg/tcoffee
+Programs: t_coffee
+
+version("13.45.0.4846264", uri="docker://quay.io/biocontainers/t-coffee:13.45.0.4846264--he1b5a44_3")

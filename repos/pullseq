@@ -1,0 +1,5 @@
+Description: Pullseq is an utility program for extracting sequences from a fasta/fastq file.
+Home Page: https://github.com/bcthomas/pullseq
+Programs: pcre-config,pcregrep,pcretest,pullseq,seqdiff
+
+version("1.0.2", uri="docker://quay.io/biocontainers/pullseq:1.0.2--h38613fd_6")

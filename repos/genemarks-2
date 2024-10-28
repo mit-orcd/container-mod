@@ -1,0 +1,5 @@
+Description: GeneMarkS-2 combines GeneMark.hmm (prokaryotic) and GeneMark (prokaryotic) with a self-training procedure that determines parameters of the models of both GeneMark.hmm and GeneMark.
+Home Page: http://opal.biology.gatech.edu/GeneMark/
+Programs: gms2.pl,biogem,compp,gmhmmp2
+
+version("1.14_1.25", uri="")

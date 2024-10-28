@@ -1,0 +1,6 @@
+Description: PopPUNK is a tool for clustering genomes.
+Home Page: https://github.com/bacpop/PopPUNK
+Programs: poppunk,poppunk_add_weights.py,poppunk_assign,poppunk_batch_mst.py,poppunk_calculate_rand_indices.py,poppunk_calculate_silhouette.py,poppunk_easy_run.py,poppunk_extract_components.py,poppunk_extract_distances.py,poppunk_info,poppunk_iterate.py,poppunk_mandrake,poppunk_mst,poppunk_references,poppunk_visualise
+
+version("2.6.0", uri="docker://staphb/poppunk:2.6.0")
+version("2.5.0", uri="docker://staphb/poppunk:2.5.0")

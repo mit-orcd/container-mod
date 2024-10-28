@@ -1,0 +1,5 @@
+Description: Transabyss is a tool for De novo assembly of RNAseq data using ABySS.
+Home Page: https://github.com/bcgsc/transabyss
+Programs: transabyss,transabyss-merge
+
+version("2.0.1", uri="docker://quay.io/biocontainers/transabyss:2.0.1--pyh864c0ab_7")

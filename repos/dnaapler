@@ -1,0 +1,5 @@
+Description: dnaapler is a simple python program that takes a single nucleotide input sequence (in FASTA format), finds the desired start gene using blastx against an amino acid sequence database, checks that the start codon of this gene is found, and if so, then reorients the chromosome to begin with this gene on the forward strand.
+Home Page: https://github.com/gbouras13/dnaapler
+Programs: dnaapler
+
+version("0.1.0", uri="docker://staphb/dnaapler:0.1.0")

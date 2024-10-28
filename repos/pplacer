@@ -1,0 +1,5 @@
+Description: Pplacer places query sequences on a fixed reference phylogenetic tree to maximize phylogenetic likelihood or posterior probability according to a reference alignment, guppy does all of the downstream analysis of placements, and rppr does useful things having to do with reference packages.
+Home Page: https://matsen.fhcrc.org/pplacer/
+Programs: pplacer,guppy,rppr
+
+version("1.1.alpha19", uri="docker://quay.io/biocontainers/pplacer:1.1.alpha19--h9ee0642_2")

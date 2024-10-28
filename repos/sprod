@@ -1,0 +1,5 @@
+Description: Sprod is a tool for de-noising spatially resolved transcriptomics data based on position and image information.
+Home Page: https://github.com/yunguan-wang/SPROD
+Programs: python,python3,sprod.py
+
+version("1.0", uri="")

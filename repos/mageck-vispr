@@ -1,0 +1,5 @@
+Description: MAGeCK-VISPR is a comprehensive quality control, analysis and visualization pipeline for CRISPR/Cas9 screens build on top of MAGeCK and VISPR.
+Home Page: https://bitbucket.org/liulab/mageck-vispr
+Programs: vispr
+
+version("0.5.6", uri="docker://quay.io/biocontainers/mageck-vispr:0.5.6--py_0")

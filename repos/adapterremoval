@@ -1,0 +1,5 @@
+Description: AdapterRemoval searches for and removes adapter sequences from High-Throughput Sequencing (HTS) data and (optionally) trims low quality bases from the 3' end of reads following adapter removal.
+Home Page: https://github.com/MikkelSchubert/adapterremoval
+Programs: AdapterRemoval
+
+version("2.3.3", uri="docker://quay.io/biocontainers/adapterremoval:2.3.3--pl5321h19e8d03_0")

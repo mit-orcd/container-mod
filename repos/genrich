@@ -1,0 +1,5 @@
+Description: Genrich is a peak-caller for genomic enrichment assays (e.g. ChIP-seq, ATAC-seq). It analyzes alignment files generated following the assay and produces a file detailing peaks of significant enrichment.
+Home Page: https://github.com/jsh58/Genrich
+Programs: Genrich
+
+version("0.6.1", uri="docker://quay.io/biocontainers/genrich:0.6.1--h5bf99c6_1")

@@ -1,0 +1,8 @@
+Description: STAR (Spliced Transcripts Alignment to a Reference) is an ultrafast universal RNA-seq aligner.
+Home Page: https://github.com/alexdobin/STAR
+Programs: STAR,STARlong
+
+version("2.7.11b", uri="docker://quay.io/biocontainers/star:2.7.11b--h43eeafb_1")
+version("2.7.10b", uri="docker://quay.io/biocontainers/star:2.7.10b--h9ee0642_0")
+version("2.7.10a", uri="docker://quay.io/biocontainers/star:2.7.10a--h9ee0642_0")
+version("2.7.9a", uri="docker://quay.io/biocontainers/star:2.7.9a--h9ee0642_0")

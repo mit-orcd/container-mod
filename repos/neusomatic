@@ -1,0 +1,5 @@
+Description: NeuSomatic: Deep convolutional neural networks for accurate somatic mutation detection
+Home Page: https://github.com/bioinform/neusomatic
+Programs: 
+
+version("0.2.1", uri="")

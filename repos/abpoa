@@ -1,0 +1,5 @@
+Description: abPOA: adaptive banded Partial Order Alignment
+Home Page: https://github.com/yangao07/abPOA
+Programs: abpoa
+
+version("1.4.1", uri="")

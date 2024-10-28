@@ -1,0 +1,5 @@
+Description: ASGAL (Alternative Splicing Graph ALigner) is a tool for detecting the alternative splicing events expressed in a RNA-Seq sample with respect to a gene annotation. 
+Home Page: https://github.com/AlgoLab/galig
+Programs: asgal
+
+version("1.1.7", uri="docker://algolab/asgal:v1.1.7")

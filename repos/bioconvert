@@ -1,0 +1,8 @@
+Description: Bioconvert is a collaborative project to facilitate the interconversion of life science data from one format to another.
+Home Page: https://bioconvert.readthedocs.io/en/master/
+Programs: bioconvert,python,python3
+
+version("0.6.2", uri="docker://quay.io/biocontainers/bioconvert:0.6.2--pyhdfd78af_0")
+version("0.6.1", uri="docker://quay.io/biocontainers/bioconvert:0.6.1--pyhdfd78af_0")
+version("0.5.2", uri="docker://quay.io/biocontainers/bioconvert:0.5.2--pyhdfd78af_0")
+version("0.4.3", uri="docker://quay.io/biocontainers/bioconvert:0.4.3--py_0")

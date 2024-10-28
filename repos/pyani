@@ -1,0 +1,6 @@
+Description: Pyani is an application and Python module for whole-genome classification of microbes using Average Nucleotide Identity.
+Home Page: http://widdowquinn.github.io/pyani/
+Programs: average_nucleotide_identity.py,genbank_get_genomes_by_taxon.py,delta_filter_wrapper.py
+
+version("0.2.12", uri="docker://quay.io/biocontainers/pyani:0.2.12--pyhdfd78af_0")
+version("0.2.11", uri="docker://quay.io/biocontainers/pyani:0.2.11--pyhdfd78af_0")

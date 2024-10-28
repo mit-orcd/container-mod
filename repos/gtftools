@@ -1,0 +1,5 @@
+Description: GTFtools provides a set of functions to compute or extract various features of gene models.
+Home Page: https://github.com/RacconC/gtftools
+Programs: gtftools
+
+version("0.9.0", uri="docker://quay.io/biocontainers/gtftools:0.9.0--pyh5e36f6f_0")

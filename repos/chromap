@@ -1,0 +1,5 @@
+Description: Chromap is an ultrafast method for aligning and preprocessing high throughput chromatin profiles.
+Home Page: https://github.com/haowenz/chromap
+Programs: chromap
+
+version("0.2.2", uri="docker://quay.io/biocontainers/chromap:0.2.2--hd03093a_0")

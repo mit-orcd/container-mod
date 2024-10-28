@@ -1,0 +1,5 @@
+Description: Idba is a practical iterative De Bruijn Graph De Novo Assembler for sequence assembly in bioinfomatics.
+Home Page: https://i.cs.hku.hk/~alse/hkubrg/projects/idba/index.html
+Programs: fa2fq,filter_blat,filter_contigs,filterfa,fq2fa,idba,idba_hybrid,idba_tran,idba_tran_test,idba_ud,parallel_blat,parallel_rna_blat,print_graph,raw_n50,run-unittest.py,sample_reads,scaffold,scan.py,shuffle_reads,sim_reads,sim_reads_tran,sort_psl,sort_reads,split_fa,split_fq,split_scaffold,test,validate_blat,validate_blat_parallel,validate_component,validate_contigs_blat,validate_contigs_mummer,validate_reads_blat,validate_rna
+
+version("1.1.3", uri="docker://quay.io/biocontainers/idba:1.1.3--1")

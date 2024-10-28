@@ -1,0 +1,6 @@
+Description: Alfred is an efficient and versatile command-line application that computes multi-sample quality control metrics in a read-group aware manner.
+Home Page: https://github.com/tobiasrausch/alfred
+Programs: alfred
+
+version("0.2.6", uri="docker://quay.io/biocontainers/alfred:0.2.6--ha41ced6_1")
+version("0.2.5", uri="docker://quay.io/biocontainers/alfred:0.2.5--h8bae737_2")

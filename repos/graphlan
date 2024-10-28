@@ -1,0 +1,5 @@
+Description: Graphlan is a software tool for producing high-quality circular representations of taxonomic and phylogenetic trees.
+Home Page: https://huttenhower.sph.harvard.edu/graphlan/
+Programs: graphlan.py,graphlan_annotate.py
+
+version("1.1.3", uri="docker://quay.io/biocontainers/graphlan:1.1.3--1")

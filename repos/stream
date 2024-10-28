@@ -1,0 +1,5 @@
+Description: Stream is an interactive pipeline capable of disentangling and visualizing complex branching trajectories from both single-cell transcriptomic and epigenomic data.
+Home Page: https://github.com/pinellolab/STREAM
+Programs: python,python3
+
+version("1.0", uri="docker://pinellolab/stream:1.0")

@@ -1,0 +1,5 @@
+Description: Impute2 is a genotype imputation and haplotype phasing program.
+Home Page: https://mathgen.stats.ox.ac.uk/impute/impute_v2.html#home
+Programs: impute2
+
+version("2.3.2", uri="docker://quay.io/biocontainers/impute2:2.3.2--h9ee0642_2")

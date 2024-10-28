@@ -1,0 +1,5 @@
+Description: Homopolish is a genome polisher originally developed for Nanopore and subsequently extended for PacBio CLR.
+Home Page: https://github.com/ythuang0522/homopolish
+Programs: homopolish
+
+version("0.4.1", uri="docker://staphb/homopolish:0.4.1")

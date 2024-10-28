@@ -1,0 +1,5 @@
+Description: Glimmer is system for finding genes in microbial DNA, especially the genomes of bacteria, archaea, and viruses.
+Home Page: http://ccb.jhu.edu/software/glimmer/index.shtml
+Programs: anomaly,build-fixed,build-icm,entropy-profile,entropy-score,extract,g3-from-scratch.csh,g3-from-training.csh,g3-iterated.csh,get-motif-counts.awk,glim-diff.awk,glimmer3,long-orfs,match-list-col.awk,multi-extract,not-acgt.awk,score-fixed,start-codon-distrib,test,uncovered,upstream-coords.awk,window-acgt
+
+version("3.02", uri="docker://quay.io/biocontainers/glimmer:3.02--h1b792b2_5")

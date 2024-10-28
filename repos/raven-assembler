@@ -1,0 +1,6 @@
+Description: Raven-assembler is ###############################################################
+Home Page: ########################
+Programs: raven-assembler
+
+version(".8.1", uri="docker://quay.io/biocontainers/raven-assembler:.8.1--h5b5514e_0")
+version("1.8.1", uri="docker://quay.io/biocontainers/raven-assembler:1.8.1--h5b5514e_0")

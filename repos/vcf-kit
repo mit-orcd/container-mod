@@ -1,0 +1,6 @@
+Description: VCF-kit is a command-line based collection of utilities for performing analysis on Variant Call Format (VCF) files.
+Home Page: https://github.com/AndersenLab/VCF-kit
+Programs: vk
+
+version("0.2.9", uri="docker://quay.io/biocontainers/vcfkit:0.2.9--pyh5bfb8f1_0")
+version("0.2.6", uri="docker://andersenlab/vcf-kit:20200822175018b7b60d")

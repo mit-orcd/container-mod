@@ -1,0 +1,6 @@
+Description: DeepTools is a collection of user-friendly tools for normalization and visualization of deep-sequencing data.
+Home Page: https://github.com/deeptools/deepTools
+Programs: alignmentSieve,bamCompare,bamCoverage,bamPEFragmentSize,bigwigCompare,computeGCBias,computeMatrix,computeMatrixOperations,correctGCBias,deeptools,estimateReadFiltering,estimateScaleFactor,multiBamSummary,multiBigwigSummary,plotCorrelation,plotCoverage,plotEnrichment,plotFingerprint,plotHeatmap,plotPCA,plotProfile
+
+version("3.5.5", uri="docker://quay.io/biocontainers/deeptools:3.5.5--pyhdfd78af_0")
+version("py", uri="docker://quay.io/biocontainers/deeptools:3.5.1--py_0")

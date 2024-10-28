@@ -1,0 +1,5 @@
+Description: Cnvnator is a tool for discovery and characterization of copy number variation (CNV) in population genome sequencing data.
+Home Page: https://github.com/abyzovlab/CNVnator
+Programs: cnvnator,cnvnator2VCF.pl,plotbaf.py,plotcircular.py,plotrdbaf.py,pytools.py
+
+version("0.4.1", uri="docker://clinicalgenomics/cnvnator:0.4.1")

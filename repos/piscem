@@ -1,0 +1,5 @@
+Description:  piscem is a rust wrapper for a next-generation index + mapper tool (still currently written in C++17).
+Home Page: https://github.com/COMBINE-lab/piscem
+Programs: piscem
+
+version("0.4.3", uri="docker://quay.io/biocontainers/piscem:0.4.3--h52b76fa_0")

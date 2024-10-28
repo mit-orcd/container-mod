@@ -1,0 +1,5 @@
+Description: Metilene is a versatile tool to study the effect of epigenetic modifications in differentiation/development, tumorigenesis, and systems biology on a global, genome-wide level.
+Home Page: https://www.bioinf.uni-leipzig.de/Software/metilene/
+Programs: metilene,metilene_input.pl,metilene_output.pl,metilene_output.R
+
+version("0.2.8", uri="docker://quay.io/biocontainers/metilene:0.2.8--hec16e2b_2")

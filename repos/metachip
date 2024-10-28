@@ -1,0 +1,5 @@
+Description:  Metachip is a pipeline for Horizontal gene transfer (HGT) identification.
+Home Page: https://github.com/songweizhi/MetaCHIP
+Programs: MetaCHIP
+
+version("1.10.12", uri="docker://quay.io/biocontainers/metachip:1.10.12--pyh5e36f6f_0")

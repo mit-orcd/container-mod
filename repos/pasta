@@ -1,0 +1,5 @@
+Description: PASTA: Ultra-Large Multiple Sequence Alignment for Nucleotide and Amino-Acid Sequences.
+Home Page: https://github.com/smirarab/pasta
+Programs: run_pasta.py,run_seqtools.py,sumlabels.py,sumtrees.py
+
+version("1.8.7", uri="docker://smirarab/pasta:latest")

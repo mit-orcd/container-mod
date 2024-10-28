@@ -1,0 +1,9 @@
+Description: HTSeq is a Python library to facilitate processing and analysis of data from high-throughput sequencing (HTS) experiments.
+Home Page: https://github.com/htseq/htseq
+Programs: htseq-count,htseq-count-barcodes,htseq-qa,python,python3
+
+version("py310", uri="docker://quay.io/biocontainers/htseq:2.0.2--py310ha14a713_0")
+version("2.0.2", uri="docker://quay.io/biocontainers/htseq:2.0.2--py310ha14a713_0")
+version("2.0.1", uri="docker://quay.io/biocontainers/htseq:2.0.1--py37hfcd875c_0")
+version("1.99.2", uri="docker://quay.io/biocontainers/htseq:1.99.2--py37h9c5868f_1")
+version("0.13.5", uri="docker://quay.io/biocontainers/htseq:0.13.5--py38h1773678_0")

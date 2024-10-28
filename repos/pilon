@@ -1,0 +1,5 @@
+Description: Pilon is an automated genome assembly improvement and variant detection tool.
+Home Page: https://github.com/broadinstitute/pilon/
+Programs: pilon.jar
+
+version("1.24", uri="")

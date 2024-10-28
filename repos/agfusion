@@ -1,0 +1,5 @@
+Description: AGFusion (pronounced 'A G Fusion') is a python package for annotating gene fusions from the human or mouse genomes.
+Home Page: https://github.com/murphycj/AGFusion
+Programs: agfusion
+
+version("1.3.11", uri="docker://mgibio/agfusion:1.3.11-ensembl-105")

@@ -1,0 +1,5 @@
+Description: Taxonkit is a practical and efficient NCBI taxonomy toolkit.
+Home Page: https://github.com/shenwei356/taxonkit
+Programs: taxonkit
+
+version("0.9.0", uri="docker://quay.io/biocontainers/taxonkit:0.9.0--h9ee0642_0")

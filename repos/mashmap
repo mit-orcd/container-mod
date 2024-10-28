@@ -1,0 +1,5 @@
+Description: Mashmap is a fast approximate aligner for long DNA sequences.
+Home Page: https://github.com/marbl/MashMap
+Programs: mashmap
+
+version("pl5321", uri="docker://quay.io/biocontainers/mashmap:2.0--pl5321h8e5b204_8")

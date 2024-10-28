@@ -1,0 +1,5 @@
+Description: Medaka is a tool to create consensus sequences and variant calls from nanopore sequencing data.
+Home Page: https://github.com/nanoporetech/medaka
+Programs: medaka,medaka_consensus,medaka_counts,medaka_data_path,medaka_haploid_variant,medaka_version_report
+
+version("1.6.0", uri="docker://ontresearch/medaka:v1.6.0")

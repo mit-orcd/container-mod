@@ -1,0 +1,5 @@
+Description: Hicexplorer is a set of tools to process, normalize and visualize Hi-C data.
+Home Page: https://hicexplorer.readthedocs.io/en/latest/#
+Programs: chicAggregateStatistic,chicDifferentialTest,chicExportData,chicPlotViewpoint,chicQualityControl,chicSignificantInteractions,chicViewpoint,chicViewpointBackgroundModel,hicAdjustMatrix,hicAggregateContacts,hicAverageRegions,hicBuildMatrix,hicCompareMatrices,hicCompartmentalization,hicConvertFormat,hicCorrectMatrix,hicCorrelate,hicCreateThresholdFile,hicDetectLoops,hicDifferentialTAD,hicexplorer,hicFindEnrichedContacts,hicFindRestSite,hicFindTADs,hicHyperoptDetectLoops,hicHyperoptDetectLoopsHiCCUPS,hicInfo,hicInterIntraTAD,hicMergeDomains,hicMergeLoops,hicMergeMatrixBins,hicMergeTADbins,hicNormalize,hicPCA,hicPlotAverageRegions,hicPlotDistVsCounts,hicPlotMatrix,hicPlotSVL,hicPlotTADs,hicPlotViewpoint,hicQC,hicQuickQC,hicSumMatrices,hicTADClassifier,hicTrainTADClassifier,hicTransform,hicValidateLocations
+
+version("3.7.2", uri="docker://quay.io/biocontainers/hicexplorer:3.7.2--pyhdfd78af_1")

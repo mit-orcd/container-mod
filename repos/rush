@@ -1,0 +1,5 @@
+Description: rush is a tool similar to GNU parallel and gargs. rush borrows some idea from them and has some unique features, e.g., supporting custom defined variables, resuming multi-line commands, more advanced embeded replacement strings.
+Home Page: https://github.com/shenwei356/rush
+Programs: rush
+
+version("0.4.2", uri="")

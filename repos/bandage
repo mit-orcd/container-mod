@@ -1,0 +1,5 @@
+Description: Bandage is a GUI program that allows users to interact with the assembly graphs made by de novo assemblers such as Velvet, SPAdes, MEGAHIT and others.
+Home Page: https://rrwick.github.io/Bandage/
+Programs: Bandage
+
+version("0.8.1", uri="docker://quay.io/biocontainers/bandage:0.8.1--hc9558a2_2")

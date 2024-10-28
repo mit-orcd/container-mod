@@ -1,0 +1,5 @@
+Description:   Expansion Hunter: a tool for estimating repeat sizes.
+Home Page: https://github.com/Illumina/ExpansionHunter
+Programs: ExpansionHunter
+
+version("4.0.2", uri="docker://quay.io/biocontainers/expansionhunter:4.0.2--he785bd8_0")

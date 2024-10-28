@@ -1,0 +1,5 @@
+Description: table2asn is a command-line program that creates sequence records for submission to GenBank.
+Home Page: https://www.ncbi.nlm.nih.gov/genbank/table2asn/
+Programs: table2asn
+
+version("1.26.678", uri="docker://staphb/ncbi-table2asn:1.26.678")

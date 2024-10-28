@@ -1,0 +1,5 @@
+Description: Reapr is a tool that evaluates the accuracy of a genome assembly using mapped paired end reads.
+Home Page: https://www.sanger.ac.uk/tool/reapr/
+Programs: reapr
+
+version("1.0.18", uri="docker://biocontainers/reapr:v1.0.18dfsg-4-deb_cv1")

@@ -1,0 +1,6 @@
+Description: Cellbender is a software package for eliminating technical artifacts from high-throughput single-cell RNA sequencing (scRNA-seq) data.
+Home Page: https://github.com/broadinstitute/CellBender
+Programs: cellbender
+
+version("0.2.2", uri="docker://us.gcr.io/broad-dsde-methods/cellbender:0.2.2")
+version("0.2.0", uri="docker://us.gcr.io/broad-dsde-methods/cellbender:latest")

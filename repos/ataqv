@@ -1,0 +1,5 @@
+Description: Ataqv is a toolkit for measuring and comparing ATAC-seq results, made in the Parker lab at the University of Michigan.
+Home Page: https://github.com/ParkerLab/ataqv
+Programs: ataqv,mkarv
+
+version("1.3.0", uri="docker://quay.io/biocontainers/ataqv:1.3.0--py39hccc85d7_2")

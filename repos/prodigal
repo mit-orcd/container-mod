@@ -1,0 +1,5 @@
+Description: Prodigal is a tool for fast, reliable protein-coding gene prediction for prokaryotic genome.
+Home Page: https://github.com/hyattpd/Prodigal
+Programs: prodigal
+
+version("2.6.3", uri="docker://quay.io/biocontainers/prodigal:2.6.3--h779adbc_3")

@@ -1,0 +1,5 @@
+Description: Gemma is a software toolkit for fast application of linear mixed models (LMMs) and related models to genome-wide association studies (GWAS) and other large-scale data sets.
+Home Page: https://github.com/genetics-statistics/GEMMA
+Programs: gemma
+
+version("0.98.3", uri="docker://quay.io/biocontainers/gemma:0.98.3--hb4ccc14_0")

@@ -1,0 +1,5 @@
+Description: Magic-BLAST is a tool for mapping large next-generation RNA or DNA sequencing runs against a whole genome or transcriptome.
+Home Page: https://ncbi.github.io/magicblast/
+Programs: magicblast
+
+version("1.5.0", uri="docker://ncbi/magicblast:1.5.0")

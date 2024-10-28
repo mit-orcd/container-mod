@@ -1,0 +1,5 @@
+Description: Manta calls structural variants (SVs) and indels from mapped paired-end sequencing reads.
+Home Page: https://github.com/Illumina/manta
+Programs: configManta.py,python
+
+version("1.6.0", uri="docker://quay.io/biocontainers/manta:1.6.0--h9ee0642_1")

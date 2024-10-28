@@ -1,0 +1,5 @@
+Description: Ragtag is a tool for fast reference-guided genome assembly scaffolding.
+Home Page: https://github.com/malonge/RagTag
+Programs: ragtag.py
+
+version("2.1.0", uri="docker://quay.io/biocontainers/ragtag:2.1.0--pyhb7b1952_0")

@@ -1,0 +1,5 @@
+Description: SHAPEIT4 is a fast and accurate method for estimation of haplotypes (aka phasing) for SNP array and high coverage sequencing data.
+Home Page: https://odelaneau.github.io/shapeit4/
+Programs: shapeit4
+
+version("4.2.2", uri="docker://quay.io/biocontainers/shapeit4:4.2.2--h24bf969_1")

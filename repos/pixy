@@ -1,0 +1,5 @@
+Description: pixy is a command-line tool for painlessly estimating average nucleotide diversity within (π) and between (dxy) populations from a VCF.
+Home Page: http://abacas.sourceforge.net
+Programs: pixy
+
+version("1.2.7", uri="")

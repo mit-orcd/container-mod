@@ -1,0 +1,5 @@
+Description: BAMscale is a one-step tool to 1) quantify/normalize peak coverages from multiple BAM files 2) create scaled BigWig files for easy visualization. BAMscale can quantify peaks in BED format from one or multiple BAM files. The output files are raw read counts, as well as FPKM, library-size and TPM normalized peak-scores (one file for each).
+Home Page: https://github.com/ncbi/BAMscale
+Programs: BAMscale
+
+version("0.0.5", uri="docker://quay.io/biocontainers/bamscale:0.0.5--h37b53dd_8")

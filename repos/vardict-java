@@ -1,0 +1,5 @@
+Description: Vardict is a variant discovery program written in Java and Perl. It is a Java port of VarDict variant caller.
+Home Page: https://github.com/AstraZeneca-NGS/VarDictJava
+Programs: vardict-java,var2vcf_paired.pl,var2vcf_valid.pl,testsomatic.R,teststrandbias.R
+
+version("1.8.3", uri="docker://hydragenetics/vardict:1.8.3")

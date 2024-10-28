@@ -1,0 +1,5 @@
+Description: Seidr is community gene network inference and exploration toolkit.
+Home Page: https://github.com/bschiffthaler/seidr
+Programs: correlation,seidr,mi,pcor,narromi,plsnet,llr-ensemble,svm-ensemble,genie3,tigress,el-ensemble,makeconv,genrb,gencfu,gencnval,gendict,tomsimilarity
+
+version("0.14.2", uri="docker://quay.io/biocontainers/seidr:0.14.2--nompi_h33d3b1a")

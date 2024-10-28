@@ -1,0 +1,5 @@
+Description: DAS Tool is an automated method that integrates the results of a flexible number of binning algorithms to calculate an optimized, non-redundant set of bins from a single assembly.
+Home Page: https://github.com/cmks/DAS_Tool
+Programs: DAS_Tool,Contigs2Bin_to_Fasta.sh,Fasta_to_Contig2Bin.sh,get_species_taxids.sh
+
+version("1.1.6", uri="docker://quay.io/biocontainers/das_tool:1.1.6--r42hdfd78af_0")

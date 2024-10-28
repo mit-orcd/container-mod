@@ -1,0 +1,5 @@
+Description: Jellyfish is a tool for fast, memory-efficient counting of k-mers in DNA. A k-mer is a substring of length k, and counting the occurrences of all such substrings is a central step in many analyses of DNA sequence.
+Home Page: http://www.genome.umd.edu/jellyfish.html
+Programs: jellyfish
+
+version("2.3.0", uri="docker://quay.io/biocontainers/kmer-jellyfish:2.3.0--h7d875b9_2")

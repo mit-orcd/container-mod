@@ -1,0 +1,5 @@
+Description: MACS2 is Model-based Analysis of ChIP-Seq for identifying transcript factor binding sites.
+Home Page: https://github.com/macs3-project/MACS
+Programs: macs2
+
+version("2.2.7.1", uri="docker://quay.io/biocontainers/macs2:2.2.7.1--py39h38f01e4_2")

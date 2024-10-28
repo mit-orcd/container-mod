@@ -1,0 +1,5 @@
+Description: Deepsignal2 is a deep-learning method for detecting DNA methylation state from Oxford Nanopore sequencing reads.
+Home Page: https://github.com/PengNi/deepsignal2
+Programs: deepsignal2,call_modification_frequency.py,combine_call_mods_freq_files.py,combine_two_strands_frequency.py,concat_two_files.py,evaluate_mods_call.py,filter_samples_by_label.py,filter_samples_by_positions.py,gff_reader.py,randsel_file_rows.py,shuffle_a_big_file.py,split_freq_file_by_5mC_motif.py,txt_formater.py
+
+version("0.1.2", uri="")

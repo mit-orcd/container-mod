@@ -1,0 +1,7 @@
+Description: Hifiasm is fast haplotype-resolved de novo assembler for PacBio HiFi reads.
+Home Page: https://github.com/chhylp123/hifiasm
+Programs: hifiasm
+
+version("0.19.9", uri="docker://quay.io/biocontainers/hifiasm:0.19.9--h43eeafb_0")
+version("0.18.5", uri="docker://quay.io/biocontainers/hifiasm:0.18.5--h5b5514e_0")
+version("0.16.0", uri="docker://quay.io/biocontainers/hifiasm:0.16.0--h2e03b76_0")

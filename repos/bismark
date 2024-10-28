@@ -1,0 +1,6 @@
+Description: Bismark is a tool to map bisulfite treated sequencing reads to a genome of interest and perform methylation calls in a single step
+Home Page: https://github.com/FelixKrueger/Bismark
+Programs: bismark,bam2nuc,bismark2bedGraph,bismark2report,bismark2summary,bismark_genome_preparation,bismark_methylation_extractor,copy_bismark_files_for_release.pl,coverage2cytosine,deduplicate_bismark,filter_non_conversion,methylation_consistency,--BismarkhasSamtools,Bowtie2andHISAT2inside.Shouldwe--aliasthemfortheuseraswell,orkeeptheminternal?--Keephiddenfornow.
+
+version("0.24.0", uri="docker://quay.io/biocontainers/bismark:0.24.0--hdfd78af_0")
+version("0.23.0", uri="docker://quay.io/biocontainers/bismark:0.23.0--hdfd78af_1")

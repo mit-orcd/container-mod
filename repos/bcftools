@@ -1,0 +1,7 @@
+Description: Bcftools is a program for variant calling and manipulating files in the Variant Call Format (VCF) and its binary counterpart BCF.
+Home Page: https://samtools.github.io/bcftools/bcftools.html
+Programs: bcftools,color-chrs.pl,guess-ploidy.py,plot-roh.py,plot-vcfstats,run-roh.pl,vcfutils.pl
+
+version("1.17", uri="docker://staphb/bcftools:1.17")
+version("1.14", uri="docker://quay.io/biocontainers/bcftools:1.14--hde04aa1_1")
+version("1.13", uri="docker://quay.io/biocontainers/bcftools:1.13--h3a49de5_0")

@@ -1,0 +1,5 @@
+Description: Crisprcasfinder is an updated, improved, and integrated version of CRISPRFinder and CasFinder.
+Home Page: https://github.com/dcouvin/CRISPRCasFinder
+Programs: CRISPRCasFinder.pl
+
+version("4.2.20", uri="docker://unlhcc/crisprcasfinder:4.2.20")

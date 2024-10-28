@@ -1,0 +1,5 @@
+Description: Parallel-fastq-dump is the parallel fastq-dump wrapper.
+Home Page: https://github.com/rvalieris/parallel-fastq-dump
+Programs: parallel-fastq-dump
+
+version("0.6.7", uri="docker://quay.io/biocontainers/parallel-fastq-dump:0.6.7--pyhdfd78af_0")

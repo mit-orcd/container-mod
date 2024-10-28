@@ -1,0 +1,7 @@
+Description: Snpeff is an open source tool that annotates variants and predicts their effects on genes by using an interval forest approach.
+Home Page: http://pcingola.github.io/SnpEff/
+Programs: snpEff
+
+version("5.2", uri="docker://quay.io/biocontainers/snpeff:5.2--hdfd78af_1")
+version("5.1d", uri="docker://quay.io/biocontainers/snpeff:5.1d--hdfd78af_0")
+version("5.1", uri="docker://quay.io/biocontainers/snpeff:5.1--hdfd78af_1")

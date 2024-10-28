@@ -1,0 +1,5 @@
+Description:   CellChat: Inference and analysis of cell-cell communication
+Home Page: https://github.com/sqjin/CellChat
+Programs: R,Rscript,rstudio
+
+version("1.5.0", uri="")

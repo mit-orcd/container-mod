@@ -1,0 +1,5 @@
+Description: SignalP predicts the presence and location of signal peptide cleavage sites in amino acid sequences from different organisms: Gram-positive prokaryotes, Gram-negative prokaryotes, and eukaryotes
+Home Page: http://services.healthtech.dtu.dk/service.php?SignalP-4.1
+Programs: signalp
+
+version("4.1", uri="")

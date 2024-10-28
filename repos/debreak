@@ -1,0 +1,5 @@
+Description: Debreak is a SV caller for long-read single-molecular sequencing data.
+Home Page: https://github.com/ChongLab/DeBreak
+Programs: debreak
+
+version("1.3", uri="docker://quay.io/biocontainers/debreak:1.3--h9ee0642_0")

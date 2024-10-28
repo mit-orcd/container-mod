@@ -1,0 +1,5 @@
+Description: Bcfanno was designed to annotate genetic variants with various biological databases and predict the variant types and HGVS names quickly.
+Home Page: https://github.com/shiquan/bcfanno
+Programs: bcfanno
+
+version("2020.10.25", uri="file:///apps/biocontainers/images/bcfanno:2020.10.25.sif")

@@ -1,0 +1,5 @@
+Description: Meryl is a genomic k-mer counter (and sequence utility) with nice features.
+Home Page: https://github.com/marbl/meryl
+Programs: meryl,meryl-analyze,meryl-import,meryl-lookup,meryl-simple
+
+version("1.3", uri="docker://quay.io/biocontainers/meryl:1.3--h1b792b2_0")

@@ -1,0 +1,5 @@
+Description: pyGenomeTracks aims to produce high-quality genome browser tracks that are highly customizable.
+Home Page: https://github.com/deeptools/pyGenomeTracks
+Programs: make_tracks_file,pyGenomeTracks
+
+version("3.7", uri="docker://quay.io/biocontainers/pygenometracks:3.7--pyhdfd78af_0")

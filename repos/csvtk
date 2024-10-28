@@ -1,0 +1,6 @@
+Description: Csvtk is a cross-platform, efficient and practical CSV/TSV toolkit.
+Home Page: https://github.com/shenwei356/csvtk
+Programs: csvtk
+
+version("0.25.0", uri="docker://quay.io/biocontainers/csvtk:0.25.0--h9ee0642_0")
+version("0.23.0", uri="docker://quay.io/biocontainers/csvtk:0.23.0--h9ee0642_0")

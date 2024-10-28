@@ -1,0 +1,6 @@
+Description: Mlst is used to scan contig files against traditional PubMLST typing schemes.
+Home Page: https://github.com/tseemann/mlst
+Programs: mlst
+
+version("2.23.0", uri="docker://staphb/mlst:2.23.0")
+version("2.22.0", uri="docker://staphb/mlst:2.22.0")

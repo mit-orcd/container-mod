@@ -1,0 +1,5 @@
+Description: Lra is a sequence alignment program that aligns long reads from single-molecule sequencing (SMS) instruments, or megabase-scale contigs from SMS assemblies.
+Home Page: https://github.com/ChaissonLab/LRA
+Programs: lra
+
+version("1.3.2", uri="docker://quay.io/biocontainers/lra:1.3.2--h00214ad_1")

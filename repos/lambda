@@ -1,0 +1,5 @@
+Description: Lambda is a local aligner optimized for many query sequences and searches in protein space.
+Home Page: http://seqan.github.io/lambda/
+Programs: lambda2
+
+version("2.0.0", uri="docker://quay.io/biocontainers/lambda:2.0.0--h33c0355_2")

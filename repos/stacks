@@ -1,0 +1,5 @@
+Description: Stacks is a software pipeline for building loci from RAD-seq
+Home Page: https://catchenlab.life.illinois.edu/stacks/
+Programs: clone_filter,count_fixed_catalog_snps.py,cstacks,denovo_map.pl,gstacks,integrate_alignments.py,kmer_filter,phasedstacks,populations,process_radtags,process_shortreads,ref_map.pl,sstacks,stacks-dist-extract,stacks-gdb,stacks-integrate-alignments,tsv2bam,ustacks
+
+version("2.60", uri="docker://quay.io/biocontainers/stacks:2.60--h9a82719_0")

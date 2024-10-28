@@ -1,0 +1,5 @@
+Description: Chopper is Rust implementation of NanoFilt+NanoLyse, both originally written in Python.
+Home Page: https://github.com/wdecoster/chopper
+Programs: chopper
+
+version("0.2.0", uri="docker://quay.io/biocontainers/chopper:0.2.0--hd03093a_0")

@@ -1,0 +1,5 @@
+Description: Gffcompare is used to compare, merge, annotate and estimate accuracy of one or more GFF files.
+Home Page: https://ccb.jhu.edu/software/stringtie/gffcompare.shtml
+Programs: gffcompare
+
+version("0.11.2", uri="docker://quay.io/biocontainers/gffcompare:0.11.2--h9f5acd7_3")

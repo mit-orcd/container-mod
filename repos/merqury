@@ -1,0 +1,5 @@
+Description: Merqury is a tool to evaluate genome assemblies with k-mers and more.
+Home Page: https://github.com/marbl/merqury
+Programs: merqury.sh
+
+version("1.3", uri="docker://dovetailg/merqury:latest")

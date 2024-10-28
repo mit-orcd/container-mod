@@ -1,0 +1,7 @@
+Description: Ensembl-vep(Ensembl Variant Effect Predictor) predicts the functional effects of genomic variants.
+Home Page: https://github.com/Ensembl/ensembl-vep
+Programs: vep,haplo,variant_recoder
+
+version("108.2", uri="docker://ensemblorg/ensembl-vep:release_108.2")
+version("107.0", uri="docker://ensemblorg/ensembl-vep:release_107.0")
+version("106.1", uri="docker://ensemblorg/ensembl-vep:release_106.1")

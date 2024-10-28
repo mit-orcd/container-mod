@@ -1,0 +1,5 @@
+Description: Simug is a general-purpose genome simulator.
+Home Page: https://github.com/yjx1217/simuG
+Programs: simuG,vcf2model
+
+version("1.0.0", uri="docker://quay.io/biocontainers/simug:1.0.0--hdfd78af_1")

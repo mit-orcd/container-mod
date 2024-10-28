@@ -1,0 +1,5 @@
+Description: Variation graphs (vg) provides tools for working with genome variation graphs.
+Home Page: https://github.com/vgteam/vg
+Programs: vg
+
+version("1.40.0", uri="docker://quay.io/vgteam/vg:v1.40.0")

@@ -1,0 +1,5 @@
+Description: VAtools is a python package that includes several tools to annotate VCF files with data from other tools.
+Home Page: https://vatools.readthedocs.io/en/latest/
+Programs: ref-transcript-mismatch-reporter,transform-split-values,vcf-expression-annotator,vcf-genotype-annotator,vcf-info-annotator,vcf-readcount-annotator,vep-annotation-reporter
+
+version("5.0.1", uri="docker://griffithlab/vatools:5.0.1")

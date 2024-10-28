@@ -1,0 +1,5 @@
+Description: Regtools are tools that integrate DNA-seq and RNA-seq data to help interpret mutations in a regulatory and splicing context.
+Home Page: https://github.com/griffithlab/regtools
+Programs: regtools
+
+version("1.0.0", uri="docker://griffithlab/regtools:release-1.0.0")

@@ -1,0 +1,5 @@
+Description: LTRpred(ict): de novo annotation of young and intact retrotransposons.
+Home Page: https://github.com/HajkD/LTRpred
+Programs: R,Rscript
+
+version("1.1.0", uri="docker://drostlab/ltrpred:v1.1.0")

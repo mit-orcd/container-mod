@@ -1,0 +1,5 @@
+Description: kakscalculator2 is a toolkit of incorporating gamma series methods and sliding window strategies.
+Home Page: https://github.com/kullrich/kakscalculator2
+Programs: KaKs_Calculator
+
+version("2.0.1", uri="")

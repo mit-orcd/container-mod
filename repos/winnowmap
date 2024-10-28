@@ -1,0 +1,5 @@
+Description: Winnowmap is a long-read mapping algorithm optimized for mapping ONT and PacBio reads to repetitive reference sequences.
+Home Page: https://github.com/marbl/Winnowmap
+Programs: winnowmap
+
+version("2.03", uri="docker://quay.io/biocontainers/winnowmap:2.03--h5b5514e_1")

@@ -1,0 +1,5 @@
+Description: Tcr Receptor Utilities for Solid Tissue (TRUST) is a computational tool to analyze TCR and BCR sequences using unselected RNA sequencing data, profiled from solid tissues, including tumors.
+Home Page: https://github.com/liulab-dfci/TRUST4
+Programs: run-trust4,BuildDatabaseFa.pl,BuildImgtAnnot.pl,trust-airr.pl,trust-barcoderep.pl,trust-simplerep.pl,trust-smartseq.pl
+
+version("1.0.7", uri="docker://quay.io/biocontainers/trust4:1.0.7--h5b5514e_0")

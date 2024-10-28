@@ -1,0 +1,5 @@
+Description: KisSplice is a software that enables to analyse RNA-seq data with or without a reference genome.
+Home Page: https://kissplice.prabi.fr
+Programs: kissplice
+
+version("2.6.2", uri="docker://dwishsan/kissplice-pipeline")

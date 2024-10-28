@@ -1,0 +1,5 @@
+Description: ClonalFrameML is a software package that performs efficient inference of recombination in bacterial genomes.
+Home Page: https://github.com/xavierdidelot/ClonalFrameML
+Programs: ClonalFrameML
+
+version("1.11", uri="docker://quay.io/biocontainers/clonalframeml:1.11--h9f5acd7_4")

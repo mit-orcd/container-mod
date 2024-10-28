@@ -1,0 +1,5 @@
+Description: GapFiller is a seed-and-extend local assembler to fill the gap within paired reads.
+Home Page: https://sourceforge.net/projects/gapfiller/
+Programs: GapFiller
+
+version("2.1.2", uri="docker://quay.io/biocontainers/gapfiller:2.1.2--h7ff8a90_3")

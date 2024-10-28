@@ -1,0 +1,5 @@
+Description: Fseq is a  feature density estimator for high-throughput sequence tags
+Home Page: https://fureylab.web.unc.edu/software/fseq/
+Programs: fseq2
+
+version("2.0.3", uri="")

@@ -1,0 +1,5 @@
+Description: PEPPER is a genome inference module based on recurrent neural networks that enables long-read variant calling and nanopore assembly polishing in the PEPPER-Margin-DeepVariant pipeline.
+Home Page: https://github.com/kishwarshafin/pepper
+Programs: run_pepper_margin_deepvariant
+
+version("r0.4.1", uri="docker://kishwars/pepper_deepvariant:r0.4.1")

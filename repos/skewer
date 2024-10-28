@@ -1,0 +1,5 @@
+Description: Skewer is a fast and accurate adapter trimmer for paired-end reads.
+Home Page: https://github.com/relipmoc/skewer.git
+Programs: skewer
+
+version("0.2.2", uri="docker://quay.io/biocontainers/skewer:0.2.2--hc9558a2_3")

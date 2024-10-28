@@ -1,0 +1,5 @@
+Description: RepeatScout is a tool to discover repetitive substrings in DNA.
+Home Page: https://github.com/mmcco/RepeatScout
+Programs: RepeatScout,build_lmer_table,compare-out-to-gff.prl,filter-stage-1.prl,filter-stage-2.prl,merge-lmer-tables.prl
+
+version("1.0.6", uri="docker://quay.io/biocontainers/repeatscout:1.0.6--h779adbc_2")

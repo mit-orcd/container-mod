@@ -1,0 +1,5 @@
+Description: momi (MOran Models for Inference) is a Python package that computes the expected sample frequency spectrum (SFS), a statistic commonly used in population genetics, and uses it to fit demographic history.
+Home Page: https://momi2.readthedocs.io/en/latest/
+Programs: python,python3
+
+version("2.1.19", uri="")

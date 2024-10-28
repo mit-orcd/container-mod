@@ -1,0 +1,5 @@
+Description: Htstream is a quality control and processing pipeline for High Throughput Sequencing data.
+Home Page: https://s4hts.github.io/HTStream/
+Programs: hts_AdapterTrimmer,hts_CutTrim,hts_LengthFilter,hts_NTrimmer,hts_Overlapper,hts_PolyATTrim,hts_Primers,hts_QWindowTrim,hts_SeqScreener,hts_Stats,hts_SuperDeduper
+
+version("1.3.3", uri="docker://quay.io/biocontainers/htstream:1.3.3--hec69f7e_1")

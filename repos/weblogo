@@ -1,0 +1,5 @@
+Description: Weblogo is a web based application designed to make the generation of sequence logos as easy and painless as possible.
+Home Page: http://weblogo.threeplusone.com
+Programs: weblogo
+
+version("3.7.8", uri="docker://quay.io/biocontainers/weblogo:3.7.8--py_0")

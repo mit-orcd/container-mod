@@ -1,0 +1,5 @@
+Description: Fraggenescan is an application for finding (fragmented) genes in short reads. It can also be applied to predict prokaryotic genes in incomplete assemblies or complete genomes.
+Home Page: https://github.com/gaberoo/FragGeneScan
+Programs: FragGeneScan,run_FragGeneScan.pl
+
+version("1.31", uri="docker://quay.io/biocontainers/fraggenescan:1.31--h779adbc_3")

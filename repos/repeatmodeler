@@ -1,0 +1,6 @@
+Description: RepeatModeler is a de novo transposable element (TE) family identification and modeling package.
+Home Page: http://www.repeatmasker.org/RepeatModeler/
+Programs: RepeatModeler,BuildDatabase,RepeatClassifier
+
+version("2.0.3", uri="docker://quay.io/biocontainers/repeatmodeler:2.0.3--pl5321h9ee0642_0")
+version("2.0.2", uri="docker://quay.io/biocontainers/repeatmodeler:2.0.2a--pl5262h9ee0642_0")

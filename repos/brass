@@ -1,0 +1,5 @@
+Description: Brass is sed to analyze one or more related BAM files of paired-end sequencing to determine potential rearrangement breakpoints.
+Home Page: https://github.com/cancerit/BRASS#running-brass
+Programs: brass-assemble,brass_bedpe2vcf.pl,brass_foldback_reads.pl,brass-group,brassI_filter.pl,brassI_np_in.pl,brassI_pre_filter.pl,brassI_prep_bam.pl,brass.pl
+
+version("6.3.4", uri="docker://quay.io/wtsicgp/brass:v6.3.4")

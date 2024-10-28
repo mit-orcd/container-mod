@@ -1,0 +1,5 @@
+Description: Nextflow is a bioinformatics workflow manager that enables the development of portable and reproducible workflows.
+Home Page: https://github.com/nextflow-io/nextflow
+Programs: nextflow
+
+version("21.10.0", uri="docker://quay.io/biocontainers/nextflow:21.10.0--h4a94de4_0")

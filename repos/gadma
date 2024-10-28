@@ -1,0 +1,5 @@
+Description: GADMA is a command-line tool. Basic pipeline presents a series of launches of the genetic algorithm folowed by local search optimization and infers demographic history from the Allele Frequency Spectrum of multiple populations.
+Home Page: https://github.com/ctlab/GADMA
+Programs: gadma,python,python3
+
+version("2.0.0rc21", uri="docker://quay.io/biocontainers/gadma:2.0.0rc21--pyhdfd78af_0")

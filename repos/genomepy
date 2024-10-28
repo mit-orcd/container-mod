@@ -1,0 +1,6 @@
+Description: Genomepy is designed to provide a simple and straightforward way to download and use genomic data.
+Home Page: https://github.com/vanheeringen-lab/genomepy
+Programs: genomepy
+
+version("0.14.0", uri="docker://quay.io/biocontainers/genomepy:0.14.0--pyh7cba7a3_2")
+version("0.12.0", uri="docker://quay.io/biocontainers/genomepy:0.12.0--pyhdfd78af_0")

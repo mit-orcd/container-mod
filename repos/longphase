@@ -1,0 +1,5 @@
+Description: LongPhase is an ultra-fast program for simultaneously co-phasing SNPs and SVs by using Nanopore and PacBio long reads.
+Home Page: https://github.com/twolinin/longphase
+Programs: longphase
+
+version("1.4", uri="docker://alexanrna/longphase:v1.4")

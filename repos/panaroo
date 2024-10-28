@@ -1,0 +1,5 @@
+Description: Panaroo is updated pipeline for pangenome investigation.
+Home Page: https://github.com/gtonkinhill/panaroo
+Programs: panaroo,panaroo-extract-gene,panaroo-filter-pa,panaroo-fmg,panaroo-gene-neighbourhood,panaroo-img,panaroo-integrate,panaroo-merge,panaroo-msa,panaroo-plot-abundance,panaroo-qc,panaroo-spydrpick
+
+version("1.2.10", uri="docker://quay.io/biocontainers/panaroo:1.2.10--pyhdfd78af_0")

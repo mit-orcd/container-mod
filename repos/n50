@@ -1,0 +1,5 @@
+Description: N50 is a command line tool to calculate assembly metrices.
+Home Page: https://github.com/quadram-institute-bioscience/seqfu/wiki/n50
+Programs: n50
+
+version("1.5.6", uri="docker://quay.io/biocontainers/n50:1.5.6--pl5321hdfd78af_0")

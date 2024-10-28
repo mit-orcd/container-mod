@@ -1,0 +1,5 @@
+Description: Bustools is a program for manipulating BUS files for single cell RNA-Seq datasets.
+Home Page: https://github.com/BUStools/bustools
+Programs: bustools
+
+version("0.41.0", uri="docker://quay.io/biocontainers/bustools:0.41.0--h60f4f9f_0")

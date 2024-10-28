@@ -1,0 +1,6 @@
+Description: Hicpro is an optimized and flexible pipeline for Hi-C data processing.
+Home Page: https://github.com/nservant/HiC-Pro
+Programs: HiC-Pro,digest_genome.py,extract_snps.py,hicpro2fithic.py,hicpro2higlass.sh,hicpro2juicebox.sh,make_viewpoints.py,sparseToDense.py,split_reads.py,split_sparse.py
+
+version("3.1.0", uri="docker://nservant/hicpro:3.0.0")
+version("3.0.0", uri="docker://nservant/hicpro:3.0.0")

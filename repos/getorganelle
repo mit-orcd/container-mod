@@ -1,0 +1,5 @@
+Description: Getorganelle is a fast and versatile toolkit for accurate de novo assembly of organelle genomes.
+Home Page: https://github.com/Kinggerm/GetOrganelle
+Programs: get_organelle_config.py,get_organelle_from_assembly.py,get_organelle_from_reads.py,slim_graph.py,summary_get_organelle_output.py
+
+version("1.7.7.0", uri="docker://quay.io/biocontainers/getorganelle:1.7.7.0--pyh7cba7a3_0")

@@ -1,0 +1,5 @@
+Description: Ngsutils is suite of software tools for working with next-generation sequencing datasets.
+Home Page: http://ngsutils.org
+Programs: ngsutils,bamutils,bedutils,fastqutils,gtfutils
+
+version("0.5.9", uri="docker://quay.io/biocontainers/ngsutils:0.5.9--py27h9801fc8_5")

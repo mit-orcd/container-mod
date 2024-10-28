@@ -1,0 +1,5 @@
+Description: Meraculous is a whole genome assembler for Next Generation Sequencing data, geared for large genomes.
+Home Page: https://jgi.doe.gov/data-and-tools/software-tools/meraculous/
+Programs: run_meraculous.sh,blastMapAnalyzer2.pl,bmaToLinks.pl,_bubbleFinder2.pl,bubblePopper.pl,bubbleScout.pl,contigBias.pl,divide_it.pl,fasta_splitter.pl,findDMin2.pl,gapDivider.pl,gapPlacer.pl,haplotyper.Naive.pl,haplotyper.pl,histogram2.pl,kmerHistAnalyzer.pl,loadBalanceMers.pl,meraculous4h.pl,meraculous.pl,N50.pl,_oNo4.pl,oNo7.pl,optimize2.pl,randomList2.pl,scaffold2contig.pl,scaffReportToFasta.pl,screen_list2.pl,spanner.pl,splinter.pl,splinter_scaffolds.pl,split_and_validate_reads.pl,test_dependencies.pl,unique.pl
+
+version("2.2.6", uri="")

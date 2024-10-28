@@ -1,0 +1,8 @@
+Description: Trinity assembles transcript sequences from Illumina RNA-Seq data.
+Home Page: https://github.com/trinityrnaseq/trinityrnaseq/
+Programs: Trinity,TrinityStats.pl,Trinity_gene_splice_modeler.py,ace2sam,align_and_estimate_abundance.pl,analyze_blastPlus_topHit_coverage.pl,analyze_diff_expr.pl,blast2sam.pl,bowtie,bowtie2,bowtie2-build,bowtie2-inspect,bowtie2sam.pl,contig_ExN50_statistic.pl,define_clusters_by_cutting_tree.pl,export2sam.pl,extract_supertranscript_from_reference.py,filter_low_expr_transcripts.pl,get_Trinity_gene_to_trans_map.pl,insilico_read_normalization.pl,interpolate_sam.pl,jellyfish,novo2sam.pl,retrieve_sequences_from_fasta.pl,run_DE_analysis.pl,sam2vcf.pl,samtools,samtools.pl,seq_cache_populate.pl,seqtk-trinity,sift_bam_max_cov.pl,soap2sam.pl,tabix,trimmomatic,wgsim,wgsim_eval.pl,zoom2sam.pl
+
+version("2.15.0", uri="docker://trinityrnaseq/trinityrnaseq:2.15.0")
+version("2.14.0", uri="docker://trinityrnaseq/trinityrnaseq:2.14.0")
+version("2.13.2", uri="docker://quay.io/biocontainers/trinity:2.13.2--h00214ad_1")
+version("2.12.0", uri="docker://quay.io/biocontainers/trinity:2.12.0--ha140323_1")

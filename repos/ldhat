@@ -1,0 +1,5 @@
+Description: LDhat is a package written in the C and C++ languages for the analysis of recombination rates from population genetic data.
+Home Page: https://github.com/auton1/LDhat
+Programs: convert,pairwise,interval,rhomap,fin
+
+version("2.2a", uri="")

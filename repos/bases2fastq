@@ -1,0 +1,5 @@
+Description: Bases2Fastq software processes sequencing data and converts base calls into FASTQ files. During a sequencing run, the Element AVITI™ System records base calls and associated quality scores (Q-scores) in bases files.
+Home Page: https://docs.elembio.io/docs/bases2fastq/
+Programs: bases2fastq
+
+version("1.7", uri="docker://elembio/bases2fastq:1.7")

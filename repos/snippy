@@ -1,0 +1,5 @@
+Description: Snippy is a tool for rapid haploid variant calling and core genome alignment.
+Home Page: https://github.com/tseemann/snippy
+Programs: snippy,snippy-clean_full_aln,snippy-core,snippy-multi,snippy-vcf_extract_subs,snippy-vcf_report,snippy-vcf_to_tab
+
+version("4.6.0", uri="docker://staphb/snippy:4.6.0")

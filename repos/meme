@@ -1,0 +1,8 @@
+Description: Meme is a collection of tools for the discovery and analysis of sequence motifs. Contents.
+Home Page: https://meme-suite.org/meme/
+Programs: ame,centrimo,dreme,dreme-py3,dust,fimo,glam2,glam2scan,gomo,mast,mcast,meme,meme-chip,momo,purge,spamo,tomtom
+
+version("5.5.4", uri="docker://memesuite/memesuite:5.5.4")
+version("5.5.0", uri="docker://memesuite/memesuite:5.5.0")
+version("5.4.1", uri="docker://memesuite/memesuite:5.4.1")
+version("5.3.3", uri="docker://memesuite/memesuite:5.3.3")

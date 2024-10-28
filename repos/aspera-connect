@@ -1,0 +1,5 @@
+Description: Aspera Connect is software that allows download and upload data. The software includes a command line tool (ascp) that allows scripted data transfer.
+Home Page: 
+Programs: ascp,ascp4,asperaconnect,asperaconnect.bin,asperaconnect-nmh,asperacrypt,asunprotect
+
+version("4.2.6", uri="")

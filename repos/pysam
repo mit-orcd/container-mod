@@ -1,0 +1,5 @@
+Description: Pysam is a python module that makes it easy to read and manipulate mapped short read sequence data stored in SAM/BAM files.
+Home Page: https://github.com/pysam-developers/pysam
+Programs: python,python3
+
+version("0.18.0", uri="docker://quay.io/biocontainers/pysam:0.18.0--py37h8fe4cdf_2")

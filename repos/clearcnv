@@ -1,0 +1,5 @@
+Description:  ClearCNV: CNV calling from NGS panel data in the presence of ambiguity and noise.
+Home Page: https://github.com/bihealth/clear-cnv
+Programs: clearCNV
+
+version("0.306", uri="docker://quay.io/biocontainers/clearcnv:0.306--pyhdfd78af_0")

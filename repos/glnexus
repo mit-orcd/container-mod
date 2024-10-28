@@ -1,0 +1,5 @@
+Description: Glnexus: Scalable gVCF merging and joint variant calling for population sequencing projects.
+Home Page: https://github.com/dnanexus-rnd/GLnexus
+Programs: glnexus_cli
+
+version("1.4.1", uri="docker://quay.io/biocontainers/glnexus:1.4.1--h671cb6e_1")

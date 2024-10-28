@@ -1,0 +1,5 @@
+Description: Fq is a command line utility for manipulating Illumina-generated FastQ files.
+Home Page: https://github.com/stjude-rust-labs/fq
+Programs: fq
+
+version("0.10.0", uri="docker://quay.io/biocontainers/fq:0.10.0--h9ee0642_0")

@@ -1,0 +1,5 @@
+Description: SHAPEIT5 is a software package to estimate haplotypes in large genotype datasets (WGS and SNP array).
+Home Page: https://github.com/odelaneau/shapeit5
+Programs: phase_common,ligate,phase_rare,simulate,switch,xcftools
+
+version("5.1.1", uri="")

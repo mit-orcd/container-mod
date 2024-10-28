@@ -1,0 +1,5 @@
+Description: Pychopper is a tool to identify, orient and trim full-length Nanopore cDNA reads. The tool is also able to rescue fused reads.
+Home Page: https://github.com/nanoporetech/pychopper
+Programs: cdna_classifier.py
+
+version("2.5.0", uri="docker://quay.io/biocontainers/pychopper:2.5.0--py_0")

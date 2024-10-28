@@ -1,0 +1,5 @@
+Description: RevBayes -- Bayesian phylogenetic inference using probabilistic graphical models and an interactive language.
+Home Page: https://github.com/revbayes/revbayes
+Programs: rb,rb-mpi
+
+version("1.1.1", uri="https://github.com/revbayes/revbayes/releases/download/1.1.1/RevBayes_Singularity_1.1.1.simg")

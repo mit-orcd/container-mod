@@ -1,0 +1,6 @@
+Description: Guppy is a data processing toolkit that contains the Oxford Nanopore Technologies’ basecalling algorithms, and several bioinformatic post-processing features.
+Home Page: https://community.nanoporetech.com
+Programs: guppy_aligner,guppy_barcoder,guppy_basecall_server,guppy_basecaller,guppy_basecaller_duplex,guppy_basecaller_supervisor,guppy_basecall_client
+
+version("6.5.7", uri="docker://genomicpariscentre/guppy:6.5.7")
+version("6.0.1", uri="docker://genomicpariscentre/guppy:6.0.1")

@@ -1,0 +1,6 @@
+Description: The MaSuRCA (Maryland Super Read Cabog Assembler) genome assembly and analysis toolkit contains of MaSuRCA genome assembler, QuORUM error corrector for Illumina data, POLCA genome polishing software, Chromosome scaffolder, jellyfish mer counter, and MUMmer aligner.
+Home Page: https://github.com/alekseyzimin/masurca
+Programs: masurca,build_human_reference.sh,chromosome_scaffolder.sh,close_gaps.sh,close_scaffold_gaps.sh,correct_with_k_unitigs.sh,deduplicate_contigs.sh,deduplicate_unitigs.sh,eugene.sh,extract_chrM.sh,filter_library.sh,final_polish.sh,fix_unitigs.sh,fragScaff.sh,mega_reads_assemble_cluster.sh,mega_reads_assemble_cluster2.sh,mega_reads_assemble_polish.sh,mega_reads_assemble_ref.sh,parallel_delta-filter.sh,polca.sh,polish_with_illumina_assembly.sh,recompute_astat_superreads.sh,recompute_astat_superreads_CA8.sh,reconcile_alignments.sh,refine.sh,resolve_trio.sh,run_ECR.sh,samba.sh,splitScaffoldsAtNs.sh
+
+version("4.1.0", uri="docker://staphb/masurca:4.1.0")
+version("4.0.9", uri="docker://staphb/masurca:4.0.9")

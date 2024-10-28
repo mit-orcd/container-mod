@@ -1,0 +1,5 @@
+Description:  Macrel is a pipeline to mine antimicrobial peptides (AMPs) from (meta)genomes.
+Home Page: https://github.com/BigDataBiology/macrel
+Programs: macrel
+
+version("1.2.0", uri="docker://quay.io/biocontainers/macrel:1.2.0--pyh5e36f6f_0")

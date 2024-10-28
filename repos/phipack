@@ -1,0 +1,5 @@
+Description: PhiPack: PHI test and other tests of recombination
+Home Page: http://www.maths.otago.ac.nz/~dbryant/software.html
+Programs: Phi,Profile
+
+version("1.1", uri="docker://quay.io/biocontainers/phipack:1.1--hec16e2b_2")

@@ -1,0 +1,8 @@
+Description: Htslib is a C library for high-throughput sequencing data formats.
+Home Page: https://github.com/samtools/htslib
+Programs: bgzip,htsfile,tabix
+
+version("1.17", uri="docker://staphb/htslib:1.17")
+version("1.16", uri="docker://staphb/htslib:1.16")
+version("1.15", uri="docker://quay.io/biocontainers/htslib:1.15--h9753748_0")
+version("1.14", uri="docker://quay.io/biocontainers/htslib:1.14--h9093b5e_0")

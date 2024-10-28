@@ -1,0 +1,5 @@
+Description: Rebaler is a program for conducting reference-based assemblies using long reads.
+Home Page: https://github.com/rrwick/Rebaler
+Programs: rebaler
+
+version("0.2.0", uri="docker://quay.io/biocontainers/rebaler:0.2.0--py_1")

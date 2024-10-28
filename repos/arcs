@@ -1,0 +1,5 @@
+Description: ARCS is a tool for scaffolding genome sequence assemblies using linked or long read sequencing data.
+Home Page: https://github.com/bcgsc/arcs
+Programs: arcs,arcs-make
+
+version("1.2.4", uri="")

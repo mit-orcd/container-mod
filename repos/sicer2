@@ -1,0 +1,6 @@
+Description: Sicer2 is the redesigned and improved ChIP-seq broad peak calling tool SICER.
+Home Page: https://github.com/zanglab/SICER2
+Programs: sicer,sicer_df,recognicer,recognicer_df
+
+version("1.2.0", uri="docker://abralab/sicer:v1.2.0")
+version("1.0.3", uri="docker://quay.io/biocontainers/sicer2:1.0.3--py37h37892f8_2")

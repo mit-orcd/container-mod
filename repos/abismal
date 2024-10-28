@@ -1,0 +1,5 @@
+Description: Another Bisulfite Mapping Algorithm (abismal) is a read mapping program for bisulfite sequencing in DNA methylation studies.
+Home Page: https://github.com/smithlabcode/abismal
+Programs: abismal,abismalidx,simreads
+
+version("3.0.0", uri="docker://quay.io/biocontainers/abismal:3.0.0--hd03093a_1")

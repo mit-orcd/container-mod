@@ -1,0 +1,5 @@
+Description: GNU Datamash is a command-line program which performs basic numeric,textual and statistical operations on input textual data files.
+Home Page: https://www.gnu.org/software/datamash/
+Programs: datamash
+
+version("1.8", uri="docker://quay.io/biocontainers/datamash:1.8")

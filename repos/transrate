@@ -1,0 +1,5 @@
+Description: Transrate is software for de-novo transcriptome assembly quality analysis.
+Home Page: http://hibberdlab.com/transrate/
+Programs: transrate
+
+version("1.0.3", uri="docker://arnaudmeng/transrate:1.0.3")

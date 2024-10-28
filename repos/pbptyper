@@ -1,0 +1,5 @@
+Description: pbptyper is a tool to identify the Penicillin Binding Protein (PBP) of Streptococcus pneumoniae assemblies.
+Home Page: https://github.com/rpetit3/pbptyper
+Programs: pbptyper
+
+version("1.0.4", uri="docker://staphb/pbptyper:1.0.4")

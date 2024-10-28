@@ -1,0 +1,5 @@
+Description: Segalign is a scalable GPU system for pairwise whole genome alignments based on LASTZ's seed-filter-extend paradigm.
+Home Page: https://github.com/gsneha26/SegAlign
+Programs: faToTwoBit,run_segalign,run_segalign_repeat_masker,segalign,segalign_repeat_masker,twoBitToFa
+
+version("0.1.2", uri="docker://gsneha/segalign:v0.1.2")

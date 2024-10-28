@@ -1,0 +1,5 @@
+Description: A File Transfer Protocol client (FTP client) is a software utility that establishes a connection between a host computer and a remote server, typically an FTP server.
+Home Page: 
+Programs: ftp
+
+version("0.17", uri="")

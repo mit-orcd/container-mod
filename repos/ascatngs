@@ -1,0 +1,5 @@
+Description: AscatNGS contains the Cancer Genome Projects workflow implementation of the ASCAT copy number algorithm for paired end sequencing.
+Home Page: https://github.com/cancerit/ascatNgs
+Programs: alleleCounter.pl,ascatCnToVCF.pl,ascatCounts.pl,ascatFaiChunk.pl,ascatFailedCnCsv.pl,ascat.pl,ascatSnpPanelFromVcfs.pl,ascatSnpPanelGcCorrections.pl,ascatSnpPanelGenerator.pl,ascatSnpPanelMerge.pl,ascatToBigWig.pl,bamToBw.pl,blast2sam.pl,bowtie2sam.pl,bwa_aln.pl,bwa_mem.pl,cgpAppendIdsToVcf.pl,cgpVCFSplit.pl,export2sam.pl,interpolate_sam.pl,merge_or_mark.pl,novo2sam.pl,pkg-config.pl,psl2sam.pl,sam2vcf.pl,samtools.pl,seq_cache_populate.pl,soap2sam.pl,stag-autoschema.pl,stag-db.pl,stag-diff.pl,stag-drawtree.pl,stag-filter.pl,stag-findsubtree.pl,stag-flatten.pl,stag-grep.pl,stag-handle.pl,stag-itext2simple.pl,stag-itext2sxpr.pl,stag-itext2xml.pl,stag-join.pl,stag-merge.pl,stag-mogrify.pl,stag-parse.pl,stag-query.pl,stag-splitter.pl,stag-view.pl,stag-xml2itext.pl,wgsim_eval.pl,xam_coverage_bins.pl,zoom2sam.pl
+
+version("4.5.0", uri="docker://quay.io/wtsicgp/ascatngs:4.5.0")

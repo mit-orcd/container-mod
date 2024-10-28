@@ -1,0 +1,5 @@
+Description: Assembly-stats is a tool to get assembly statistics from FASTA and FASTQ files.
+Home Page: https://github.com/sanger-pathogens/assembly-stats
+Programs: assembly-stats
+
+version("1.0.1", uri="docker://quay.io/biocontainers/assembly-stats:1.0.1--h9f5acd7_5")

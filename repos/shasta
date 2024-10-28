@@ -1,0 +1,5 @@
+Description: Shasta is a software for de novo assembly from Oxford Nanopore reads.
+Home Page: https://github.com/chanzuckerberg/shasta
+Programs: shasta
+
+version("0.10.0", uri="")

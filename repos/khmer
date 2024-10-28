@@ -1,0 +1,5 @@
+Description: Khmer is a tool for k-mer counting, filtering, and graph traversal FTW!
+Home Page: https://github.com/dib-lab/khmer
+Programs: abundance-dist.py,abundance-dist-single.py,annotate-partitions.py,count-median.py,cygdb,cython,cythonize,do-partition.py,extract-long-sequences.py,extract-paired-reads.py,extract-partitions.py,fastq-to-fasta.py,filter-abund.py,filter-abund-single.py,filter-stoptags.py,find-knots.py,interleave-reads.py,load-graph.py,load-into-counting.py,make-initial-stoptags.py,merge-partitions.py,normalize-by-median.py,partition-graph.py,readstats.py,sample-reads-randomly.py,screed,split-paired-reads.py,trim-low-abund.py,unique-kmers.py
+
+version("3.0.0a3", uri="docker://quay.io/biocontainers/khmer:3.0.0a3--py36h1019a84_2")

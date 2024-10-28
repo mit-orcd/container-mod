@@ -1,0 +1,5 @@
+Description: Mcl is short for the Markov Cluster Algorithm, a fast and scalable unsupervised cluster algorithm for graphs
+Home Page: http://micans.org/mcl/
+Programs: clm,clmformat,clxdo,mcl,mclblastline,mclcm,mclpipeline,mcx,mcxarray,mcxassemble,mcxdeblast,mcxdump,mcxi,mcxload,mcxmap,mcxrand,mcxsubs
+
+version("pl5262", uri="docker://quay.io/biocontainers/mcl:14.137--pl5262h779adbc_6")

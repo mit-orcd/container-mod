@@ -1,0 +1,5 @@
+Description: Pbmm2 is a minimap2 frontend for PacBio native data formats.
+Home Page: https://github.com/PacificBiosciences/pbmm2
+Programs: pbmm2
+
+version("1.7.0", uri="docker://quay.io/biocontainers/pbmm2:1.7.0--hdcc8f71_0")

@@ -1,0 +1,5 @@
+Description: Bioawk is an extension to Brian Kernighan's awk, adding the support of several common biological data formats, including optionally gzip'ed BED, GFF, SAM, VCF, FASTA/Q and TAB-delimited formats with column names.
+Home Page: https://github.com/lh3/bioawk
+Programs: bioawk
+
+version("1.0", uri="docker://quay.io/biocontainers/bioawk:1.0--h5bf99c6_6")

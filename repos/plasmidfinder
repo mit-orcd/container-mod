@@ -1,0 +1,5 @@
+Description: PlasmidFinder identifies plasmids in total or partial sequenced isolates of bacteria.
+Home Page: https://bitbucket.org/genomicepidemiology/plasmidfinder/src/master/
+Programs: plasmidfinder.py
+
+version("2.1.6", uri="docker://staphb/plasmidfinder:2.1.6")

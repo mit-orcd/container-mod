@@ -1,0 +1,5 @@
+Description: DeconSeq: DECONtamination of SEQuence data using a modified version of BWA-SW.
+Home Page: http://deconseq.sourceforge.net/
+Programs: bwa64,deconseq.pl,splitFasta.pl
+
+version("0.4.3", uri="")

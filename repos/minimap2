@@ -1,0 +1,7 @@
+Description: Minimap2 is a versatile pairwise aligner for genomic and spliced nucleotide sequences.
+Home Page: https://github.com/lh3/minimap2
+Programs: minimap2,paftools.js,k8
+
+version("2.26", uri="docker://quay.io/biocontainers/minimap2:2.26--h7132678_0")
+version("2.24", uri="docker://quay.io/biocontainers/minimap2:2.24--h7132678_1")
+version("2.22", uri="docker://quay.io/biocontainers/minimap2:2.22--h5bf99c6_0")

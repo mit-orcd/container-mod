@@ -1,0 +1,6 @@
+Description: Quast is Quality Assessment Tool for Genome Assemblies.
+Home Page: https://bioconda.github.io/recipes/quast/README.html
+Programs: quast.py,metaquast.py
+
+version("5.2.0", uri="docker://quay.io/biocontainers/quast:5.2.0--py310pl5321hc8f18ef_2")
+version("5.0.2", uri="docker://quay.io/biocontainers/quast:5.0.2--py37pl5262hfecc14a_5")

@@ -1,0 +1,5 @@
+Description: IsoQuant is a tool for the genome-based analysis of long RNA reads, such as PacBio or Oxford Nanopores.
+Home Page: https://github.com/ablab/IsoQuant
+Programs: isoquant.py
+
+version("3.1.2", uri="docker://quay.io/biocontainers/isoquant:3.1.2--hdfd78af_1")

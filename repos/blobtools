@@ -1,0 +1,5 @@
+Description: Blobtools is a modular command-line solution for visualisation, quality control and taxonomic partitioning of genome datasets.
+Home Page: https://blobtools.readme.io/docs/what-is-blobtools
+Programs: blobtools
+
+version("1.1.1", uri="")

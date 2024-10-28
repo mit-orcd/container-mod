@@ -1,0 +1,5 @@
+Description: ANANSE is a computational approach to infer enhancer-based gene regulatory networks (GRNs) and to identify key transcription factors between two GRNs.
+Home Page: https://github.com/vanheeringen-lab/ANANSE
+Programs: ananse
+
+version("0.4.0", uri="docker://quay.io/biocontainers/ananse:0.4.0--pyh5e36f6f_0")

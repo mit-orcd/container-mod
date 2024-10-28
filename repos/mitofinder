@@ -1,0 +1,5 @@
+Description: Mitofinder is a pipeline to assemble mitochondrial genomes and annotate mitochondrial genes from trimmed read sequencing data.
+Home Page: https://github.com/RemiAllio/MitoFinder
+Programs: mitofinder
+
+version("1.4.1", uri="library://remiallio/default/mitofinder:v1.4.1")

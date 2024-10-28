@@ -1,0 +1,5 @@
+Description:  The CFSAN SNP Pipeline is a Python-based system for the production of SNP matrices from sequence data used in the phylogenetic analysis of pathogenic organisms sequenced from samples of interest to food safety.
+Home Page: https://github.com/CFSAN-Biostatistics/snp-pipeline
+Programs: cfsan_snp_pipeline
+
+version("2.2.1", uri="docker://staphb/cfsan-snp-pipeline:2.2.1")

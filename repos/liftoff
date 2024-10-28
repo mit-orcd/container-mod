@@ -1,0 +1,5 @@
+Description: Liftoff is an accurate GFF3/GTF lift over pipeline.
+Home Page: https://github.com/agshumate/Liftoff
+Programs: liftoff,python,python3
+
+version("1.6.3", uri="docker://quay.io/biocontainers/liftoff:1.6.3--pyhdfd78af_0")

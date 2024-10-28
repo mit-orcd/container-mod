@@ -1,0 +1,5 @@
+Description: ipyrad is an interactive toolkit for assembly and analysis of restriction-site associated genomic data sets (e.g., RAD, ddRAD, GBS) for population genetic and phylogenetic studies.
+Home Page: https://github.com/dereneaton/ipyrad
+Programs: ipyrad
+
+version("0.9.102", uri="docker://quay.io/biocontainers/ipyrad:0.9.102--pyh7e72e81_0")

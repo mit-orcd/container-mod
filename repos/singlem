@@ -1,0 +1,5 @@
+Description: SingleM is a tool for profiling shotgun metagenomes.
+Home Page: https://github.com/wwood/singlem
+Programs: singlem
+
+version("0.13.2", uri="docker://wwood/singlem:0.13.2-dev11.a6cc1b4")

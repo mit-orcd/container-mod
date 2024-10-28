@@ -1,0 +1,10 @@
+Description: Cellranger is a set of analysis pipelines that process Chromium single-cell data to align reads, generate feature-barcode matrices, perform clustering and other secondary analysis, and more.
+Home Page: https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger
+Programs: cellranger
+
+version("7.1.0", uri="docker://gcfntnu/cellranger:7.1.0")
+version("7.0.1", uri="docker://cumulusprod/cellranger:7.0.1")
+version("7.0.0", uri="docker://cumulusprod/cellranger:7.0.0")
+version("6.1.2", uri="docker://cumulusprod/cellranger:6.1.2")
+version("6.1.1", uri="docker://cumulusprod/cellranger:6.1.1")
+version("6.0.1", uri="docker://cumulusprod/cellranger:6.0.1")

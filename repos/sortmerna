@@ -1,0 +1,6 @@
+Description: SortMeRNA is a local sequence alignment tool for filtering, mapping and clustering.
+Home Page: https://github.com/biocore/sortmerna
+Programs: sortmerna
+
+version("4.3.4", uri="docker://quay.io/biocontainers/sortmerna:4.3.4--h9ee0642_0")
+version("2.1b", uri="docker://quay.io/biocontainers/sortmerna:2.1b--he860b03_4")

@@ -1,0 +1,5 @@
+Description: Sambamba is a high performance highly parallel robust and fast tool (and library), written in the D programming language, for working with SAM and BAM files.
+Home Page: https://github.com/biod/sambamba
+Programs: sambamba
+
+version("0.8.2", uri="docker://quay.io/biocontainers/sambamba:0.8.2--h98b6b92_2")

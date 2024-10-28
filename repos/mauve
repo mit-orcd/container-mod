@@ -1,0 +1,5 @@
+Description: Mauve is a system for constructing multiple genome alignments in the presence of large-scale evolutionary events such as rearrangement and inversion
+Home Page: http://darlinglab.org/mauve/
+Programs: mauveAligner,progressiveMauve
+
+version("2.4.0", uri="docker://quay.io/biocontainers/mauve:2.4.0.snapshot_2015_02_13--hdfd78af_4")

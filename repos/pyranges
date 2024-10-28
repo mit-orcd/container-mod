@@ -1,0 +1,5 @@
+Description: Pyranges are collections of intervals that support comparison operations (like overlap and intersect) and other methods that are useful for genomic analyses.
+Home Page: https://github.com/biocore-ntnu/pyranges
+Programs: python,python3
+
+version("0.0.115", uri="docker://quay.io/biocontainers/pyranges:0.0.115--pyh5e36f6f_0")

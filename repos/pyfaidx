@@ -1,0 +1,5 @@
+Description: Pyfaidx is a Python package for random access and indexing of fasta files.
+Home Page: https://github.com/mdshw5/pyfaidx
+Programs: python,python3
+
+version("0.6.4", uri="docker://quay.io/biocontainers/pyfaidx:0.6.4--pyh5e36f6f_0")

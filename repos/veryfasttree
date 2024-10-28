@@ -1,0 +1,5 @@
+Description: VeryFastTree is a highly-tuned implementation of the FastTree-2 tool that takes advantage of parallelization and vectorization strategies to speed up the inference of phylogenies for huge alignments. 
+Home Page: https://github.com/citiususc/veryfasttree
+Programs: VeryFastTree
+
+version("3.2.1", uri="docker://quay.io/biocontainers/veryfasttree:3.2.1--h9f5acd7_0")

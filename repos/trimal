@@ -1,0 +1,5 @@
+Description: Trimal is a tool for the automated removal of spurious sequences or poorly aligned regions from a multiple sequence alignment.
+Home Page: http://trimal.cgenomics.org
+Programs: trimal,readal,statal
+
+version("1.4.1", uri="docker://quay.io/biocontainers/trimal:1.4.1--h7d875b9_5")

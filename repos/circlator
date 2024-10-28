@@ -1,0 +1,5 @@
+Description: Circlator is a tool to circularize genome assemblies.
+Home Page: https://github.com/sanger-pathogens/circlator
+Programs: circlator,python3
+
+version("1.5.5", uri="docker://sangerpathogens/circlator:release-1.5.5-docker5")

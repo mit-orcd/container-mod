@@ -1,0 +1,5 @@
+Description: LiftoffTools is a toolkit to compare genes lifted between genome assemblies.
+Home Page: https://github.com/agshumate/LiftoffTools
+Programs: liftofftools
+
+version("0.4.4", uri="docker://quay.io/biocontainers/liftofftools:0.4.4--pyhdfd78af_0")

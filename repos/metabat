@@ -1,0 +1,5 @@
+Description: Metabat is a robust statistical framework for reconstructing genomes from metagenomic data
+Home Page: https://bitbucket.org/berkeleylab/metabat/src/master/
+Programs: aggregateBinDepths.pl,aggregateContigOverlapsByBin.pl,contigOverlaps,jgi_summarize_bam_contig_depths,merge_depths.pl,metabat,metabat1,metabat2,runMetaBat.sh
+
+version("5", uri="docker://metabat/metabat:v2.15-5-g1a9bac2")

@@ -1,0 +1,6 @@
+Description: Interproscan is the software package that allows sequences to be scanned against InterPro's member database signatures.
+Home Page: https://github.com/ebi-pf-team/interproscan
+Programs: interproscan.sh
+
+version("93.0", uri="")
+version("5.54_87.0", uri="docker://quay.io/biocontainers/interproscan:5.54_87.0--h779adbc_3")

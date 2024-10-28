@@ -1,0 +1,5 @@
+Description: LongQC is a tool for the data quality control of the PacBio and ONT long reads.
+Home Page: https://github.com/yfukasawa/LongQC
+Programs: longQC.py
+
+version("1.2.0c", uri="docker://cymbopogon/longqc:1.2.0")

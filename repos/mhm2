@@ -1,0 +1,5 @@
+Description: MetaHipMer is a de novo metagenome short-read assembler. Version 2 (MHM2) is written entirely in UPC++ and runs efficiently on both single servers and on multinode supercomputers, where it can scale up to coassemble terabase-sized metagenomes.
+Home Page: https://bitbucket.org/berkeleylab/mhm2/wiki/Home.md
+Programs: mhm2.py
+
+version("2.0.0", uri="docker://cimendes/mhm2:v2.0.0-65-gaad446d-generic")

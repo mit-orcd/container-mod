@@ -1,0 +1,5 @@
+Description: Peakranger is a multi-purporse software suite for analyzing next-generation sequencing (NGS) data.
+Home Page: http://ranger.sourceforge.net
+Programs: peakranger
+
+version("1.18", uri="docker://quay.io/biocontainers/peakranger:1.18--h7ff8a90_6")

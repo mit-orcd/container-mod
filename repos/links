@@ -1,0 +1,5 @@
+Description:  LINKS is a genomics application for scaffolding genome assemblies with long reads, such as those produced by Oxford Nanopore Technologies Ltd.
+Home Page: https://github.com/bcgsc/LINKS
+Programs: LINKS
+
+version("2.0.1", uri="docker://quay.io/biocontainers/links:2.0.1--h9f5acd7_2")

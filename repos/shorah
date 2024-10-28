@@ -1,0 +1,5 @@
+Description: Shorah is an open source project for the analysis of next generation sequencing data.
+Home Page: https://github.com/cbg-ethz/shorah
+Programs: shorah,b2w,diri_sampler,fil
+
+version("1.99.2", uri="docker://quay.io/biocontainers/shorah:1.99.2--py37h41ae824_4")

@@ -1,0 +1,6 @@
+Description: Augustus is a program that predicts genes in eukaryotic genomic sequences.
+Home Page: http://bioinf.uni-greifswald.de/augustus/
+Programs: aln2wig,augustus,bam2hints,bam2wig,bam2wig-dist,consensusFinder,curve2hints,etraining,fastBlockSearch,filterBam,getSeq,getSeq-dist,homGeneMapping,joingenes,prepareAlign
+
+version("3.5.0", uri="docker://quay.io/biocontainers/augustus:3.5.0--pl5321hf46c7bb_0")
+version("3.4.0", uri="docker://quay.io/biocontainers/augustus:3.4.0--pl5262h5a9fe7b_2")

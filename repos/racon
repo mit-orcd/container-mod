@@ -1,0 +1,6 @@
+Description: Racon is consensus module for raw de novo DNA assembly of long uncorrected reads.
+Home Page: https://github.com/lbcb-sci/racon
+Programs: racon
+
+version("1.5.0", uri="docker://quay.io/biocontainers/racon:1.5.0--h7ff8a90_0")
+version("1.4.20", uri="docker://quay.io/biocontainers/racon:1.4.20--h9a82719_1")

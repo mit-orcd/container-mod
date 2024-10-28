@@ -1,0 +1,5 @@
+Description: kissDE is a R package, similar to DEseq, but which works on pairs of variants, and tests if a variant is enriched in one condition.
+Home Page: https://kissplice.prabi.fr
+Programs: R,Rscript,kissDE.R
+
+version("1.15.3", uri="docker://dwishsan/kissplice-pipeline")

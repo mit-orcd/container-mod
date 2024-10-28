@@ -1,0 +1,7 @@
+Description: Picard is a set of command line tools for manipulating high-throughput sequencing (HTS) data and formats such as SAM/BAM/CRAM and VCF.
+Home Page: https://broadinstitute.github.io/picard/
+Programs: picard
+
+version("3.1.1", uri="docker://quay.io/biocontainers/picard:3.1.1--hdfd78af_0")
+version("2.26.10", uri="docker://quay.io/biocontainers/picard:2.26.10--hdfd78af_0")
+version("2.25.1", uri="docker://quay.io/biocontainers/picard:2.25.1--0")

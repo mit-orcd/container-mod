@@ -1,0 +1,5 @@
+Description: Any2fasta can convert various sequence formats to FASTA.
+Home Page: https://github.com/tseemann/any2fasta
+Programs: any2fasta
+
+version("0.4.2", uri="docker://quay.io/biocontainers/any2fasta:0.4.2--hdfd78af_3")

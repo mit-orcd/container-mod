@@ -1,0 +1,5 @@
+Description: pVACtools is a cancer immunotherapy tools suite consisting of pVACseq, pVACbind, pVACfuse, pVACvector, and pVACview.
+Home Page: https://pvactools.readthedocs.io/en/latest/
+Programs: pvacbind,pvacfuse,pvacseq,pvactools,pvacvector,pvacview
+
+version("3.0.1", uri="docker://griffithlab/pvactools:3.0.1")

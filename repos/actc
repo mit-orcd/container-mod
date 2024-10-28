@@ -1,0 +1,5 @@
+Description: Actc is used to align subreads to ccs reads.
+Home Page: https://github.com/PacificBiosciences/actc
+Programs: actc
+
+version("0.2.0", uri="")

@@ -1,0 +1,5 @@
+Description: Tigmint identifies and corrects misassemblies using linked (e.g. MGI's stLFR, 10x Genomics Chromium) or long (e.g. Oxford Nanopore Technologies long reads) DNA sequencing reads.
+Home Page: https://github.com/bcgsc/tigmint
+Programs: tigmint,tigmint-arcs-tsv,tigmint-cut,tigmint-make,tigmint_estimate_dist.py,tigmint_molecule.py,tigmint_molecule_paf.py
+
+version("1.2.6", uri="")

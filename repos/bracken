@@ -1,0 +1,6 @@
+Description: Bracken is a companion program to Kraken 1 or Kraken 2 While Kraken classifies reads to multiple levels in the taxonomic tree, Bracken allows estimation of abundance at a single level using those classifications.
+Home Page: https://github.com/jenniferlu717/Bracken
+Programs: combine_bracken_outputs.py,est_abundance.py,generate_kmer_distribution.py,kraken2,kraken2-build,kraken2-inspect,bracken,bracken-build
+
+version("2.7", uri="docker://quay.io/biocontainers/bracken:2.7--py39hc16433a_0")
+version("2.6.1", uri="docker://quay.io/biocontainers/bracken:2.6.1--py37h9a982cc_0")

@@ -1,0 +1,5 @@
+Description: phrap is a program for assembling shotgun DNA sequence data.
+Home Page: http://www.phrap.org/phredphrapconsed.html#block_phrap
+Programs: phrap
+
+version("1.090518", uri="")

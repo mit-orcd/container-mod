@@ -1,0 +1,5 @@
+Description: Crossmap is a program for genome coordinates conversion between different assemblies.
+Home Page: https://crossmap.readthedocs.io/en/latest/#convert-maf-format-files
+Programs: CrossMap.py
+
+version("0.6.3", uri="docker://quay.io/biocontainers/crossmap:0.6.3--pyhb7b1952_0")

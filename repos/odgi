@@ -1,0 +1,5 @@
+Description: odgi provides an efficient and succinct dynamic DNA sequence graph model, as well as a host of algorithms that allow the use of such graphs in bioinformatic analyses.
+Home Page: https://github.com/pangenome/odgi
+Programs: odgi
+
+version("0.8.3", uri="docker://pangenome/odgi:1689324294")

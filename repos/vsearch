@@ -1,0 +1,7 @@
+Description: Vsearch is a versatile open source tool for metagenomics
+Home Page: https://github.com/torognes/vsearch
+Programs: vsearch
+
+version("2.22.1", uri="docker://quay.io/biocontainers/vsearch:2.22.1--hf1761c0_0")
+version("2.21.1", uri="docker://quay.io/biocontainers/vsearch:2.21.1--hf1761c0_1")
+version("2.19.0", uri="docker://quay.io/biocontainers/vsearch:2.19.0--h95f258a_0")

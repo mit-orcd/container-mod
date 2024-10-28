@@ -1,0 +1,5 @@
+Description: GimmeMotifs is a suite of motif tools, including a motif prediction pipeline for ChIP-seq experiments.
+Home Page: https://github.com/vanheeringen-lab/gimmemotifs
+Programs: gimme
+
+version("0.17.1", uri="docker://quay.io/biocontainers/gimmemotifs:0.17.1--py38h8ded8fe_1")

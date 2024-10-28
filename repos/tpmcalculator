@@ -1,0 +1,6 @@
+Description: TPMCalculator quantifies mRNA abundance directly from the alignments by parsing BAM files.
+Home Page: https://github.com/ncbi/TPMCalculator
+Programs: TPMCalculator
+
+version("0.0.4", uri="docker://quay.io/biocontainers/tpmcalculator:0.0.4--h6fbe174_1")
+version("0.0.3", uri="docker://quay.io/biocontainers/tpmcalculator:0.0.3--h7376a40_1")

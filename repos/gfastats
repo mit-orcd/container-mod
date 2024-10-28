@@ -1,0 +1,6 @@
+Description: gfastats is a single fast and exhaustive tool for summary statistics and simultaneous *fa* (fasta, fastq, gfa [.gz]) genome assembly file manipulation.
+Home Page: https://github.com/vgl-hub/gfastats
+Programs: gfastats
+
+version("1.3.6", uri="docker://staphb/gfastats:1.3.6")
+version("1.2.3", uri="docker://quay.io/biocontainers/gfastats:1.2.3--hd03093a_0")

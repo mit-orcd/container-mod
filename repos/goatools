@@ -1,0 +1,6 @@
+Description: Goatools is a Python library for Gene Ontology analyses.
+Home Page: https://github.com/tanghaibao/goatools
+Programs: python,python3,compare_gos.py,fetch_associations.py,find_enrichment.py,go_plot.py,map_to_slim.py,ncbi_gene_results_to_python.py,plot_go_term.py,prt_terms.py,runxlrd.py,vba_extract.py,wr_hier.py,wr_sections.py
+
+version("1.2.3", uri="")
+version("1.1.12", uri="")

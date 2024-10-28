@@ -1,0 +1,5 @@
+Description: Ncbi-genome-download is a script to download genomes from the NCBI FTP servers.
+Home Page: https://github.com/kblin/ncbi-genome-download
+Programs: ncbi-genome-download
+
+version("0.3.1", uri="docker://quay.io/biocontainers/ncbi-genome-download:0.3.1--pyh5e36f6f_0")

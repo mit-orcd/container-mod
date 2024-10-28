@@ -1,0 +1,6 @@
+Description: Cell Ranger ARC is a set of analysis pipelines that process Chromium Single Cell Multiome ATAC + Gene Expression sequencing data to generate a variety of analyses pertaining to gene expression (GEX), chromatin accessibility, and their linkage.
+Home Page: https://support.10xgenomics.com/single-cell-multiome-atac-gex/software/pipelines/latest/what-is-cell-ranger-arc
+Programs: cellranger-arc
+
+version("2.0.2_patched", uri="")
+version("2.0.2", uri="docker://cumulusprod/cellranger-arc:2.0.2")

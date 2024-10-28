@@ -1,0 +1,7 @@
+Description: Isoseq3 - Scalable De Novo Isoform Discovery.
+Home Page: https://github.com/PacificBiosciences/IsoSeq
+Programs: isoseq3
+
+version("3.8.2", uri="docker://quay.io/biocontainers/isoseq3:3.8.2--h9ee0642_0")
+version("3.7.0", uri="docker://quay.io/biocontainers/isoseq3:3.7.0--h9ee0642_0")
+version("3.4.0", uri="docker://quay.io/biocontainers/isoseq3:3.4.0--0")

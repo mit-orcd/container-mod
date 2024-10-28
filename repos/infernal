@@ -1,0 +1,5 @@
+Description: Infernal is for searching DNA sequence databases for RNA structure and sequence similarities.
+Home Page: http://eddylab.org/infernal/
+Programs: cmalign,cmbuild,cmcalibrate,cmconvert,cmemit,cmfetch,cmpress,cmscan,cmsearch,cmstat
+
+version("1.1.4", uri="docker://quay.io/biocontainers/infernal:1.1.4--pl5321hec16e2b_1")

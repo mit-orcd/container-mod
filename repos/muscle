@@ -1,0 +1,6 @@
+Description: Muscle is a modified progressive alignment algorithm which has comparable accuracy to MAFFT, but faster performance.
+Home Page: http://www.drive5.com/muscle/muscle_userguide3.8.html
+Programs: muscle
+
+version("5.1", uri="docker://quay.io/biocontainers/muscle:5.1--h9f5acd7_1")
+version("3.8.1551", uri="docker://quay.io/biocontainers/muscle:3.8.1551--h7d875b9_6")

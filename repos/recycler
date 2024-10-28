@@ -1,0 +1,5 @@
+Description: Recycler is a tool designed for extracting circular sequences from de novo assembly graphs.
+Home Page: https://github.com/Shamir-Lab/Recycler
+Programs: make_fasta_from_fastg.py,get_simple_cycs.py,recycle.py
+
+version("0.7", uri="docker://quay.io/biocontainers/recycler:0.7--py_3")

@@ -1,0 +1,5 @@
+Description: Rnaquast is a quality assessment tool for de novo transcriptome assemblies.
+Home Page: http://cab.spbu.ru/software/rnaquast/
+Programs: rnaQUAST.py
+
+version("2.2.1", uri="docker://quay.io/biocontainers/rnaquast:2.2.1--h9ee0642_0")

@@ -1,0 +1,7 @@
+Description: Biopython is a set of freely available tools for biological computation written in Python.
+Home Page: https://biopython.org
+Programs: easy_install,f2py,f2py3,idle3,pip,pip3,pydoc,pydoc3,python,python3,python3-config,python3.9,python3.9-config,wheel
+
+version("1.78", uri="docker://quay.io/biocontainers/biopython:1.78")
+version("np112py36", uri="docker://quay.io/biocontainers/biopython:1.70--np112py36_0")
+version("np112py27", uri="docker://quay.io/biocontainers/biopython:1.70--np112py27_1")

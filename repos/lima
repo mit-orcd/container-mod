@@ -1,0 +1,5 @@
+Description: Lima is the standard tool to identify barcode and primer sequences in PacBio single-molecule sequencing data.
+Home Page: https://lima.how
+Programs: lima
+
+version("2.2.0", uri="docker://quay.io/biocontainers/lima:2.2.0--h9ee0642_0")

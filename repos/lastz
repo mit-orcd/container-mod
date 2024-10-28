@@ -1,0 +1,5 @@
+Description: LASTZ - pairwise DNA sequence aligner
+Home Page: https://github.com/lastz/lastz
+Programs: lastz,lastz_32,lastz_D
+
+version("1.04.15", uri="docker://quay.io/biocontainers/lastz:1.04.15--hec16e2b_1")

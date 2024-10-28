@@ -1,0 +1,5 @@
+Description: Blasr is a  read  mapping program that maps reads to positions in a genome by clustering short exact matches between the read and the genome, and scoring clusters using alignment.
+Home Page: https://github.com/PacificBiosciences/blasr
+Programs: blasr
+
+version("5.3.5", uri="docker://quay.io/biocontainers/blasr:5.3.5--0")

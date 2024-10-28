@@ -1,0 +1,6 @@
+Description: Augur is the bioinformatics toolkit we use to track evolution from sequence and serological data.
+Home Page: https://github.com/nextstrain/augur
+Programs: augur
+
+version("15.0.0", uri="docker://quay.io/biocontainers/augur:15.0.0--pyhdfd78af_0")
+version("14.0.0", uri="docker://quay.io/biocontainers/augur:14.0.0--pyhdfd78af_0")

@@ -1,0 +1,5 @@
+Description: Genomicconsensus is the current PacBio consensus and variant calling suite.
+Home Page: https://github.com/PacificBiosciences/GenomicConsensus
+Programs: quiver,arrow,variantCaller
+
+version("2.3.3", uri="docker://quay.io/biocontainers/genomicconsensus:2.3.3--py_1")

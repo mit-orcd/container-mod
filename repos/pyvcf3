@@ -1,0 +1,5 @@
+Description: PyVCF3 has been created because the Official PyVCF repository is no longer maintained and do not accept any pull requests.
+Home Page: https://github.com/dridk/PyVCF3
+Programs: python,python3
+
+version("1.0.3", uri="docker://quay.io/biocontainers/pyvcf3:1.0.3--pyhdfd78af_0")

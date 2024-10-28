@@ -1,0 +1,5 @@
+Description: purge_dups is designed to remove haplotigs and contig overlaps in a de novo assembly based on read depth.
+Home Page: https://github.com/dfguan/purge_dups
+Programs: augustify.py,bamToWig.py,cleanup-blastdb-volumes.py,edirect.py,executeTestCGP.py,extractAnno.py,findRepetitiveProtSeqs.py,fix_in_frame_stop_codon_genes.py,generate_plot.py,getAnnoFastaFromJoingenes.py,hist_plot.py,pd_config.py,run_abundance.py,run_purge_dups.py,run_sepp.py,run_tipp.py,run_tipp_tool.py,run_upp.py,split_sequences.py,stringtie2fa.py,sumlabels.py,sumtrees.py
+
+version("1.2.6", uri="docker://quay.io/biocontainers/purge_dups:1.2.6--py39h7132678_1")

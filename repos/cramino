@@ -1,0 +1,5 @@
+Description: Cramino is a tool for quick quality assessment of cram and bam files, intended for long read sequencing.
+Home Page: https://github.com/wdecoster/cramino
+Programs: cramino
+
+version("0.9.6", uri="docker://alexanrna/cramino:0.9.6")

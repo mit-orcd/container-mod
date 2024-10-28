@@ -1,0 +1,5 @@
+Description: Samclip is a tool to filter SAM file for soft and hard clipped alignments.
+Home Page: https://github.com/tseemann/samclip
+Programs: samclip
+
+version("0.4.0", uri="docker://quay.io/biocontainers/samclip:0.4.0--hdfd78af_1")

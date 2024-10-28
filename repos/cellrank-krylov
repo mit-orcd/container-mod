@@ -1,0 +1,5 @@
+Description: Cellrank-krylov is the cellrank package with extra libraries that are useful for large datasets.
+Home Page: https://cellrank.readthedocs.io/en/stable/index.html
+Programs: python,python3
+
+version("1.5.1", uri="")

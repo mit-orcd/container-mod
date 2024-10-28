@@ -1,0 +1,5 @@
+Description: The mOTU profiler is a computational tool that estimates relative taxonomic abundance of known and currently unknown microbial community members using metagenomic shotgun sequencing data.
+Home Page: https://github.com/motu-tool/mOTUs
+Programs: motus
+
+version("3.0.3", uri="")

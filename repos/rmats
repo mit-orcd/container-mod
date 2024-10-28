@@ -1,0 +1,5 @@
+Description: Rmats is a computational tool to detect differential alternative splicing events from RNA-Seq data.
+Home Page: http://rnaseq-mats.sourceforge.net
+Programs: FDR.py,RNASeq-MATS.py,inclusion_level.py,joinFiles.py,paste.py,rmats.py
+
+version("4.1.1", uri="docker://quay.io/biocontainers/rmats:4.1.1--py37ha4e9c16_1")

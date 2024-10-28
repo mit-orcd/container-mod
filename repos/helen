@@ -1,0 +1,5 @@
+Description: HELEN is a multi-task RNN polisher which operates on images produced by MarginPolish.
+Home Page: https://github.com/kishwarshafin/helen
+Programs: helen
+
+version("1.0", uri="docker://kishwars/helen:1.0")

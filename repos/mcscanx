@@ -1,0 +1,5 @@
+Description: MCScanX can be used to effectively analyze chromosome structural changes, and reveal the history of gene family expansions that might contribute to the adaptation of lineages and taxa.
+Home Page: https://github.com/wyp1125/MCScanX
+Programs: MCScanX,MCScanX_h,duplicate_gene_classifier,add_ka_and_ks_to_collinearity,add_kaks_to_synteny,detect_collinearity_within_gene_families,detect_synteny_within_gene_families,group_collinear_genes,group_syntenic_genes,origin_enrichment_analysis
+
+version("default", uri="")

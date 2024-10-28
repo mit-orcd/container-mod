@@ -1,0 +1,5 @@
+Description: pggb builds pangenome variation graphs from a set of input sequences.
+Home Page: https://github.com/pangenome/pggb
+Programs: pggb
+
+version("0.5.4", uri="docker://pangenome/pggb")

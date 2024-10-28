@@ -1,0 +1,5 @@
+Description: RGT is an open source Python 3.6+ library for analysis of regulatory genomics. RGT is programmed in an oriented object fashion and its core classes provide functionality for handling regulatory genomics data.
+Home Page: https://github.com/CostaLab/reg-gen
+Programs: rgt-TDF,rgt-THOR,rgt-hint,rgt-motifanalysis,rgt-viz
+
+version("1.0.2", uri="docker://quay.io/biocontainers/rgt:1.0.2--py37he4a0461_0")

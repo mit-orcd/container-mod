@@ -1,0 +1,5 @@
+Description: Prokka is a software tool to annotate bacterial, archaeal and viral genomes quickly and produce standards-compliant output files.
+Home Page: https://github.com/tseemann/prokka
+Programs: prokka,prokka-abricate_to_fasta_db,prokka-biocyc_to_fasta_db,prokka-build_kingdom_dbs,prokka-cdd_to_hmm,prokka-clusters_to_hmm,prokka-genbank_to_fasta_db,prokka-genpept_to_fasta_db,prokka-hamap_to_hmm,prokka-tigrfams_to_hmm,prokka-uniprot_to_fasta_db
+
+version("1.14.6", uri="docker://quay.io/biocontainers/prokka:1.14.6--pl5262hdfd78af_1")

@@ -1,0 +1,5 @@
+Description: Sicer is a clustering approach for identification of enriched domains from histone modification ChIP-Seq data.
+Home Page: https://home.gwu.edu/~wpeng/Software.htm
+Programs: SICER-df-rb.sh,SICER-df.sh,SICER-rb.sh,SICER.sh
+
+version("1.1", uri="docker://quay.io/biocontainers/sicer:1.1--hdfd78af_5")

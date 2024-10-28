@@ -1,0 +1,5 @@
+Description: Jvarkit is a collection of Java utilities for Bioinformatics.
+Home Page: https://github.com/lindenb/jvarkit
+Programs: java
+
+version("2023.06.27", uri="docker://lindenb/jvarkit:1b2aedf24")

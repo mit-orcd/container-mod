@@ -1,0 +1,5 @@
+Description: cross_match is a general purpose utility for comparing any two DNA sequence sets using a 'banded' version of swat.
+Home Page: http://www.phrap.org/phredphrapconsed.html#block_phrap
+Programs: cross_match
+
+version("1.090518", uri="")

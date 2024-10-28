@@ -1,0 +1,5 @@
+Description: Pycoqc is a tool that computes metrics and generates interactive QC plots for Oxford Nanopore technologies sequencing data.
+Home Page: https://github.com/a-slide/pycoQC
+Programs: pycoQC,python,python3
+
+version("2.5.2", uri="docker://quay.io/biocontainers/pycoqc:2.5.2--py_0")

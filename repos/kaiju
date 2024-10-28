@@ -1,0 +1,5 @@
+Description: Kaiju is a tool for fast taxonomic classification of metagenomic sequencing reads using a protein reference database.
+Home Page: https://github.com/bioinformatics-centre/kaiju
+Programs: kaiju,kaiju-addTaxonNames,kaiju-convertMAR.py,kaiju-convertNR,kaiju-excluded-accessions.txt,kaiju-gbk2faa.pl,kaiju-makedb,kaiju-mergeOutputs,kaiju-mkbwt,kaiju-mkfmi,kaiju-multi,kaiju-taxonlistEuk.tsv,kaiju2krona,kaiju2table,kaijup,kaijux
+
+version("1.8.2", uri="")

@@ -1,0 +1,5 @@
+Description: RepeatMasker is a program that screens DNA sequences for interspersed repeats and low complexity DNA sequences.
+Home Page: http://www.repeatmasker.org
+Programs: RepeatMasker
+
+version("4.1.2", uri="docker://quay.io/biocontainers/repeatmasker:4.1.2-p1")

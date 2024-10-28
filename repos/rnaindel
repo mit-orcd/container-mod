@@ -1,0 +1,5 @@
+Description: RNAIndel calls coding indels from tumor RNA-Seq data and classifies them as somatic, germline, and artifactual. RNAIndel supports GRCh38 and 37.
+Home Page: Home page:     https://github.com/stjude/RNAIndel
+Programs: rnaindel
+
+version("3.0.9", uri="docker://ghcr.io/stjude/rnaindel:v3.0.9")

@@ -1,0 +1,6 @@
+Description: Scanpy is a scalable toolkit for analyzing single-cell gene expression data built jointly with anndata.
+Home Page: https://scanpy.readthedocs.io/en/stable/
+Programs: python,python3,jupyter
+
+version("1.9.1", uri="")
+version("1.8.2", uri="")

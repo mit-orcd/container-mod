@@ -1,0 +1,5 @@
+Description:  ARIBA is a tool that identifies antibiotic resistance genes by running local assemblies. It can also be used for MLST calling.
+Home Page: https://github.com/sanger-pathogens/ariba
+Programs: ariba
+
+version("2.14.6", uri="docker://staphb/ariba:2.14.6")

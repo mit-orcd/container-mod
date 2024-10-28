@@ -1,0 +1,6 @@
+Description: Deepbgc is a tool for BGC detection and classification using deep learning.
+Home Page: https://github.com/Merck/deepbgc
+Programs: deepbgc
+
+version("0.1.30", uri="docker://quay.io/biocontainers/deepbgc:0.1.30--pyhb7b1952_0")
+version("0.1.26", uri="docker://dudwary/deepbgc:0.1.26")

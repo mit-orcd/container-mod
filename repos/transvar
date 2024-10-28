@@ -1,0 +1,5 @@
+Description: Transvar is a multi-way annotator for genetic elements and genetic variations.
+Home Page: https://bioinformatics.mdanderson.org/public-software/transvar/
+Programs: transvar
+
+version("2.5.9", uri="docker://zhouwanding/transvar:2.5.9")

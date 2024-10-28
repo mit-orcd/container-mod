@@ -1,0 +1,5 @@
+Description: Gffread is used to validate, filter, convert and perform various other operations on GFF files.
+Home Page: http://ccb.jhu.edu/software/stringtie/gff.shtml
+Programs: gffread
+
+version("0.12.7", uri="docker://quay.io/biocontainers/gffread:0.12.7--hd03093a_1")

@@ -1,0 +1,8 @@
+Description: Last is used to finds & aligns related regions of sequences.
+Home Page: https://gitlab.com/mcfrith/last
+Programs: last-dotplot,last-map-probs,last-merge-batches,last-pair-probs,last-postmask,last-split,last-split5,last-train,lastal,lastal5,lastdb,lastdb5
+
+version("1418", uri="docker://quay.io/biocontainers/last:1418--h5b5514e_0")
+version("1411", uri="docker://quay.io/biocontainers/last:1411--h5b5514e_0")
+version("1356", uri="docker://quay.io/biocontainers/last:1356--h5b5514e_0")
+version("1268", uri="docker://quay.io/biocontainers/last:1268--h5b5514e_0")

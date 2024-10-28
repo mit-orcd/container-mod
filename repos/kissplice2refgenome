@@ -1,0 +1,5 @@
+Description: KisSplice can also be used when a reference (annotated) genome is available, in order to annotate the variants found and help prioritize cases to validate experimentally. In this case, the results of KisSplice are mapped to the reference genome, using for instance STAR, and the mapping results are analysed using KisSplice2RefGenome. 
+Home Page: https://kissplice.prabi.fr
+Programs: kissplice2refgenome
+
+version("2.0.8", uri="docker://dwishsan/kissplice-pipeline")

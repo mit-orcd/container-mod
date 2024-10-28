@@ -1,0 +1,5 @@
+Description: Snap-aligner(Scalable Nucleotide Alignment Program) is a fast and accurate read aligner for high-throughput sequencing data
+Home Page: http://snap.cs.berkeley.edu/
+Programs: snap-aligner
+
+version("2.0.0", uri="docker://quay.io/biocontainers/snap-aligner:2.0.0--h9a82719_0")

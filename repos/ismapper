@@ -1,0 +1,5 @@
+Description: ISMapper searches for IS positions in sequence data using paired end Illumina short reads, an IS query/queries of interest and a reference genome. ISMapper reports the IS positions it has found in each isolate, relative to the provided reference genome.
+Home Page: https://github.com/jhawkey/IS_mapper
+Programs: ismap
+
+version("2.0.2", uri="docker://quay.io/biocontainers/ismapper:2.0.2--pyhdfd78af_1")

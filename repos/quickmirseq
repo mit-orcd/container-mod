@@ -1,0 +1,5 @@
+Description: Quickmirseq is an integrated pipeline for quick and accurate quantification of known miRNAs and isomiRs by jointly processing multiple samples.
+Home Page: https://baohongz.github.io/guide/QuickMIRSeq.html
+Programs: perl,QuickMIRSeq-report.sh,pathJoin(instdir,QuickMIRSeq-report.sh)
+
+version("1.0", uri="docker://gcfntnu/quickmirseq:1.0")

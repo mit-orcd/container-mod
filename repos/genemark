@@ -1,0 +1,6 @@
+Description: GeneMark-ES/ET/EP is package including GeneMark-ES, GeneMark-ET and GeneMark-EP+ algorithms.
+Home Page: http://opal.biology.gatech.edu/GeneMark/
+Programs: bed_to_gff.pl,bp_seq_select.pl,build_mod.pl,calc_introns_from_gtf.pl,change_path_in_perl_scripts.pl,compare_intervals_exact.pl,gc_distr.pl,get_below_gc.pl,get_sequence_from_GTF.pl,gmes_petap.pl,hc_exons2hints.pl,histogram.pl,make_nt_freq_mat.pl,parse_by_introns.pl,parse_ET.pl,parse_gibbs.pl,parse_set.pl,predict_genes.pl,reformat_gff.pl,rescale_gff.pl,rnaseq_introns_to_gff.pl,run_es.pl,run_hmm_pbs.pl,scan_for_bp.pl,star_to_gff.pl,verify_evidence_gmhmm.pl,gmhmme3
+
+version("4.69", uri="")
+version("4.68", uri="")

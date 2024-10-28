@@ -1,0 +1,5 @@
+Description: Bazam is a tool to extract paired reads in FASTQ format from coordinate sorted BAM files.
+Home Page: https://github.com/ssadedin/bazam
+Programs: bazam
+
+version("1.0.1", uri="docker://dockanomics/bazam:1.0.1")

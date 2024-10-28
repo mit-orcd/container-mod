@@ -1,0 +1,6 @@
+Description: Hail is an open-source, general-purpose, Python-based data analysis tool with additional data types and methods for working with genomic data.
+Home Page: https://github.com/hail-is/hail
+Programs: python3
+
+version("0.2.98", uri="docker://hailgenetics/hail:0.2.98")
+version("0.2.94", uri="docker://hailgenetics/hail:0.2.94")

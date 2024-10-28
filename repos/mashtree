@@ -1,0 +1,5 @@
+Description: Mashtree is a tool to create a tree using Mash distances.
+Home Page: https://github.com/lskatz/mashtree
+Programs: mashtree,mashtree_bootstrap.pl,mashtree_cluster.pl,mashtree_init.pl,mashtree_jackknife.pl,mashtree_wrapper_deprecated.pl
+
+version("1.2.0", uri="docker://quay.io/biocontainers/mashtree:1.2.0--pl526h516909a_0")

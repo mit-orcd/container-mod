@@ -1,0 +1,5 @@
+Description: SKA (Split Kmer Analysis) is a toolkit for prokaryotic (and any other small, haploid) DNA sequence analysis using split kmers.
+Home Page: https://github.com/simonrharris/SKA
+Programs: ska
+
+version("1.0", uri="docker://staphb/ska:1.0")

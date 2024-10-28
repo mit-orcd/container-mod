@@ -1,0 +1,5 @@
+Description: Evidencemodeler is a software combines ab intio gene predictions and protein and transcript alignments into weighted consensus gene structures. 
+Home Page: https://github.com/EVidenceModeler/EVidenceModeler
+Programs: evidence_modeler.pl,BPbtab.pl,EVMLite.pl,EVM_to_GFF3.pl,convert_EVM_outputs_to_GFF3.pl,create_weights_file.pl,execute_EVM_commands.pl,extract_complete_proteins.pl,gff3_file_to_proteins.pl,gff3_gene_prediction_file_validator.pl,gff_range_retriever.pl,partition_EVM_inputs.pl,recombine_EVM_partial_outputs.pl,summarize_btab_tophits.pl,write_EVM_commands.pl
+
+version("1.1.1", uri="docker://quay.io/biocontainers/evidencemodeler:1.1.1--hdfd78af_3")

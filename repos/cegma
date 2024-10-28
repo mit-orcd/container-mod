@@ -1,0 +1,5 @@
+Description: CEGMA (Core Eukaryotic Genes Mapping Approach) is a pipeline for building a set of high reliable set of gene annotations in virtually any eukaryotic genome.
+Home Page: https://github.com/KorfLab/CEGMA_v2
+Programs: cegma
+
+version("2.5", uri="docker://chrishah/cegma:2.5")

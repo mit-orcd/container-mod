@@ -1,0 +1,5 @@
+Description: Breseq is a computational pipeline for the analysis of short-read re-sequencing data.
+Home Page: https://github.com/barricklab/breseq
+Programs: breseq
+
+version("0.36.1", uri="docker://quay.io/biocontainers/breseq:0.36.1--h5b5514e_1")

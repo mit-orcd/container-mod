@@ -1,0 +1,5 @@
+Description: Afterqc is a tool for quality control of FASTQ data produced by HiSeq 2000/2500/3000/4000, Nextseq 500/550, MiniSeq, and Illumina 1.8 or newer.
+Home Page: https://github.com/OpenGene/AfterQC
+Programs: after.py
+
+version("0.9.7", uri="docker://quay.io/biocontainers/afterqc:0.9.7--hdfd78af_4")

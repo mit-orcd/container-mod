@@ -1,0 +1,5 @@
+Description: Scvelo is a scalable toolkit for RNA velocity analysis in single cells.
+Home Page: https://scvelo.readthedocs.io
+Programs: python,python3
+
+version("0.2.4", uri="")

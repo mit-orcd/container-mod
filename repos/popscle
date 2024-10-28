@@ -1,0 +1,5 @@
+Description: Popscle is a suite of population scale analysis tools for single-cell genomics data.
+Home Page: https://github.com/statgen/popscle
+Programs: popscle
+
+version("0.1b", uri="docker://cumulusprod/popscle:0.1b")

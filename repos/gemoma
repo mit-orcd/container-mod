@@ -1,0 +1,5 @@
+Description: Gene Model Mapper (GeMoMa) is a homology-based gene prediction program.
+Home Page: http://www.jstacs.de/index.php/GeMoMa
+Programs: GeMoMa
+
+version("1.7.1", uri="docker://quay.io/biocontainers/gemoma:1.7.1--hdfd78af_0")

@@ -1,0 +1,5 @@
+Description: Svtyper performs breakpoint genotyping of structural variants (SVs) using whole genome sequencing data.
+Home Page: https://github.com/hall-lab/svtyper
+Programs: svtyper,svtyper-sso,python,python2
+
+version("0.7.1", uri="docker://quay.io/biocontainers/svtyper:0.7.1--py_0")

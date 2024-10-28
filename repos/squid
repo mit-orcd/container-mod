@@ -1,0 +1,5 @@
+Description: SQUID is designed to detect both fusion-gene and non-fusion-gene transcriptomic structural variations from RNA-seq alignment.
+Home Page: https://github.com/Kingsford-Group/squid
+Programs: squid,AnnotateSQUIDOutput.py
+
+version("1.5", uri="")

@@ -1,0 +1,5 @@
+Description: CellPhoneDB is a publicly available repository of curated receptors, ligands and their interactions.
+Home Page: https://github.com/Teichlab/cellphonedb
+Programs: cellphonedb
+
+version("2.1.7", uri="docker://eagleshot/cellphonedb:2.1.7")

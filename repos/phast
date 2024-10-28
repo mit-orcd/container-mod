@@ -1,0 +1,5 @@
+Description: PHAST is a freely available software package for comparative and evolutionary genomics.
+Home Page: http://compgen.cshl.edu/phast/
+Programs: all_dists,base_evolve,chooseLines,clean_genes,consEntropy,convert_coords,display_rate_matrix,dless,dlessP,draw_tree,eval_predictions,exoniphy,hmm_train,hmm_tweak,hmm_view,indelFit,indelHistory,maf_parse,makeHKY,modFreqs,msa_diff,msa_split,msa_view,pbsDecode,pbsEncode,pbsScoreMatrix,pbsTrain,phast,phastBias,phastCons,phastMotif,phastOdds,phyloBoot,phyloFit,phyloP,prequel,refeature,stringiphy,treeGen,tree_doctor
+
+version("1.5", uri="docker://quay.io/biocontainers/phast:1.5--hec16e2b_4")

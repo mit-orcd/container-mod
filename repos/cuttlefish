@@ -1,0 +1,5 @@
+Description: Cuttlefish is a fast, parallel, and very lightweight memory tool to construct the compacted de Bruijn graph from sequencing reads or reference sequences.
+Home Page: https://github.com/COMBINE-lab/cuttlefish
+Programs: cuttlefish
+
+version("2.1.1", uri="docker://quay.io/biocontainers/cuttlefish:2.1.1--hf1761c0_0")

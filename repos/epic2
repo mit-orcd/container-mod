@@ -1,0 +1,6 @@
+Description: epic2 is an ultraperformant Chip-Seq broad domain finder based on SICER.
+Home Page: https://github.com/biocore-ntnu/epic2
+Programs: epic2,epic2-bw,epic2-df
+
+version("0.0.52", uri="")
+version("0.0.51", uri="")

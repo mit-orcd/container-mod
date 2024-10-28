@@ -1,0 +1,5 @@
+Description: Pangraph is a bioinformatic toolkit to align genome assemblies into pangenome graphs.
+Home Page: https://github.com/neherlab/pangraph
+Programs: pangraph
+
+version("0.7.1", uri="docker://neherlab/pangraph:0.7.1")

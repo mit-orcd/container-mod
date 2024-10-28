@@ -1,0 +1,5 @@
+Description: Soapdenovo2 is a short-read assembly method to build de novo draft assembly.
+Home Page: http://soap.genomics.org.cn/soapdenovo.html
+Programs: SOAPdenovo-127mer,SOAPdenovo-63mer
+
+version("2.40", uri="docker://quay.io/biocontainers/soapdenovo2:2.40--1")

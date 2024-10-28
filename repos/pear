@@ -1,0 +1,5 @@
+Description: PEAR is an ultrafast, memory-efficient and highly accurate pair-end read merger. It is fully parallelized and can run with as low as just a few kilobytes of memory.
+Home Page: https://cme.h-its.org/exelixis/web/software/pear/
+Programs: pear
+
+version("0.9.6", uri="docker://quay.io/biocontainers/pear:0.9.6--h2f06484_6")

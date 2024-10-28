@@ -1,0 +1,5 @@
+Description:  DendroPy is a Python library for phylogenetic computing.
+Home Page: https://github.com/jeetsukumaran/DendroPy
+Programs: python,python3,sumlabels.py,sumtrees.py
+
+version("4.5.2", uri="docker://quay.io/biocontainers/dendropy:4.5.2--pyh3252c3a_0")

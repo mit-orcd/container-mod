@@ -1,0 +1,5 @@
+Description: Cellrank is a toolkit to uncover cellular dynamics based on Markov state modeling of single-cell data.
+Home Page: https://cellrank.readthedocs.io/en/stable/
+Programs: python,python3
+
+version("1.5.1", uri="")

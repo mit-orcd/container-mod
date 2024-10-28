@@ -1,0 +1,5 @@
+Description: Minialign is a little bit fast and moderately accurate nucleotide sequence alignment tool designed for PacBio and Nanopore long reads.
+Home Page: https://github.com/ocxtal/minialign
+Programs: minialign
+
+version("0.5.3", uri="docker://quay.io/biocontainers/minialign:0.5.3--1")

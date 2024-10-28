@@ -1,0 +1,5 @@
+Description: Viennarna is a set of standalone programs and libraries used for prediction and analysis of RNA secondary structures.
+Home Page: https://www.tbi.univie.ac.at/RNA/
+Programs: RNA2Dfold,RNALalifold,RNALfold,RNAPKplex,RNAaliduplex,RNAalifold,RNAcofold,RNAdistance,RNAdos,RNAduplex,RNAeval,RNAfold,RNAforester,RNAheat,RNAinverse,RNAlocmin,RNAmultifold,RNApaln,RNAparconv,RNApdist,RNAplex,RNAplfold,RNAplot,RNApvmin,RNAsnoop,RNAsubopt,RNAup,Kinfold,b2ct,popt
+
+version("2.5.0", uri="docker://quay.io/biocontainers/viennarna:2.5.0--py37pl5321h09c1ff4_2")

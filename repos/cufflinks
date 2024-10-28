@@ -1,0 +1,5 @@
+Description: Cufflinks assembles transcripts, estimates their abundances, and tests for differential expression and regulation in RNA-Seq samples. It accepts aligned RNA-Seq reads and assembles the alignments into a parsimonious set of transcripts. Cufflinks then estimates the relative abundances of these transcripts based on how many reads support each one, taking into account biases in library preparation protocols.
+Home Page: https://cole-trapnell-lab.github.io/cufflinks/
+Programs: cuffcompare,cuffdiff,cufflinks,cuffmerge,cuffnorm,cuffquant,gffread,gtf_to_sam
+
+version("2.2.1", uri="docker://quay.io/biocontainers/cufflinks:2.2.1--py36_2")

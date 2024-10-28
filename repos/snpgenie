@@ -1,0 +1,5 @@
+Description: Snpgenie is a collection of Perl scripts for estimating πN/πS, dN/dS, and gene diversity from next-generation sequencing (NGS) single-nucleotide polymorphism (SNP) variant data.
+Home Page: https://github.com/chasewnelson/SNPGenie
+Programs: fasta2revcom.pl,gtf2revcom.pl,snpgenie.pl,snpgenie_between_group.pl,snpgenie_between_group_processor.pl,snpgenie_within_group.pl,snpgenie_within_group_processor.pl,vcf2revcom.pl
+
+version("1.0", uri="docker://quay.io/biocontainers/snpgenie:1.0--hdfd78af_1")

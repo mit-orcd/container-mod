@@ -1,0 +1,6 @@
+Description: Miniprot aligns a protein sequence against a genome with affine gap penalty, splicing and frameshift.
+Home Page: https://github.com/lh3/miniprot
+Programs: miniprot
+
+version("0.7", uri="docker://quay.io/biocontainers/miniprot:0.7--h7132678_0")
+version("0.3", uri="")

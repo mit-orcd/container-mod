@@ -1,0 +1,5 @@
+Description: SvABA is a method for detecting structural variants in sequencing data using genome-wide local assembly.
+Home Page: https://github.com/walaj/svaba
+Programs: svaba
+
+version("1.1.0", uri="docker://quay.io/biocontainers/svaba:1.1.0--h468198e_3")

@@ -1,0 +1,5 @@
+Description: Drep is a python program for rapidly comparing large numbers of genomes.
+Home Page: https://github.com/MrOlm/drep
+Programs: dRep
+
+version("3.2.2", uri="docker://quay.io/biocontainers/drep:3.2.2--pyhdfd78af_0")

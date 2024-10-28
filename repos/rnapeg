@@ -1,0 +1,5 @@
+Description: RNApeg is an RNA junction calling, correction, and quality-control package.
+Home Page: https://github.com/stjude/RNApeg
+Programs: RNApeg.sh
+
+version("2.7.1", uri="docker://ghcr.io/stjude/rnapeg:v2.7.1")

@@ -1,0 +1,5 @@
+Description: BWA (Burrows-Wheeler Aligner) is a fast, accurate, memory-efficient aligner forshort and long sequencing reads.
+Home Page: http://bio-bwa.sourceforge.net
+Programs: bwa,qualfa2fq.pl,xa2multi.pl
+
+version("0.7.17", uri="docker://quay.io/biocontainers/bwa:0.7.17--h5bf99c6_8")

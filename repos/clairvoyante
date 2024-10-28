@@ -1,0 +1,5 @@
+Description: Clairvoyante is a deep neural network based variant caller.
+Home Page: https://github.com/aquaskyline/Clairvoyante
+Programs: clairvoyante.py
+
+version("1.02", uri="docker://lifebitai/clairvoyante:latest")

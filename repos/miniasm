@@ -1,0 +1,5 @@
+Description: Miniasm is a very fast OLC-based de novo assembler for noisy long reads.
+Home Page: https://github.com/lh3/miniasm
+Programs: miniasm,minidot
+
+version("0.3_r179", uri="docker://quay.io/biocontainers/miniasm:0.3_r179--h5bf99c6_2")

@@ -1,0 +1,5 @@
+Description: MarginPolish is a graph-based assembly polisher.
+Home Page: https://github.com/UCSC-nanopore-cgl/MarginPolish
+Programs: marginpolish
+
+version("0.1.3", uri="docker://kishwars/helen:1.0")

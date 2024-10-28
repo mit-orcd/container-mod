@@ -1,0 +1,5 @@
+Description: FCS-adaptor detects adaptor and vector contamination in genome sequences. This tool is one module within the NCBI Foreign Contamination Screening (FCS) program suite.
+Home Page: https://github.com/ncbi/fcs
+Programs: av_screen_x
+
+version("0.5.4", uri="https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/0.5.4/fcs-adaptor.sif")

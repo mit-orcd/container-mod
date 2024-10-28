@@ -1,0 +1,5 @@
+Description: Mapcaller is an efficient and versatile approach for short-read mapping and variant identification using high-throughput sequenced data
+Home Page: https://github.com/hsinnan75/MapCaller
+Programs: MapCaller
+
+version("0.9.9.41", uri="docker://quay.io/biocontainers/mapcaller:0.9.9.41--hd9463e7_0")

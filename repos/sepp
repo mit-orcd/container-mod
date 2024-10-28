@@ -1,0 +1,5 @@
+Description: Sepp stands for SATé-Enabled Phylogenetic Placement and addresses the problem of phylogenetic placement for meta-genomic short reads.
+Home Page: https://github.com/smirarab/sepp
+Programs: run_sepp.py,run_upp.py,split_sequences.py,sumlabels.py,sumtrees.py
+
+version("4.5.1", uri="docker://quay.io/biocontainers/sepp:4.5.1--py37he4bd417_1")

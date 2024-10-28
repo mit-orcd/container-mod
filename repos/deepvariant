@@ -1,0 +1,6 @@
+Description: DeepVariant is a deep learning-based variant caller that takes aligned reads (in BAM or CRAM format), produces pileup image tensors from them, classifies each tensor using a convolutional neural network, and finally reports the results in a standard VCF or gVCF file.
+Home Page: https://github.com/google/deepvariant
+Programs: call_variants,get-pip.py,make_examples,model_eval,model_train,postprocess_variants,run-prereq.sh,run_deepvariant,run_deepvariant.py,settings.sh,show_examples,vcf_stats_report
+
+version("1.1.0", uri="docker://google/deepvariant:1.1.0")
+version("1.0.0", uri="docker://google/deepvariant:1.0.0")

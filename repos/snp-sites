@@ -1,0 +1,5 @@
+Description: Snp-sites is a tool that apidly extracts SNPs from a multi-FASTA alignment.
+Home Page: https://github.com/sanger-pathogens/snp-sites
+Programs: snp-sites
+
+version("2.5.1", uri="docker://staphb/snp-sites:2.5.1")

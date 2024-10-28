@@ -1,0 +1,5 @@
+Description: NextDenovo is a string graph-based de novo assembler for long reads (CLR, HiFi and ONT).
+Home Page: https://github.com/Nextomics/NextDenovo
+Programs: nextDenovo
+
+version("2.5.2", uri="")

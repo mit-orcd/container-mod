@@ -1,0 +1,5 @@
+Description: HOMER is a suite of tools for Motif Discovery and next-gen sequencing analysis.
+Home Page: http://homer.ucsd.edu/homer/
+Programs: 
+
+version("5.1", uri="")

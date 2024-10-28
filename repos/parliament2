@@ -1,0 +1,5 @@
+Description: Parliament2 identifies structural variants in a given sample relative to a reference genome.
+Home Page: https://github.com/fritzsedlazeck/parliament2
+Programs: parliament2.py
+
+version("0.1.11", uri="docker://dnanexus/parliament2:v0.1.11-0-gb492db6d")

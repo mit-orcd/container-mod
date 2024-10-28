@@ -1,0 +1,8 @@
+Description: Funannotate is genome prediction, annotation, and comparison software package.
+Home Page: https://github.com/nextgenusfs/funannotate
+Programs: funannotate
+
+version("v1.8.17", uri="")
+version("1.8.15", uri="docker://nextgenusfs/funannotate:v1.8.15")
+version("1.8.13", uri="docker://nextgenusfs/funannotate:latest")
+version("1.8.10", uri="docker://nextgenusfs/funannotate:latest")

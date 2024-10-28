@@ -1,0 +1,5 @@
+Description: Bmge is a program that selects regions in a multiple sequence alignment that are suited for phylogenetic inference.
+Home Page: https://bioweb.pasteur.fr/packages/pack@BMGE@1.12
+Programs: bmge
+
+version("1.12", uri="docker://quay.io/biocontainers/bmge:1.12--hdfd78af_1")

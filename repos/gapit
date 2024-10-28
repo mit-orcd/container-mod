@@ -1,0 +1,5 @@
+Description: GAPIT is a Genome Association and Prediction Integrated Tool.
+Home Page: https://www.maizegenetics.net/gapit
+Programs: R,Rscript
+
+version("3.3", uri="")

@@ -1,0 +1,7 @@
+Description: Flye: Fast and accurate de novo assembler for single molecule sequencing reads
+Home Page: https://github.com/fenderglass/Flye
+Programs: flye
+
+version("2.9.2", uri="docker://staphb/flye:2.9.2")
+version("2.9.1", uri="docker://quay.io/biocontainers/flye:2.9.1--py310h590eda1_0")
+version("2.9", uri="docker://quay.io/biocontainers/flye:2.9--py38h69e0bdc_0")

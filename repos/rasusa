@@ -1,0 +1,6 @@
+Description: Rasusa: Randomly subsample sequencing reads to a specified coverage.
+Home Page: https://github.com/mbhall88/rasusa
+Programs: rasusa
+
+version("0.7.0", uri="docker://staphb/rasusa:0.7.0")
+version("0.6.0", uri="docker://staphb/rasusa:0.6.0")

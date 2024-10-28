@@ -1,0 +1,6 @@
+Description: Treetime is a tool for maximum likelihood dating and ancestral sequence inference.
+Home Page: https://github.com/neherlab/treetime
+Programs: treetime
+
+version("0.9.4", uri="docker://quay.io/biocontainers/treetime:0.9.4--pyh7cba7a3_0")
+version("0.8.6", uri="docker://quay.io/biocontainers/treetime:0.8.6--pyh5e36f6f_0")

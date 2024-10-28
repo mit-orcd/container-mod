@@ -1,0 +1,5 @@
+Description: TRTools includes a variety of utilities for filtering, quality control and analysis of tandem repeats downstream of genotyping them from next-generation sequencing.
+Home Page: https://github.com/gymreklab/TRTools
+Programs: associaTR,compareSTR,dumpSTR,mergeSTR,qcSTR,statSTR
+
+version("5.0.1", uri="docker://quay.io/biocontainers/trtools:5.0.1--pyha447b20_0")

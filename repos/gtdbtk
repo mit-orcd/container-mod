@@ -1,0 +1,6 @@
+Description: GTDB-Tk is a software toolkit for assigning objective taxonomic classifications to bacterial and archaeal genomes based on the Genome Database Taxonomy GTDB.
+Home Page: https://ecogenomics.github.io/GTDBTk/
+Programs: gtdbtk
+
+version("2.1.0", uri="docker://ecogenomic/gtdbtk:2.1.0")
+version("1.7.0", uri="docker://ecogenomic/gtdbtk:1.7.0")

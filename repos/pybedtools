@@ -1,0 +1,5 @@
+Description: Pybedtools wraps and extends BEDTools and offers feature-level manipulations from within Python.
+Home Page: https://github.com/daler/pybedtools
+Programs: python,python3
+
+version("0.9.0", uri="docker://quay.io/biocontainers/pybedtools:0.9.0--py37h595c7a6_1")

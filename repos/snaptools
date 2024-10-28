@@ -1,0 +1,5 @@
+Description: Snaptools is a python module for pre-processing and working with snap file.
+Home Page: https://github.com/r3fang/SnapTools
+Programs: snaptools
+
+version("1.4.8", uri="docker://quay.io/biocontainers/snaptools:1.4.8--pyh864c0ab_1")

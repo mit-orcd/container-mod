@@ -1,0 +1,5 @@
+Description: Fastspar is a tool for rapid and scalable correlation estimation for compositional data.
+Home Page: https://github.com/scwatts/fastspar
+Programs: fastspar,fastspar_bootstrap,fastspar_pvalues,fastspar_reduce
+
+version("1.0.0", uri="docker://quay.io/biocontainers/fastspar:1.0.0--he5b3f4d_3")

@@ -1,0 +1,8 @@
+Description: CRISPResso2 is a software pipeline designed to enable rapid and intuitive interpretation of genome editing experiments.
+Home Page: https://github.com/pinellolab/CRISPResso2
+Programs: CRISPResso,CRISPRessoAggregate,CRISPRessoBatch,CRISPRessoCompare,CRISPRessoPooled,CRISPRessoPooledWGSCompare,CRISPRessoWGS
+
+version("2.2.11a", uri="docker://pinellolab/crispresso2:v2.2.11a")
+version("2.2.10", uri="docker://pinellolab/crispresso2:v2.2.10")
+version("2.2.9", uri="docker://pinellolab/crispresso2:v2.2.9")
+version("2.2.8", uri="docker://pinellolab/crispresso2:v2.2.8")

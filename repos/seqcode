@@ -1,0 +1,5 @@
+Description: SeqCode is a family of applications designed to develop high-quality images and perform genome-wide calculations from high-throughput sequencing experiments.
+Home Page: https://github.com/eblancoga/seqcode
+Programs: buildChIPprofile,combineChIPprofiles,combineTSSmaps,combineTSSplots,computemaxsignal,findPeaks,genomeDistribution,matchpeaks,matchpeaksgenes,processmacs,produceGENEmaps,produceGENEplots,producePEAKmaps,producePEAKplots,produceTESmaps,produceTESplots,produceTSSmaps,produceTSSplots,recoverChIPlevels,scorePhastCons
+
+version("1.0", uri="docker://eblancocrg/seqcode:base")

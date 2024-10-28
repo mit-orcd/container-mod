@@ -1,0 +1,5 @@
+Description: LDJump is an R package to estimate variable recombination rates from population genetic data.
+Home Page: https://github.com/PhHermann/LDJump
+Programs: R,Rscript
+
+version("0.3.1", uri="")

@@ -1,0 +1,5 @@
+Description: Sage is a proteomics search engine - a tool that transforms raw mass spectra from proteomics experiments into peptide identificatons via database searching & spectral matching.
+Home Page: https://github.com/lazear/sage
+Programs: sage
+
+version("0.8.1", uri="docker://ghcr.io/lazear/sage:v0.8.1")

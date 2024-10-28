@@ -1,0 +1,5 @@
+Description: Shortstack is a tool for comprehensive annotation and quantification of small RNA genes.
+Home Page: https://github.com/MikeAxtell/ShortStack
+Programs: ShortStack
+
+version("3.8.5", uri="docker://quay.io/biocontainers/shortstack:3.8.5--hdfd78af_4")

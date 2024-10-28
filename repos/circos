@@ -1,0 +1,5 @@
+Description: Circos is a software package for visualizing data and information.
+Home Page: http://circos.ca
+Programs: circos
+
+version("0.69.8", uri="docker://quay.io/biocontainers/circos:0.69.8--hdfd78af_1")

@@ -1,0 +1,5 @@
+Description:  staramr scans bacterial genome contigs against the ResFinder, PointFinder, and PlasmidFinder databases (used by the ResFinder webservice and other webservices offered by the Center for Genomic Epidemiology) and compiles a summary report of detected antimicrobial resistance genes.
+Home Page: https://github.com/phac-nml/staramr
+Programs: staramr
+
+version("0.7.1", uri="docker://quay.io/staphb/staramr:0.7.1")

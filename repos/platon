@@ -1,0 +1,5 @@
+Description: Platon: identification and characterization of bacterial plasmid contigs from short-read draft assemblies
+Home Page: https://github.com/oschwengers/platon
+Programs: platon
+
+version("1.6", uri="docker://quay.io/biocontainers/platon:1.6--pyhdfd78af_1")

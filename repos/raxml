@@ -1,0 +1,5 @@
+Description: Raxml(Randomized Axelerated Maximum Likelihood) is a program for. Maximum Likelihood-based inference of large phylogenetic trees
+Home Page: https://cme.h-its.org/exelixis/web/software/raxml/
+Programs: raxmlHPC,raxmlHPC-AVX2,raxmlHPC-PTHREADS,raxmlHPC-PTHREADS-AVX2,raxmlHPC-PTHREADS-SSE3,raxmlHPC-SSE3
+
+version("8.2.12", uri="docker://quay.io/biocontainers/raxml:8.2.12--h779adbc_3")

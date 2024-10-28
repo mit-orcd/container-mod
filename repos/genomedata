@@ -1,0 +1,5 @@
+Description: Genomedata is a format for efficient storage of multiple tracks of numeric data anchored to a genome.
+Home Page: http://pmgenomics.ca/hoffmanlab/proj/genomedata/
+Programs: python,python3,genomeCoverageBed,genomedata-close-data,genomedata-erase-data,genomedata-hardmask,genomedata-histogram,genomedata-info,genomedata-load,genomedata-load-assembly,genomedata-load-data,genomedata-load-seq,genomedata-open-data,genomedata-query,genomedata-report
+
+version("1.5.0", uri="docker://quay.io/biocontainers/genomedata:1.5.0--py37h9636cc8_3")

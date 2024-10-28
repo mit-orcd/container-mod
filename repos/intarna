@@ -1,0 +1,5 @@
+Description: Intarna is a general and fast approach to the prediction of RNA-RNA interactions incorporating both the accessibility of interacting sites as well as the existence of a user-definable seed interaction.
+Home Page: https://github.com/BackofenLab/IntaRNA#usage
+Programs: IntaRNA
+
+version("3.3.1", uri="docker://quay.io/biocontainers/intarna:3.3.1--pl5321h7ff8a90_0")

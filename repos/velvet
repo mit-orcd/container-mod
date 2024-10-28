@@ -1,0 +1,5 @@
+Description: Velvet is a sequence assembler for very short reads.
+Home Page: https://www.ebi.ac.uk/~zerbino/velvet/
+Programs: velveth,velvetg
+
+version("1.2.10", uri="docker://quay.io/biocontainers/velvet:1.2.10--h5bf99c6_4")

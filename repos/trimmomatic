@@ -1,0 +1,5 @@
+Description: Trimmomatic is a flexible read trimming tool for Illumina NGS data
+Home Page: http://www.usadellab.org/cms/index.php?page=trimmomatic
+Programs: trimmomatic
+
+version("0.39", uri="docker://quay.io/biocontainers/trimmomatic:0.39--hdfd78af_2")

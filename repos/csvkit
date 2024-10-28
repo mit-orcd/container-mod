@@ -1,0 +1,5 @@
+Description: csvkit is a suite of command-line tools for converting to and working with CSV, the king of tabular file formats.
+Home Page: https://csvkit.readthedocs.io/en/latest/
+Programs: csvclean,csvcut,csvformat,csvgrep,csvjoin,csvjson,csvlook,csvpy,csvsort,csvsql,csvstack,csvstat,in2csv,sql2csv
+
+version("1.1.1", uri="docker://johnyaku/csvkit:1.1.1")

@@ -1,0 +1,5 @@
+Description: MOB-suite: Software tools for clustering, reconstruction and typing of plasmids from draft assemblies.
+Home Page: https://github.com/phac-nml/mob-suite
+Programs: mob_cluster,mob_init,mob_recon,mob_typer
+
+version("3.0.3", uri="docker://kbessonov/mob_suite:3.0.3")

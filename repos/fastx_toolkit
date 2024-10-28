@@ -1,0 +1,5 @@
+Description: FASTX-Toolkit is a collection of command line tools for Short-Reads FASTA/FASTQ files preprocessing.
+Home Page: https://github.com/agordon/fastx_toolkit
+Programs: fasta_clipping_histogram.pl,fasta_formatter,fasta_nucleotide_changer,fastq_masker,fastq_quality_boxplot_graph.sh,fastq_quality_converter,fastq_quality_filter,fastq_quality_trimmer,fastq_to_fasta,fastx_artifacts_filter,fastx_barcode_splitter.pl,fastx_clipper,fastx_collapser,fastx_nucleotide_distribution_graph.sh,fastx_nucleotide_distribution_line_graph.sh,fastx_quality_stats,fastx_renamer,fastx_reverse_complement,fastx_trimmer,fastx_uncollapser
+
+version("0.0.14", uri="docker://quay.io/biocontainers/fastx_toolkit:0.0.14--he1b5a44_8")

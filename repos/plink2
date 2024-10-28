@@ -1,0 +1,5 @@
+Description: Plink2 is a whole genome association analysis toolset.
+Home Page: https://bioconda.github.io/recipes/plink2/README.html
+Programs: plink2
+
+version("2.00a2.3", uri="docker://quay.io/biocontainers/plink2:2.00a2.3--h712d239_1")

@@ -1,0 +1,5 @@
+Description: How_are_we_stranded_here is a python package for testing strandedness of RNA-Seq fastq files.
+Home Page: https://github.com/betsig/how_are_we_stranded_here
+Programs: check_strandedness
+
+version("1.0.1", uri="docker://quay.io/biocontainers/how_are_we_stranded_here:1.0.1--pyhfa5458b_0")

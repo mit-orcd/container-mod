@@ -1,0 +1,5 @@
+Description: ResFinder identifies acquired antimicrobial resistance genes in total or partial sequenced isolates of bacteria.
+Home Page: https://github.com/cadms/resfinder
+Programs: run_resfinder.py,run_batch_resfinder.py
+
+version("4.1.5", uri="")

@@ -1,0 +1,5 @@
+Description: Genomescope2: Reference-free profiling of polyploid genomes
+Home Page: https://github.com/tbenavi1/genomescope2.0
+Programs: genomescope2
+
+version("2.0", uri="docker://quay.io/biocontainers/genomescope2:2.0--py310r41hdfd78af_5")

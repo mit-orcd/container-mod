@@ -1,0 +1,5 @@
+Description: PyMOL is a user-sponsored molecular visualization system on an open-source foundation, maintained and distributed by Schrödinger. This module contains the open-source version of PYMOL.
+Home Page: https://pymol.org/2/
+Programs: pymol
+
+version("2.5.0", uri="")

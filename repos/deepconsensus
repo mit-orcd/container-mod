@@ -1,0 +1,5 @@
+Description: DeepConsensus uses gap-aware sequence transformers to correct errors in Pacific Biosciences (PacBio) Circular Consensus Sequencing (CCS) data.
+Home Page: https://github.com/google/deepconsensus
+Programs: deepconsensus,ccs,actc
+
+version("0.2.0", uri="docker://google/deepconsensus:0.2.0")

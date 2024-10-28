@@ -1,0 +1,6 @@
+Description: FastTree infers approximately-maximum-likelihood phylogenetic trees from alignments of nucleotide or protein sequences. FastTree can handle alignments with up to a million of sequences in a reasonable amount of time and memory. For large alignments, FastTree is 100-1,000 times faster than PhyML 3.0 or RAxML 7.
+Home Page: http://www.microbesonline.org/fasttree/
+Programs: fasttree,FastTree,FastTreeMP
+
+version("2.1.11", uri="docker://quay.io/biocontainers/fasttree:2.1.11--hec16e2b_1")
+version("2.1.10", uri="docker://quay.io/biocontainers/fasttree:2.1.10--h779adbc_5")

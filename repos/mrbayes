@@ -1,0 +1,5 @@
+Description: MrBayes is a program for Bayesian inference and model choice across a wide range of phylogenetic and evolutionary models. MrBayes uses Markov chain Monte Carlo (MCMC) methods to estimate the posterior distribution of model parameters.
+Home Page: http://mrbayes.net
+Programs: mb,mb-mpi,mpirun,mpiexec
+
+version("3.2.7", uri="docker://quay.io/biocontainers/mrbayes:3.2.7--h19cf415_2")

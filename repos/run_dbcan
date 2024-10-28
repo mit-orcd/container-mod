@@ -1,0 +1,6 @@
+Description: Run-dbcan is a standalone tool of http://bcb.unl.edu/dbCAN2/
+Home Page: https://github.com/linnabrown/run_dbcan
+Programs: run_dbcan
+
+version("3.0.6", uri="")
+version("3.0.2", uri="")

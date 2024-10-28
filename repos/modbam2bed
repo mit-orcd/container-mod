@@ -1,0 +1,5 @@
+Description: Modbam2bed is a program to aggregate modified base counts stored in a modified-base BAM file to a bedMethyl file.
+Home Page: https://github.com/epi2me-labs/modbam2bed
+Programs: modbam2bed
+
+version("0.9.1", uri="docker://zeunas/modbam2bed:0.9.1")

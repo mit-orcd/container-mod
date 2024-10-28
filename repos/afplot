@@ -1,0 +1,5 @@
+Description: Afplot is a tool to plot allele frequencies in VCF files.
+Home Page: https://github.com/sndrtj/afplot
+Programs: afplot
+
+version("0.2.1", uri="docker://quay.io/biocontainers/afplot:0.2.1--py36h24bf2e0_1")

@@ -1,0 +1,5 @@
+Description: Rmats2sashimiplot produces a sashimiplot visualization of rMATS output.
+Home Page: https://github.com/Xinglab/rmats2sashimiplot
+Programs: rmats2sashimiplot
+
+version("2.0.4", uri="docker://quay.io/biocontainers/rmats2sashimiplot:2.0.4--py37he4bd417_2")

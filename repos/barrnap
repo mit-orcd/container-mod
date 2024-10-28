@@ -1,0 +1,5 @@
+Description: Barrnap: BAsic Rapid Ribosomal RNA Predictor
+Home Page: https://github.com/tseemann/barrnap
+Programs: barrnap
+
+version("0.9.4", uri="docker://quay.io/biocontainers/barrnap:0.9--hdfd78af_4")

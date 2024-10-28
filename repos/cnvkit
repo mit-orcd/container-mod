@@ -1,0 +1,5 @@
+Description: CNVkit is a command-line toolkit and Python library for detecting copy number variants and alterations genome-wide from high-throughput sequencing.
+Home Page: https://github.com/etal/cnvkit
+Programs: cnvkit.py,cnv_annotate.py,cnv_expression_correlate.py,cnv_updater.py
+
+version("py", uri="docker://quay.io/biocontainers/cnvkit:0.9.9--pyhdfd78af_0")

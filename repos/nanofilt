@@ -1,0 +1,5 @@
+Description: Nanofilt is a tool for filtering and trimming of Oxford Nanopore Sequencing data.
+Home Page: https://github.com/wdecoster/nanofilt
+Programs: NanoFilt
+
+version("2.8.0", uri="docker://quay.io/biocontainers/nanofilt:2.8.0--py_0")

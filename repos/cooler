@@ -1,0 +1,5 @@
+Description: Cooler is a support library for a sparse, compressed, binary persistent storage format, also called cooler, used to store genomic interaction data, such as Hi-C contact matrices.
+Home Page: https://github.com/open2c/cooler
+Programs: cooler,python,python3
+
+version("0.8.11", uri="docker://quay.io/biocontainers/cooler:0.8.11--pyh5e36f6f_1")

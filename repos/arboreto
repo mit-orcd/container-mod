@@ -1,0 +1,5 @@
+Description: Arboreto is a package for scalable gene regulatory network inference using tree-based ensemble regressors.
+Home Page: https://github.com/tmoerman/arboreto
+Programs: easy_install,f2py,f2py3,idle3,pip,pip3,pydoc,pydoc3,python,python3,python3-config,python3.9,python3.9-config,wheel
+
+version("py", uri="docker://quay.io/biocontainers/arboreto:0.1.6--pyh3252c3a_0")

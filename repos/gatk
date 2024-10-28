@@ -1,0 +1,5 @@
+Description: GATK (Genome Analysis Toolkit) is a collection of command-line tools for analyzing high-throughput sequencing data with a primary focus on variant discovery.
+Home Page: https://www.broadinstitute.org/gatk/
+Programs: gatk3
+
+version("3.8", uri="docker://quay.io/biocontainers/gatk:3.8--hdfd78af_11")

@@ -1,0 +1,5 @@
+Description: Parsnp is used to align the core genome of hundreds to thousands of bacterial genomes within a few minutes to few hours.
+Home Page: https://github.com/marbl/parsnp
+Programs: parsnp
+
+version("1.6.2", uri="docker://quay.io/biocontainers/parsnp:1.6.2--hd03093a_1")

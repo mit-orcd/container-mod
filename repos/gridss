@@ -1,0 +1,5 @@
+Description: Gridss is a module software suite containing tools useful for the detection of genomic rearrangements.
+Home Page: https://github.com/PapenfussLab/gridss
+Programs: R,Rscript,gridss,gridss_annotate_vcf_kraken2,gridss_annotate_vcf_repeatmasker,gridss_extract_overlapping_fragments,gridss_somatic_filter,gridsstools,virusbreakend,virusbreakend-build
+
+version("2.13.2", uri="docker://gridss/gridss:2.13.2")

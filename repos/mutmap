@@ -1,0 +1,5 @@
+Description: MutMap is a powerful and efficient method to identify agronomically important loci in crop plants.
+Home Page: https://github.com/YuSugihara/MutMap#What-is-MutMap
+Programs: mutmap,mutplot
+
+version("2.3.3", uri="docker://quay.io/biocontainers/mutmap:2.3.3--pyhdfd78af_0")

@@ -1,0 +1,5 @@
+Description: Bamsurgeon are tools for adding mutations to .bam files, used for testing mutation callers.
+Home Page: https://github.com/adamewing/bamsurgeon
+Programs: addindel.py,addsnv.py,addsv.py
+
+version("1.2", uri="docker://lethalfang/bamsurgeon:1.2")

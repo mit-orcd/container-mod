@@ -1,0 +1,5 @@
+Description: Souporcell is a method for clustering mixed-genotype scRNAseq experiments by individual.
+Home Page: https://github.com/wheaton5/souporcell
+Programs: check_modules.py,compile_stan_model.py,consensus.py,renamer.py,retag.py,shared_samples.py,souporcell.py,souporcell_pipeline.py
+
+version("2.0", uri="shub://wheaton5/souporcell")

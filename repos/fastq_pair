@@ -1,0 +1,5 @@
+Description: Fastq_pair is used to match up paired end fastq files quickly and efficiently.
+Home Page: https://github.com/linsalrob/fastq-pair
+Programs: fastq_pair
+
+version("1.0", uri="docker://quay.io/biocontainers/fastq_pair:1.0--h87f3376_3")

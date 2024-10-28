@@ -1,0 +1,5 @@
+Description: Trnascan-se is a convenient, ready-for-use means to identify tRNA genes in one or more query sequences.
+Home Page: http://lowelab.ucsc.edu/tRNAscan-SE/
+Programs: tRNAscan-SE
+
+version("2.0.9", uri="docker://quay.io/biocontainers/trnascan-se:2.0.9--pl5262h779adbc_1")

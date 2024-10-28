@@ -1,0 +1,5 @@
+Description: Prinseq is a tool that generates summary statistics of sequence and quality data and that is used to filter, reformat and trim next-generation sequence data.
+Home Page: http://prinseq.sourceforge.net
+Programs: prinseq-graphs-noPCA.pl,prinseq-graphs.pl,prinseq-lite.pl
+
+version("0.20.4", uri="")

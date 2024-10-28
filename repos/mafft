@@ -1,0 +1,6 @@
+Description: MAFFT is a multiple alignment program for amino acid or nucleotide sequences.
+Home Page: https://mafft.cbrc.jp/alignment/software/
+Programs: einsi,fftns,fftnsi,ginsi,linsi,mafft,mafft-distance,mafft-einsi,mafft-fftns,mafft-fftnsi,mafft-ginsi,mafft-homologs.rb,mafft-linsi,mafft-nwns,mafft-nwnsi,mafft-profile,mafft-qinsi,mafft-sparsecore.rb,mafft-xinsi,nwns,nwnsi
+
+version("7.490", uri="docker://quay.io/biocontainers/mafft:7.490--h779adbc_0")
+version("7.475", uri="docker://quay.io/biocontainers/mafft:7.475--h779adbc_1")

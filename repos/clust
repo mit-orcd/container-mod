@@ -1,0 +1,5 @@
+Description: Clust is a fully automated method for identification of clusters (groups) of genes that are consistently co-expressed (well-correlated) in one or more heterogeneous datasets from one or multiple species.
+Home Page: https://github.com/baselabujamous/clust
+Programs: clust
+
+version("1.17.0", uri="docker://quay.io/biocontainers/clust:1.17.0--pyhfa5458b_0")

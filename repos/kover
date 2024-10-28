@@ -1,0 +1,5 @@
+Description: Kover is an out-of-core implementation of rule-based machine learning algorithms that has been tailored for genomic biomarker discovery.
+Home Page: https://github.com/aldro61/kover
+Programs: kover
+
+version("2.0.6", uri="docker://aldro61/kover:release-2.0.6")

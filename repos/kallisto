@@ -1,0 +1,6 @@
+Description: Kallisto is a program for quantifying abundances of transcripts from bulk and single-cell RNA-Seq data, or more generally of target sequences using high-throughput sequencing reads.
+Home Page: https://pachterlab.github.io/kallisto/
+Programs: kallisto
+
+version("0.48.0", uri="docker://quay.io/biocontainers/kallisto:0.48.0--h0d531b0_1")
+version("0.46.2", uri="docker://quay.io/biocontainers/kallisto:0.46.2--h60f4f9f_2")

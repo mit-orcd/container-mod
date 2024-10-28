@@ -1,0 +1,5 @@
+Description: Pangenome-based Phylogenomic Analysis (PanPhlAn) is a strain-level metagenomic profiling tool for identifying the gene composition and in-vivo transcriptional activity of individual strains in metagenomic samples.
+Home Page: http://segatalab.cibio.unitn.it/tools/panphlan/
+Programs: panphlan_download_pangenome.py,panphlan_map.py,panphlan_profiling.py
+
+version("3.1", uri="")

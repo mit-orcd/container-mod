@@ -1,0 +1,5 @@
+Description: Fwdpy11 is a Python package for forward-time population genetic simulation.
+Home Page: https://github.com/molpopgen/fwdpy11
+Programs: python3,python
+
+version("0.18.1", uri="")

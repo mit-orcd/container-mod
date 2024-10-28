@@ -1,0 +1,5 @@
+Description: ModelTest-NG is a tool for selecting the best-fit model of evolution for DNA and protein alignments.
+Home Page: https://github.com/ddarriba/modeltest
+Programs: modeltest-ng,modeltest-ng-mpi
+
+version("0.1.7", uri="docker://quay.io/biocontainers/modeltest-ng:0.1.7--h5c6ebe3_0")

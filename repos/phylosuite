@@ -1,0 +1,5 @@
+Description: PhyloSuite is an integrated and scalable desktop platform for streamlined molecular sequence data management and evolutionary phylogenetics studies.
+Home Page: Home page:   https://github.com/dongzhang0725/PhyloSuite
+Programs: PhyloSuite.sh
+
+version("1.2.3", uri="docker://dongzhang0725/phylosuite:1.2.3rc4")

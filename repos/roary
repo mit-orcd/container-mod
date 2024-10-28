@@ -1,0 +1,5 @@
+Description: Roary is a high speed stand alone pan genome pipeline, which takes annotated assemblies in GFF3 format (produced by Prokka) and calculates the pan genome.
+Home Page: https://github.com/sanger-pathogens/Roary
+Programs: roary
+
+version("3.13.0", uri="docker://staphb/roary:3.13.0")

@@ -1,0 +1,6 @@
+Description: Dsuite is a fast C++ implementation, allowing genome scale calculations of the D and f4-ratio statistics across all combinations of tens or hundreds of populations or species directly from a variant call format (VCF) file.
+Home Page: https://github.com/millanek/Dsuite
+Programs: Dsuite,dtools.py,DtriosParallel
+
+version("0.5.r44", uri="")
+version("0.4.r43", uri="")

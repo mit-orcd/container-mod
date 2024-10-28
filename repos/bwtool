@@ -1,0 +1,5 @@
+Description: bwtool: a tool for bigWig files.
+Home Page: https://github.com/CRG-Barcelona/bwtool
+Programs: bwtool
+
+version("1.0", uri="docker://quay.io/arnstrm/bwtool")

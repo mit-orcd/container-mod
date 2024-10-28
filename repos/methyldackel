@@ -1,0 +1,5 @@
+Description: Methyldackel is a (mostly) universal methylation extractor for BS-seq experiments.
+Home Page: https://github.com/dpryan79/MethylDackel
+Programs: MethylDackel
+
+version("0.6.1", uri="docker://quay.io/biocontainers/methyldackel:0.6.1--h6233b05_2")

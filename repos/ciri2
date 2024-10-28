@@ -1,0 +1,5 @@
+Description: CIRI2: Circular RNA identification based on multiple seed matching
+Home Page: https://sourceforge.net/projects/ciri/files/CIRI2/
+Programs: CIRI2.pl
+
+version("2.0.6", uri="")

@@ -1,0 +1,5 @@
+Description: Seqyclean is used to pre-process NGS data in order to prepare for downstream analysis.
+Home Page: https://github.com/ibest/seqyclean
+Programs: seqyclean
+
+version("1.10.09", uri="docker://staphb/seqyclean:1.10.09")

@@ -1,0 +1,6 @@
+Description: Clair3 is a germline small variant caller for long-reads.
+Home Page: https://github.com/HKU-BAL/Clair3
+Programs: run_clair3.sh
+
+version("r12", uri="docker://hkubal/clair3:v0.1-r12")
+version("r11", uri="docker://hkubal/clair3:v0.1-r11")

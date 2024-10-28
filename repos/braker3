@@ -1,0 +1,6 @@
+Description: Braker3 is BRAKER3 enables the usage of RNA-seq and protein data in a fully automated pipeline to train and predict highly reliable genes with GeneMark-ETP and AUGUSTUS. The result of the pipeline is the combined gene set of both gene prediction tools, which only contains genes with very high support from extrinsic evidence.
+Home Page: https://github.com/Gaius-Augustus/BRAKER
+Programs: braker.pl
+
+version("v3.0.7.5", uri="docker://teambraker/braker3:v3.0.7.5")
+version("3.0.3", uri="docker://quay.io/biocontainers/braker3:3.0.3--hdfd78af_0")

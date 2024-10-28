@@ -1,0 +1,5 @@
+Description: BayeScan aims at identifying candidate loci under natural selection from genetic data, using differences in allele frequencies between populations. 
+Home Page: BayeScan aims at identifying candidate loci under natural selection from genetic data, using differences in allele frequencies between populations.
+Programs: bayescan
+
+version("2.1", uri="docker://gfanz/bayescan:2.1-916fec8d")

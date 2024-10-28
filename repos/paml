@@ -1,0 +1,5 @@
+Description: Paml is a  package of programs for phylogenetic analyses of DNA or protein sequences using maximum likelihood.
+Home Page: http://abacus.gene.ucl.ac.uk/software/paml.html
+Programs: baseml,basemlg,chi2,codeml,evolver,infinitesites,mcmctree,pamp,yn00
+
+version("4.9", uri="docker://quay.io/biocontainers/paml:4.9--h779adbc_6")

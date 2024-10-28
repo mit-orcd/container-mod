@@ -1,0 +1,5 @@
+Description: MicrobeDMM is a suite of programs used for empirical Bayes fitting of DMM models.
+Home Page: https://code.google.com/archive/p/microbedmm
+Programs: DirichletMixtureGHPFit
+
+version("1.0", uri="")

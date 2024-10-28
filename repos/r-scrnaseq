@@ -1,0 +1,12 @@
+Description: RStudio is an integrated development environment (IDE) for the R statistical computation and graphics system.
+Home Page: https://www.rstudio.com/products/rstudio/
+https://www.r-project.org/
+Programs: R,Rscript
+
+version("rstudio", uri="")
+version("rstudio", uri="")
+version("rstudio", uri="")
+version("rstudio", uri="")
+version("4.2.0", uri="")
+version("rstudio", uri="")
+version("1", uri="")

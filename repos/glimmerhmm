@@ -1,0 +1,5 @@
+Description: Glimmerhmm is a new gene finder based on a Generalized Hidden Markov Model.
+Home Page: https://ccb.jhu.edu/software/glimmerhmm/
+Programs: glimmerhmm,glimmhmm.pl,trainGlimmerHMM
+
+version("3.0.4", uri="docker://quay.io/biocontainers/glimmerhmm:3.0.4--pl526hf484d3e_3")

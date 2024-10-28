@@ -1,0 +1,5 @@
+Description: Tetranscripts is a package for including transposable elements in differential enrichment analysis of sequencing datasets.
+Home Page: https://github.com/mhammell-laboratory/TEtranscripts
+Programs: TEtranscripts,TEcount
+
+version("2.2.1", uri="docker://quay.io/biocontainers/tetranscripts:2.2.1--pyh864c0ab_0")

@@ -1,0 +1,5 @@
+Description: Practical Haplotype Graph (PHG) is a general, graph-based, computational framework that can be used with a variety of skim sequencing methods to infer high-density genotypes directly from low-coverage sequence.
+Home Page: https://www.maizegenetics.net/phg
+Programs: CreateConsensi.sh,CreateHaplotypes.sh,CreateReferenceIntervals.sh,CreateSmallDataSet.sh,CreateValidIntervalsFile.sh,IndexPangenome.sh,LoadAssemblyAnchors.sh,LoadGenomeIntervals.sh,ParallelAssemblyAnchorsLoad.sh,RunLiquibaseUpdates.sh,CreateHaplotypesFromBAM.groovy,CreateHaplotypesFromFastq.groovy,CreateHaplotypesFromGVCF.groovy
+
+version("1.0", uri="docker://maizegenetics/phg:1.0")

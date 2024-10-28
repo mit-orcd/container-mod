@@ -1,0 +1,5 @@
+Description: AlignStats produces various alignment, whole genome coverage, and capture coverage metrics for sequence alignment files in SAM, BAM, and CRAM format.
+Home Page: https://github.com/jfarek/alignstats
+Programs: alignstats
+
+version("0.9.1", uri="docker://quay.io/biocontainers/alignstats:0.9.1--hec16e2b_2")

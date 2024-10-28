@@ -1,0 +1,5 @@
+Description: Pomoxis comprises a set of basic bioinformatic tools tailored to nanopore sequencing.
+Home Page: https://github.com/nanoporetech/pomoxis
+Programs: assess_assembly,catalogue_errors,common_errors_from_bam,coverage_from_bam,coverage_from_fastx,fast_convert,find_indels,intersect_assembly_errors,long_fastx,mini_align,mini_assemble,pomoxis_path,qscores_from_summary,ref_seqs_from_bam,reverse_bed,split_fastx,stats_from_bam,subsample_bam,summary_from_stats,tag_bam,trim_alignments
+
+version("0.3.9", uri="docker://zeunas/pomoxis:v0.3.9")

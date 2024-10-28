@@ -1,0 +1,5 @@
+Description: The University of Manchester GFFUtils package provides a small set of utility programs for working with GFF and GTF files.
+Home Page: https://github.com/fls-bioinformatics-core/GFFUtils
+Programs: gff_cleaner,gff_annotation_extractor,gtf_extract,gtf2bed
+
+version("0.12.0", uri="manchester-gffutils:0.12.0.def")

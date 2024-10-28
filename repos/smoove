@@ -1,0 +1,5 @@
+Description: Smoove simplifies and speeds calling and genotyping SVs for short reads.
+Home Page: https://github.com/brentp/smoove
+Programs: smoove
+
+version("0.2.7", uri="docker://brentp/smoove:v0.2.7")

@@ -1,0 +1,5 @@
+Description: Mirtop is a ommand line tool to annotate with a standard naming miRNAs e isomiRs.
+Home Page: https://github.com/miRTop/mirtop
+Programs: mirtop
+
+version("0.4.25", uri="docker://quay.io/biocontainers/mirtop:0.4.25--pyh5e36f6f_0")

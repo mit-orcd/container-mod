@@ -1,0 +1,5 @@
+Description: pblat is parallelized blat with multi-threads support.
+Home Page: https://github.com/icebert/pblat
+Programs: pblat
+
+version("2.5.1", uri="docker://quay.io/biocontainers/pblat:2.5.1--h0e0aaa8_0")

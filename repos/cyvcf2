@@ -1,0 +1,5 @@
+Description: Cyvcf2 is a cython wrapper around htslib built for fast parsing of Variant Call Format (VCF) files.
+Home Page: https://github.com/brentp/cyvcf2
+Programs: cyvcf2,python,python3
+
+version("0.30.14", uri="docker://quay.io/biocontainers/cyvcf2:0.30.14--py37h31aceb7_0")

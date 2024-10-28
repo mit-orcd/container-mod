@@ -1,0 +1,6 @@
+Description: Dbg2olc is used for efficient assembly of large genomes using long erroneous reads of the third generation sequencing technologies.
+Home Page: https://github.com/yechengxi/DBG2OLC
+Programs: AssemblyStatistics,DBG2OLC,RunSparcConsensus.txt,SelectLongestReads,SeqIO.py,Sparc,SparseAssembler,split_and_run_sparc.sh,split_and_run_sparc.sh.bak,split_reads_by_backbone.py
+
+version("20200723", uri="docker://quay.io/biocontainers/dbg2olc:20200723--hd03093a_1")
+version("20180222", uri="docker://quay.io/biocontainers/dbg2olc:20180222--h9a82719_2")

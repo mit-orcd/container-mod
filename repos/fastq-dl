@@ -1,0 +1,5 @@
+Description: fastq-dl takes an ENA/SRA accession (Study, Sample, Experiment, or Run) and queries ENA (via Data Warehouse API) to determine the associated metadata.
+Home Page: https://github.com/rpetit3/fastq-dl
+Programs: fastq-dl
+
+version("2.0.4", uri="docker://arnstrm2/fastq-dl:2.0.4")

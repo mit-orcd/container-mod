@@ -1,0 +1,5 @@
+Description: Pandaseq is a program to align Illumina reads, optionally with PCR primers embedded in the sequence, and reconstruct an overlapping sequence.
+Home Page: https://github.com/neufeld/pandaseq
+Programs: pandaseq
+
+version("2.11", uri="docker://pipecraft/pandaseq:2.11")

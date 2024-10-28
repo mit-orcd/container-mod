@@ -1,0 +1,5 @@
+Description: Dropest is a pipeline for initial analysis of droplet-based single-cell RNA-seq data.
+Home Page: https://github.com/kharchenkolab/dropEst
+Programs: dropest,droptag,dropReport.Rsc,R,Rscript
+
+version("0.8.6", uri="")

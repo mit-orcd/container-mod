@@ -1,0 +1,5 @@
+Description: Pbccs is a tool to generate Highly Accurate Single-Molecule Consensus Reads (HiFi Reads).
+Home Page: https://github.com/PacificBiosciences/ccs
+Programs: ccs
+
+version("6.4.0", uri="docker://quay.io/biocontainers/pbccs:6.4.0--h9ee0642_0")

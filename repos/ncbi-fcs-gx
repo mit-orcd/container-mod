@@ -1,0 +1,5 @@
+Description: FCS-GX detects contamination from foreign organisms in genome sequences. This tool is one module within the NCBI Foreign Contamination Screening (FCS) program suite.
+Home Page: https://github.com/ncbi/fcs
+Programs: gx,run_gx.py,action_report.py,classify_taxonomy.py,sync_files.py
+
+version("0.5.4", uri="docker://quay.io/biocontainers/ncbi-fcs-gx:0.5.4--h4ac6f70_1")

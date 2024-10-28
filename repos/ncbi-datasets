@@ -1,0 +1,6 @@
+Description:  NCBI Datasets is a new resource that lets you easily gather data from across NCBI databases.
+Home Page: https://github.com/ncbi/datasets
+Programs: datasets,dataformat
+
+version("16.10.3", uri="docker://staphb/ncbi-datasets:16.10.3")
+version("14.3.0", uri="docker://staphb/ncbi-datasets:14.3.0")

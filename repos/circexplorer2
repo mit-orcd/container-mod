@@ -1,0 +1,5 @@
+Description: CIRCexplorer2 is a comprehensive and integrative circular RNA analysis toolset. It is the successor of CIRCexplorer with plenty of new features to facilitate circular RNA identification and characterization.
+Home Page: https://github.com/YangLab/CIRCexplorer2
+Programs: CIRCexplorer2,fast_circ.py,fetch_ucsc.py
+
+version("2.3.8", uri="docker://quay.io/biocontainers/circexplorer2:2.3.8--pyh5e36f6f_2")

@@ -1,0 +1,5 @@
+Description: KmerGenie estimates the best k-mer length for genome de novo assembly.
+Home Page: http://kmergenie.bx.psu.edu
+Programs: kmergenie
+
+version("1.7051", uri="docker://quay.io/biocontainers/kmergenie:1.7051--py310r41hc8f18ef_3")

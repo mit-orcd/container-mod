@@ -1,0 +1,5 @@
+Description: Wtdbg is a de novo sequence assembler for long noisy reads produced by PacBio or Oxford Nanopore Technologies (ONT).
+Home Page: https://github.com/ruanjue/wtdbg2
+Programs: wtdbg-cns,wtdbg2,wtpoa-cns
+
+version("2.5", uri="docker://quay.io/biocontainers/wtdbg:2.5--h2e03b76_1")
