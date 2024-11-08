@@ -10,7 +10,7 @@
 # installed on your system.
 # 
 # Usage: Run "container-mod --help" for instructions.
-
+set -x
 # Prerequisites: Ensure Singularity or Apptainer is available
 # Load Singularity if it is not already loaded; consider adding support for Apptainer.
 if ! command -v singularity > /dev/null 2>&1; then
@@ -75,6 +75,7 @@ ${bold Options:}
   -f, --force             Force overwrite of existing images and module files (default behavior is to skip).
   -m, --moduledir DIR     Specify the directory for storing generated module files.
   -u, --update            Update the app file in the repos directory with the new version (default is no).
+  -p, --personal          Create personal module files in the privatemodules directory (default is no).
   -h, --help              Display this help message and exit.
 
 ${bold Examples:}
@@ -115,33 +116,50 @@ pull() {
     local version="$(uri2ver "$uri")"  # Extract version from URI
     local app_file="repos/$app"  # Path to the app's file
 
+    # Path to the app's file in the repos folder
+    if [[ $personal -eq 1 ]]; then
+        local image_outdir="$PRIVATE_IMAGEDIR"
+    else
+        local image_outdir="$IMG_OUTDIR"
+    fi
+
     # Check if the image file already exists
-    if [ -f "${IMG_OUTDIR}/${imgname}" ]; then
-        echo "Image already exists: ${IMG_OUTDIR}/${imgname}"
+    if [ -f "${image_outdir}/${imgname}" ]; then
+        echo "Image already exists: ${image_outdir}/${imgname}"
         return
     fi
 
     echo "Pulling image: $uri"
-    mkdir -p "${IMG_OUTDIR}"  # Create the output directory if it doesn't exist
-    singularity pull "${IMG_OUTDIR}/${imgname}" "$uri"  # Pull the Singularity image
+    mkdir -p "${image_outdir}"  # Create the output directory if it doesn't exist
+    singularity pull "${image_outdir}/${imgname}" "$uri"  # Pull the Singularity image
 
-    # Update the app file if the update option is enabled
     if [[ $update_repo -eq 1 ]]; then
-        if [[ -f "$app_file" ]]; then
-            # Create a temporary file for the updated app file
-            {
-                # Output the existing content before version lines
-                grep -v '^version(' "$app_file"
+        if [[ ! -f "$app_file" ]]; then
+            echo "Error: App file '$app_file' not found. Please create an app file in repo first."
+            return 1
+        fi
 
-                # Prepend the new version entry just above existing version entries
-                echo "version(\"$version\", uri=\"$uri\")"
+        # Create a temporary file for the updated app file
+        {
+            grep -v '^version(' "$app_file"
+            echo "version(\"$version\", uri=\"$uri\")"
+            grep '^version(' "$app_file"
+        } > "$app_file.tmp"
 
-                # Output existing version lines
-                grep '^version(' "$app_file"
-            } > "$app_file.tmp" && mv "$app_file.tmp" "$app_file"
+        # Check if .tmp file was created
+        if [ -f "$app_file.tmp" ]; then
+            echo "Temporary file created successfully: $app_file.tmp"
+        else
+            echo "Error: Temporary file creation failed!"
+            return 1
+        fi
+
+        # Try renaming the .tmp file and check for success
+        if mv "$app_file.tmp" "$app_file"; then
             echo "Updated app file: $app_file with new version $version"
         else
-            echo "Error: App file '$app_file' not found. Cannot update version."
+            echo "Error: Failed to rename $app_file.tmp to $app_file"
+            return 1
         fi
     fi
 }
@@ -175,7 +193,15 @@ module() {
     # and the function will exit with a non-zero status.
 
     local URI="$1"
-    local OUTFILE="${MOD_OUTDIR}/$(uri2modname "$URI")"
+    
+    # Testing whether we are generating personal or public modules
+    if [[ $personal -eq 1 ]]; then
+        local module_outdir="$PRIVATE_MODULEDIR"
+    else
+        local module_outdir="$MOD_OUTDIR"
+    fi
+
+    local OUTFILE="${module_outdir}/$(uri2modname "$URI")"
     
     # If modulefile already exists, skip it (unless --force is in effect)
     if [[ -f "$OUTFILE" && $force -eq 0 ]]; then
@@ -246,8 +272,17 @@ exec() {
         exit 1
     fi
 
+    # Testing whether we are generating personal or public apps
+    if [[ $personal -eq 1 ]]; then
+        local exec_outdir="$PRIVATE_EXECUTABLE_DIR"
+        local image_outdir="$PRIVATE_IMAGEDIR"
+    else
+        local exec_outdir="$EXEC_OUTDIR"
+        local image_outdir="$IMG_OUTDIR"
+    fi
+
     # Define the output directory
-    local AppTool_dir="$EXEC_OUTDIR/$app/$ver/bin"
+    local AppTool_dir="$exec_outdir/$app/$ver/bin"
 
     # If AppTool_dir exists and force is not set, skip executable generation
     if [[ -d "$AppTool_dir" && $force -eq 0 ]]; then
@@ -277,7 +312,7 @@ exec() {
         # Iterate over the exec_array and process each executable
         for exec in "${exec_array[@]}"; do
             # Check if the executable exists
-            confirm_exec_exists "$exec" || {
+            confirm_exec_exists "$exec" "$image_outdir/$image"|| {
                 echo "Warning: Executable $exec does not exist."
                 continue
             }
@@ -354,6 +389,8 @@ uri2app() {
 		app="cellranger"
 	elif [[ "$uri" == */nvidia/clara/clara-parabricks:* ]]; then
 		app="parabricks"
+        elif [[ "$uri" == */nvidia/devtools/nsight-systems-cli:* ]]; then
+                app="nsightsys"
 	else
 		# And all "normal" apps will fall here
 		app="${uri##*/}" 	# Drop all until just name:version
@@ -483,7 +520,14 @@ generate_new_modulefile() {
     #   generation.
 
     local uri="$1"
-    local executable_dir=${PUBLIC_EXECUTABLE_DIR}
+    
+    # Testing whether we are generating personal or public apps
+    if [[ $personal -eq 1 ]]; then
+        local exec_outdir="$PRIVATE_EXECUTABLE_DIR"
+    else
+        local exec_outdir="$PUBLIC_EXECUTABLE_DIR"
+    fi
+
     local image=$(uri2imgname "$uri")
     local app=$(uri2app "$uri")
     local ver=$(uri2ver "$uri")
@@ -536,7 +580,7 @@ generate_new_modulefile() {
                                    -e "s|\${IMAGE}|$image|g" \
                                    -e "s|\${URI}|$uri|g" \
                                    -e "s|\${VERSION}|$ver|g" \
-                                   -e "s|\${EXECUTABLE_DIR}|$executable_dir|g" \
+                                   -e "s|\${EXECUTABLE_DIR}|$exec_outdir|g" \
                                    -e "s|\${APP}|$app|g" \
                                    "$template_file")
 
@@ -603,11 +647,26 @@ parse_home_description() {
     #   1 if the application file does not exist or the fields are missing.
 
     # Path to the app's file in the repos folder
-    local app_file="repos/$app"
+    if [[ $personal -eq 1 ]]; then
+        local app_file="$HOME/container-apps/repos/$app"
+    else
+        local app_file="$AppInfo_DIR/$app"
+    fi
 
-    # Check if the app file exists
-    if [[ ! -f "$app_file" ]]; then
-        echo "Error: Application file '$app_file' not found."
+    # It will search the central repo first, then the local copy in the user's $HOME
+    APP_INFO_PATH=("$HOME/container-apps/repos" "$AppInfo_DIR")
+    for path in "${APP_INFO_PATH[@]}"; do
+        if [[ -f "$path/$app" ]]; then
+            app_file="$path/$app"
+            break
+        fi
+    done
+
+    if [[ -n "$app_file" ]]; then
+        echo "App file found: $app_file"
+    else
+        echo "App file not found in any of the directories."
+        echo "Please create an app file in the '$HOME/container-apps/repos' directory."
         description=""
         homepage=""
         return 1
@@ -641,7 +700,20 @@ parse_exec() {
     #   1 if the application file does not exist or if the 'Programs' field is empty.
 
     # Path to the app's file in the repos folder
-    local app_file="repos/$app"
+    if [[ $personal -eq 1 ]]; then
+        local app_file="$HOME/container-apps/repos/$app"
+    else
+        local app_file="$AppInfo_DIR/$app"
+    fi
+
+    # It will search the central repo first, then the local copy in the user's $HOME
+    APP_INFO_PATH=("$HOME/container-apps/repos" "$AppInfo_DIR")
+    for path in "${APP_INFO_PATH[@]}"; do
+        if [[ -f "$path/$app" ]]; then
+            app_file="$path/$app"
+            break
+        fi
+    done
 
     # Check if the app file exists
     if [[ ! -f "$app_file" ]]; then
@@ -686,7 +758,8 @@ confirm_exec_exists() {
     #   1 if the executable is not found.
 
     local exec=$1
-    if singularity exec "$IMG_OUTDIR/$image" which "$exec" &> /dev/null; then
+    local image=$2
+    if singularity exec "$image" which "$exec" &> /dev/null; then
         echo "Executable '$exec' is installed in the container."
     else
         echo "Executable '$exec' is NOT installed in the container."
@@ -722,6 +795,12 @@ generate_executable() {
     local image=$3
     local command=$4
     local executable="$AppTool_dir/$command"
+    # Testing whether we are generating personal or public apps
+    if [[ $personal -eq 1 ]]; then
+        local image_dir="$PRIVATE_IMAGEDIR"
+    else
+        local image_dir="$PUBLIC_IMAGEDIR"
+    fi
 
     # Ensure necessary variables are set
     if [[ -z "$app" || -z "$version" || -z "$image" || -z "$command" ]]; then
@@ -746,7 +825,7 @@ generate_executable() {
 VER="$version"
 PKG="$app"
 PROGRAM="$command"
-IMAGE_DIR="$PUBLIC_IMAGEDIR"
+IMAGE_DIR="$image_dir"
 IMAGE="$image"
 
 # Load Singularity if it is not already loaded
@@ -787,6 +866,7 @@ EOF
 OUTDIR_DEF="."  # Default output directory
 MOD_EXISTING_DIR="modulefiles"  # Directory to store ready-to-use modulefiles
 force=0 				# Overwrite modulefile and execs if they exists?
+personal=0 				# Create personal modulefiles into privatemodules
 # Ensure SUBCOMMAND is provided, else show help
 SUBCOMMAND="$1"
 if [[ -z "$SUBCOMMAND" ]]; then
@@ -817,6 +897,8 @@ while [[ -n "$1" ]]; do
         -h|--help)
             help_message
             graceful_exit ;;
+        -p|--personal)
+            personal=1 ;;
         --)
             shift
             break ;;  # Stop processing options at --
@@ -841,8 +923,12 @@ MOD_OUTDIR="${OUTDIR}/incomplete"       # Directory to store incomplete modulefi
 EXEC_OUTDIR="${OUTDIR}/executables"     # Directory to store executables
 TEMPLATE_DIR="templates"                # Directory to store template files
 SCRIPT_TOP_DIR="$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"
+AppInfo_DIR="${SCRIPT_TOP_DIR}/repos"   # Directory to store application info files
 PUBLIC_IMAGEDIR="/cluster/tufts/biocontainers/images"
+PRIVATE_MODULEDIR="$HOME/privatemodules"
+PRIVATE_IMAGEDIR="$HOME/container-apps/images"
 PUBLIC_EXECUTABLE_DIR="/cluster/tufts/biocontainers/tools"
+PRIVATE_EXECUTABLE_DIR="$HOME/container-apps/tools"
 #########################################
 
 # Restore positional parameters
@@ -861,6 +947,26 @@ handle_subcommand() {
         "$cmd" "$URI" || { echo "Error executing command '$cmd' for URI: $URI"; return 1; }
     done
 }
+
+# Copy the AppInfo_DIR to users home directory if does not exist
+if [[ $personal -eq 1 && ! -d "$HOME/container-apps/repos" ]]; then
+    mkdir -p "$HOME/container-apps/repos"
+    cp -r "$AppInfo_DIR" "$HOME/container-apps/"
+    echo "Copied $AppInfo_DIR to $HOME/container-apps"
+    echo "TODO: add your application info files to $HOME/container-apps/repos"
+fi
+
+# Create image output directory in users' home
+if [[ $personal -eq 1 && ! -d "$HOME/container-apps/images" ]]; then
+    mkdir -p "$HOME/container-apps/images"
+    echo "Created $HOME/container-apps/images"
+fi
+
+# Create executable output directory in users' home
+if [[ $personal -eq 1 && ! -d "$HOME/container-apps/tools" ]]; then
+    mkdir -p "$HOME/container-apps/tools"
+    echo "Created $HOME/container-apps/tools"
+fi
 
 # Subcommand switch
 case "$SUBCOMMAND" in

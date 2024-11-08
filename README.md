@@ -34,6 +34,7 @@ The script also supports options to specify output directories, force overwritin
     •	-f, --force: Force overwrite of existing module files, or executables. Default is to skip existing files.
     •	-m, --moduledir DIR: Specify the directory that stores module files that can be used as template. Defaults to modulefiles.
     •	-u, --update: If set, the repository app file will be updated with new version information.
+    •	-p, --personal: Create personal module files in the privatemodules directory (default is no).
     •	-h, --help: Display this help message and exit.
 
 ## Examples
@@ -73,3 +74,30 @@ $ container-mod pipe -f docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719
 ```
 $ container-mod pipe -u docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
 ```
+
+## Personal mode
+
+If regular users want to pull containers and create modules for personal usage, users can run it in personal mode by adding `-p` or `--personal`.
+This will create a folder named `container-apps` in users' `$HOME`. Within `container-apps`, there are three folders:
+
+    - 1. images: singularity images will be stored in this folder.
+    - 2. repos: The application information databases will be copied from the central copy to here. If users want to pull applicaitons that are missing in repos, they have to create one for these new applications.
+    - 3. tools: bash wrapper for the supported executables will be saved here.
+
+The modulefiles will be created in `$HOME/privatemodules`.
+
+### Example:
+
+```
+container-mod pipe -p docker://staphb/bowtie2:2.5.4
+```
+
+Once completes, users can load personal modules and run the application:
+
+```
+$ module load use.own
+$ module load bowtie2/2.5.4
+$ bowtie2 --help
+```
+
+

@@ -48,7 +48,7 @@ local version = "${VERSION}"
 -- TODO: check module conflicts (think older version, OpenMPI, etc)
 conflict(myModuleName())
 
-local modroot="${EXECUTABLE_DIR}/${APP}/" .. ${VERSION}
+local modroot="${EXECUTABLE_DIR}/${APP}/" .. "${VERSION}"
 prepend_path("PATH", modroot.."/bin", ":")
 
 -- Additional commands or environment variables, if any
