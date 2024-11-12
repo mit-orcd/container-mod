@@ -10,7 +10,7 @@
 # installed on your system.
 # 
 # Usage: Run "container-mod --help" for instructions.
-set -x
+
 # Prerequisites: Ensure Singularity or Apptainer is available
 # Load Singularity if it is not already loaded; consider adding support for Apptainer.
 if ! command -v singularity > /dev/null 2>&1; then
@@ -489,13 +489,28 @@ find_latest_modulefile() {
     local app="$1"
     local modulefile=""
 
-    # Check if there are any modulefiles for the app
-    if ls "$MOD_EXISTING_DIR/$app/"*.lua 1> /dev/null 2>&1; then
-        # Sort by last modified and get the latest
-        modulefile=$(ls -t "$MOD_EXISTING_DIR/$app/"*.lua | head -n 1)
+    # Testing whether we are generating personal or public apps
+    if [[ $personal -eq 1 ]]; then
+        local MOD_EXISTING_DIRS=("$HOME/privatemodules" "$MOD_EXISTING_DIR")
     else
-        warn -p "No previous modulefiles found for $app"
+        local MOD_EXISTING_DIRS=("$MOD_EXISTING_DIR")
     fi
+
+    # Loop through all directories and find all *.lua files
+    for dir in "${MOD_EXISTING_DIRS[@]}"; do
+    # Check if there are any *.lua files in this directory
+    if ls "$dir/$app/"*.lua 1> /dev/null 2>&1; then
+        # Find the most recent modulefile in this directory
+        latest_file=$(ls -t "$dir/$app/"*.lua | head -n 1)
+        
+        # If modulefile is empty or latest_file is more recent, update modulefile
+        if [[ -z "$modulefile" || "$latest_file" -nt "$modulefile" ]]; then
+            modulefile="$latest_file"
+        fi
+    else
+        warn -p "No previous modulefiles found for $app in $dir"
+    fi
+    done
 
     echo "$modulefile"
 }
@@ -618,6 +633,11 @@ repurpose_old_modulefile() {
         /^[[:blank:]]*local[[:blank:]]+version[[:blank:]]*=/ { $0 = "local version = \"" ver "\"" }
         /^[[:blank:]]*local[[:blank:]]+image[[:blank:]]*=/ { $0 = "local image = \"" image "\"" }
         /^[[:blank:]]*local[[:blank:]]+uri[[:blank:]]*=/ { $0 = "local uri = \"" uri "\"" }
+        # Modify modroot to replace the version part after .. with the version (ver)
+        /^[[:blank:]]*local[[:blank:]]+modroot[[:blank:]]*=/ {
+        # Match the modroot assignment and replace the version after ..
+        sub(/\.\. ".*"/, ".. \"" ver "\"")
+        }
         { print }
     ' < "$template")
 
@@ -925,10 +945,10 @@ TEMPLATE_DIR="templates"                # Directory to store template files
 SCRIPT_TOP_DIR="$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"
 AppInfo_DIR="${SCRIPT_TOP_DIR}/repos"   # Directory to store application info files
 PUBLIC_IMAGEDIR="/cluster/tufts/biocontainers/images"
-PRIVATE_MODULEDIR="$HOME/privatemodules"
-PRIVATE_IMAGEDIR="$HOME/container-apps/images"
+PRIVATE_MODULEDIR="~/privatemodules"
+PRIVATE_IMAGEDIR="~/container-apps/images"
 PUBLIC_EXECUTABLE_DIR="/cluster/tufts/biocontainers/tools"
-PRIVATE_EXECUTABLE_DIR="$HOME/container-apps/tools"
+PRIVATE_EXECUTABLE_DIR="~/container-apps/tools"
 #########################################
 
 # Restore positional parameters
