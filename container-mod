@@ -509,8 +509,6 @@ find_latest_modulefile() {
         if [[ -z "$modulefile" || "$latest_file" -nt "$modulefile" ]]; then
             modulefile="$latest_file"
         fi
-    else
-        warn -p "No previous modulefiles found for $app in $dir"
     fi
     done
 
