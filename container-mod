@@ -682,9 +682,7 @@ parse_home_description() {
         fi
     done
 
-    if [[ -n "$app_file" ]]; then
-        echo "App file found: $app_file"
-    else
+    if [[ -z "$app_file" ]]; then
         echo "App file not found in any of the directories."
         echo "Please create an app file in the '$HOME/container-apps/repos' directory."
         description=""
