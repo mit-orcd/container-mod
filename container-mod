@@ -119,8 +119,10 @@ pull() {
     # Path to the app's file in the repos folder
     if [[ $personal -eq 1 ]]; then
         local image_outdir="$PRIVATE_IMAGEDIR"
+        local app_file="$HOME/container-apps/repos/$app"
     else
         local image_outdir="$IMG_OUTDIR"
+        local app_file="$AppInfo_DIR/$app"
     fi
 
     # Check if the image file already exists
