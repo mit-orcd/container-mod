@@ -1,0 +1,6 @@
+Description: NVIDIA Nsight Systems is a system-wide performance analysis tool designed to visualize an application’s algorithms, identify the largest opportunities to optimize, and tune to scale efficiently across any quantity or size of CPUs and GPUs, from large servers to our smallest system on a chip (SoC).
+ather than nucleotide) identity, and then translates and annotates the match by providing the type (i.e., mutant, truncation, etc.)
+Home Page: https://catalog.ngc.nvidia.com/orgs/nvidia/teams/devtools/containers/nsight-systems-cli
+Programs: nsys
+
+
