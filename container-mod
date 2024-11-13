@@ -49,7 +49,7 @@ warn() {
 help_message() {
     scriptname="container-mod"
     cat <<-EOF
-    
+
 ${scriptname} v$VERSION - Container Module Generator
 
 It is a script to pull container images from public container registries, such as DockerHub, 
@@ -317,6 +317,33 @@ exec() {
         done
     fi
 }
+
+function boxify_text()
+{
+	#
+	# Usage: boxify_text AAAA [BBB ...]
+	#
+	# Output:
+	#	+------+
+	#	| AAAA |
+	#	| BBB  |
+	#	+------+
+	#
+	local msg=("$@")
+	local line longest width
+	for line in "${msg[@]}"; do
+		if [[ ${#line} -gt $width ]]; then
+			longest="$line"
+			width="${#line}"
+		fi
+	done
+	echo "+-${longest//?/-}-+"
+	for line in "${msg[@]}"; do
+		printf '| %s%*s%s |\n' "$(tput bold)" "-$width" "$line" "$(tput sgr0)"
+	done
+	echo "+-${longest//?/-}-+"
+}
+# end boxify_text
 
 uri2modname() {
 	# uri2modname "URI"
@@ -937,7 +964,7 @@ SCRIPT_TOP_DIR="$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"
 TEMPLATE_DIR="$SCRIPT_TOP_DIR/templates"                # Directory to store template files
 AppInfo_DIR="${SCRIPT_TOP_DIR}/repos"   # Directory to store application info files
 PUBLIC_IMAGEDIR="/cluster/tufts/biocontainers/images"
-PRIVATE_MODULEDIR="~/privatemodules"
+PRIVATE_MODULEDIR="$HOME/privatemodules"
 PRIVATE_IMAGEDIR="~/container-apps/images"
 PUBLIC_EXECUTABLE_DIR="/cluster/tufts/biocontainers/tools"
 PRIVATE_EXECUTABLE_DIR="~/container-apps/tools"
@@ -997,3 +1024,19 @@ case "$SUBCOMMAND" in
         echo "Enter: '${0##*/} help' for usage instructions."
         exit 1 ;;
 esac
+
+
+if { [ "$SUBCOMMAND" == "module" ] || [ "$SUBCOMMAND" == "pipe" ]; } && [ "$personal" -eq 1 ]; then
+    for URI in "${ARGV[@]}"; do
+        app=$(uri2app "$URI")
+        ver=$(uri2ver "$URI")
+        MSG=(
+            "To use this module, load the following modules:"
+            "    "
+            "    module load use.own"
+            "    module load $app/$ver"
+            "     "
+        )
+        boxify_text "${MSG[@]}"
+    done
+fi
