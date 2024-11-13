@@ -45,32 +45,26 @@ warn() {
     done
 }
 
-# Function to output bold text
-bold() {
-    if [ -t 1 ]; then  # Check if the output is a terminal
-        tput bold; echo -n "$@"; tput sgr0;  # Output bold text
-    else
-        echo -n "$@";  # If not a terminal, just output normally
-    fi
-}
-
 # Function to display the help message
 help_message() {
+    scriptname="container-mod"
     cat <<-EOF
-$scriptname  version: $VERSION
+    
+${scriptname} v$VERSION - Container Module Generator
 
-This script facilitates the management of container images and associated files for 
-Singularity and Apptainer. It enables users to pull container images using URIs, 
-generate Lmod-format module files, and create executable wrapper bash scripts.
+It is a script to pull container images from public container registries, such as DockerHub, 
+generate module files and wrapper scripts, allowing users to run containers just like regular modules.
 
-$(bold Usage:) 
+Usage:
     ${scriptname} <subcommand> [options] <URIs>
 
-${bold Subcommands:}
-    pull        Pull the container image from the specified URI.
-    generate    Generate module files and wrapper scripts for the specified URI.
+Subcommands:
+    pull        Pull the container image from the specified URIs.
+    module      Generate module files for the specified URIs.
+    exec        Generate wrapper scripts for the programs provided by the container.
+    pipe        Pull, generate module files, and generate wrapper scripts for the specified URIs.
 
-${bold Options:}
+Options:
   -d, --dir DIR           Specify the output directory for images and module files (default is the current directory).
   -f, --force             Force overwrite of existing images and module files (default behavior is to skip).
   -m, --moduledir DIR     Specify the directory for storing generated module files.
@@ -78,11 +72,11 @@ ${bold Options:}
   -p, --personal          Create personal module files in the privatemodules directory (default is no).
   -h, --help              Display this help message and exit.
 
-${bold Examples:}
+Examples:
     ${scriptname} pull docker://quay.io/biocontainers/vcftools:0.1.16
-    ${scriptname} generate docker://quay.io/biocontainers/vcftools:0.1.16
+    ${scriptname} module docker://quay.io/biocontainers/vcftools:0.1.16
+    ${scriptname} pipe -p docker://quay.io/biocontainers/vcftools:0.1.16
 
-For further assistance, visit the documentation or run '${scriptname} help'.
 EOF
 }
 
@@ -952,9 +946,6 @@ PRIVATE_EXECUTABLE_DIR="~/container-apps/tools"
 # Restore positional parameters
 set -- "${ARGV[@]}"
 ARGC=${#ARGV[@]}  # Count of accumulated arguments
-
-# Debug: print the accumulated ARGV for verification
-printf "Accumulated URLs: %s\n" "${ARGV[@]}"
 
 # Helper function for handling subcommands
 handle_subcommand() {
