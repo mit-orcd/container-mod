@@ -646,8 +646,6 @@ repurpose_old_modulefile() {
     local app=$(uri2app "$uri")
     local ver=$(uri2ver "$uri")
 
-    echo "Using existing modulefile '$template' as template."
-
     # Modify the template with new version, image, and URI
     local buf=$(awk -v ver="$ver" -v image="$image" -v uri="$uri" '
         /^[[:blank:]]*whatis.*Version:/ { $0 = "whatis(\"Version: " ver "\")" }

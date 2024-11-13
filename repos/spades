@@ -1,6 +1,6 @@
 Description: Spades is an assembly toolkit containing various assembly pipelines.
 Home Page: https://cab.spbu.ru/software/spades/
-Programs: spades-bwa,spades-convert-bin-to-fasta,spades-core,spades-corrector-core,spades-gbuilder,spades-gmapper,spades-gsimplifier,spades-hammer,spades-ionhammer,spades-kmer-estimating,spades-kmercount,spades-read-filter,spades-truseq-scfcorrection,coronaspades.py,metaplasmidspades.py,metaspades.py,metaviralspades.py,plasmidspades.py,rnaspades.py,rnaviralspades.py,spades.py,spades_init.py,truspades.py
+Programs: spades-bwa,spades-convert-bin-to-fasta,spades-core,spades-corrector-core,spades-gbuilder,spades-gmapper,spades-gsimplifier,spades-hammer,spades-ionhammer,spades-kmer-estimating,spades-kmercount,spades-read-filter,spades-truseq-scfcorrection,coronaspades.py,metaplasmidspades.py,metaspades.py,metaviralspades.py,plasmidspades.py,rnaspades.py,rnaviralspades.py,spades.py,spades_init.py
 
 version("3.15.5", uri="docker://quay.io/biocontainers/spades:3.15.5--h95f258a_0")
 version("3.15.4", uri="docker://quay.io/biocontainers/spades:3.15.4--h95f258a_0")
