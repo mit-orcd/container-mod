@@ -559,7 +559,7 @@ generate_new_modulefile() {
     
     # Testing whether we are generating personal or public apps
     if [[ $personal -eq 1 ]]; then
-        local exec_outdir="$PRIVATE_EXECUTABLE_DIR"
+        local exec_outdir="${PRIVATE_EXECUTABLE_DIR/#\$HOME/$HOME}"
     else
         local exec_outdir="$PUBLIC_EXECUTABLE_DIR"
     fi
@@ -836,7 +836,8 @@ generate_executable() {
     local executable="$AppTool_dir/$command"
     # Testing whether we are generating personal or public apps
     if [[ $personal -eq 1 ]]; then
-        local image_dir="$PRIVATE_IMAGEDIR"
+        # Using local scope and expanding $HOME
+        local image_dir="${PRIVATE_IMAGEDIR/#\$HOME/$HOME}"
     else
         local image_dir="$PUBLIC_IMAGEDIR"
     fi
@@ -965,9 +966,9 @@ TEMPLATE_DIR="$SCRIPT_TOP_DIR/templates"                # Directory to store tem
 AppInfo_DIR="${SCRIPT_TOP_DIR}/repos"   # Directory to store application info files
 PUBLIC_IMAGEDIR="/cluster/tufts/biocontainers/images"
 PRIVATE_MODULEDIR="$HOME/privatemodules"
-PRIVATE_IMAGEDIR="~/container-apps/images"
+PRIVATE_IMAGEDIR="$HOME/container-apps/images"
 PUBLIC_EXECUTABLE_DIR="/cluster/tufts/biocontainers/tools"
-PRIVATE_EXECUTABLE_DIR="~/container-apps/tools"
+PRIVATE_EXECUTABLE_DIR="$HOME/container-apps/tools"
 #########################################
 
 # Restore positional parameters
