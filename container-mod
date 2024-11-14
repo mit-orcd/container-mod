@@ -796,9 +796,7 @@ confirm_exec_exists() {
 
     local exec=$1
     local image=$2
-    if singularity exec "$image" which "$exec" &> /dev/null; then
-        echo "Executable '$exec' is installed in the container."
-    else
+    if ! singularity exec "$image" which "$exec" &> /dev/null; then
         echo "Executable '$exec' is NOT installed in the container."
         exit 1
     fi
@@ -888,9 +886,7 @@ EOF
     # Make the wrapper script executable
     chmod +x "$executable"
 
-    if [[ $? -eq 0 ]]; then
-        echo "Successfully generated wrapper for $command at $executable"
-    else
+    if [[ $? -ne 0 ]]; then
         echo "Error: Failed to generate wrapper for $command"
         return 1
     fi
