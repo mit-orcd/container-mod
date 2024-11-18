@@ -260,8 +260,6 @@ exec() {
     # displayed and the function will exit with a non-zero status.
 
     local uri="$1"
-    echo "Processing $uri"
-
     # Parse the URI into app, version, and image
     local app=$(uri2app "$uri")
     local ver=$(uri2ver "$uri")
@@ -990,6 +988,7 @@ handle_subcommand() {
     shift
 
     for URI in "${@}"; do
+        echo "Processing URI: $URI"
         "$cmd" "$URI" || { echo "Error executing command '$cmd' for URI: $URI"; return 1; }
     done
 }
