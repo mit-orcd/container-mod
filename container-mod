@@ -701,10 +701,6 @@ parse_home_description() {
         fi
     done
 
-    if [[ -z "$app_file" ]]; then
-        create_appinfo_file "$app"
-    fi
-
     # Extract Description and Home Page using grep and sed
     description=$(grep -m1 "^Description:" "$app_file" | sed 's/^Description: //')
     homepage=$(grep -m1 "^Home Page:" "$app_file" | sed 's/^Home Page: //')
@@ -745,8 +741,6 @@ parse_exec() {
         if [[ -f "$path/$app" ]]; then
             app_file="$path/$app"
             break
-        else
-            create_appinfo_file "$app"
         fi
     done
 
@@ -1000,6 +994,14 @@ if [[ $personal -eq 1 && ! -d "$HOME/container-apps/repos" ]]; then
     cp -r "$AppInfo_DIR" "$HOME/container-apps/"
     echo "Copied $AppInfo_DIR to $HOME/container-apps"
 fi
+
+# If the app file does not exist, create it
+for URI in "${ARGV[@]}"; do
+    app=$(uri2app "$URI")
+    if [[ $personal -eq 1 && ! -f "$HOME/container-apps/repos/$app" ]]; then
+        create_appinfo_file "$app"
+    fi
+done
 
 # Create image output directory in users' home
 if [[ $personal -eq 1 && ! -d "$HOME/container-apps/images" ]]; then
