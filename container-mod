@@ -1030,6 +1030,7 @@ case "$SUBCOMMAND" in
         handle_subcommand exec "${ARGV[@]}" ;;
     pipe)
         for URI in "${ARGV[@]}"; do
+            echo "Processing URI: $URI"
             pull "$URI" && module "$URI" && exec "$URI"
         done
         ;;
