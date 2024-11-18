@@ -186,8 +186,7 @@ module() {
     # Errors:
     # If the output directory cannot be created or if there is an
     # issue writing to the module file, an error message will be displayed
-    # and the function will exit with a non-zero status.
-
+    # and the function will exit with a non-zero status. 
     local URI="$1"
     
     # Testing whether we are generating personal or public modules
@@ -760,10 +759,8 @@ parse_exec() {
     fi
 
     # Split the comma-delimited string into an array
+    #    IFS=',' read -r -a arr <<< "$executables"
     IFS=',' read -r -a arr <<< "$executables"
-
-    # Print the array of executables (for debugging)
-    echo "${arr[@]}"
 
     # Return the array (if needed for further processing in the calling function)
     echo "${arr[@]}"  # This could be redirected to an array in the calling function
