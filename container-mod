@@ -205,6 +205,15 @@ module() {
         return 0
     fi
     
+    # If force is true and module file exists, remove it before creating a new one
+    if [[ -f "$OUTFILE" && $force -eq 1 ]]; then
+        echo "Force option enabled, removing existing module file $OUTFILE"
+        rm -f "$OUTFILE" || {
+            echo "Error: Failed to remove existing module file $OUTFILE"
+            exit 1
+        }
+    fi
+
     # Create the directory, exit on failure
     mkdir -p "$(dirname "$OUTFILE")" || {
         echo "Error: Failed to create directory for '$OUTFILE'"
