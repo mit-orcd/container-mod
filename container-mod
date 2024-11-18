@@ -745,6 +745,8 @@ parse_exec() {
         if [[ -f "$path/$app" ]]; then
             app_file="$path/$app"
             break
+        else
+            create_appinfo_file "$app"
         fi
     done
 
