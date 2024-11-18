@@ -702,11 +702,7 @@ parse_home_description() {
     done
 
     if [[ -z "$app_file" ]]; then
-        echo "App file not found in any of the directories."
-        echo "Please create an app file in the '$HOME/container-apps/repos' directory."
-        description=""
-        homepage=""
-        return 1
+        create_appinfo_file "$app"
     fi
 
     # Extract Description and Home Page using grep and sed
@@ -775,6 +771,23 @@ parse_exec() {
 
     # Return the array (if needed for further processing in the calling function)
     echo "${arr[@]}"  # This could be redirected to an array in the calling function
+}
+
+create_appinfo_file() {
+    local app=$1
+    echo "$app is not found in our application information database."
+    echo "let's create a new entry for $app."
+    echo "Enter a simple description of your application (e.g., Blast is an algorithm and program for comparing primary biological sequence information): "
+    read description
+    echo "Enter the homepage of your application (e.g., https://blast.ncbi.nlm.nih.gov/Blast.cgi):"
+    read homepage
+    echo "Enter the programs that are available in your application (e.g., blastn, blastp, blastx, tblastn, tblastx):"
+    read programs
+    mkdir -p "$HOME/container-apps/repos"
+    localappinfo="$HOME/container-apps/repos/$app"
+    echo "Description: $description" > "$localappinfo"
+    echo "Home Page: $homepage" >> "$localappinfo"
+    echo "Programs: $programs" >> "$localappinfo"
 }
 
 confirm_exec_exists() {
@@ -984,7 +997,6 @@ if [[ $personal -eq 1 && ! -d "$HOME/container-apps/repos" ]]; then
     mkdir -p "$HOME/container-apps/repos"
     cp -r "$AppInfo_DIR" "$HOME/container-apps/"
     echo "Copied $AppInfo_DIR to $HOME/container-apps"
-    echo "TODO: add your application info files to $HOME/container-apps/repos"
 fi
 
 # Create image output directory in users' home
