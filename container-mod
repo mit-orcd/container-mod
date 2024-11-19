@@ -1062,28 +1062,6 @@ for URI in "${ARGV[@]}"; do
     fi
 done
 
-# Create Jupyter kernel for the application
-if [[ $jupyter -eq 1 ]]; then
-    for URI in "${ARGV[@]}"; do
-        # Extract app, version, and image from the URI
-        app=$(uri2app "$URI")
-        ver=$(uri2ver "$URI")
-        image=$(uri2imgname "$URI")
-
-        # Validate extracted values
-        if [[ -z $app || -z $ver || -z $image ]]; then
-            echo "Error: Unable to parse URI: $URI"
-            continue
-        fi
-
-        echo "Generating Jupyter kernel for $app version $ver"
-
-        # Call the jupyter function and handle potential errors
-        if ! jupyter "$app" "$ver" "$image"; then
-            echo "Error: Failed to create Jupyter kernel for $app version $ver"
-        fi
-    done
-fi
 
 # Create image output directory in users' home
 if [[ $personal -eq 1 && ! -d "$HOME/container-apps/images" ]]; then
@@ -1132,5 +1110,28 @@ if { [ "$SUBCOMMAND" == "module" ] || [ "$SUBCOMMAND" == "pipe" ]; } && [ "$pers
             "     "
         )
         boxify_text "${MSG[@]}"
+    done
+fi
+
+# Create Jupyter kernel for the application
+if [[ $jupyter -eq 1 ]]; then
+    for URI in "${ARGV[@]}"; do
+        # Extract app, version, and image from the URI
+        app=$(uri2app "$URI")
+        ver=$(uri2ver "$URI")
+        image=$(uri2imgname "$URI")
+
+        # Validate extracted values
+        if [[ -z $app || -z $ver || -z $image ]]; then
+            echo "Error: Unable to parse URI: $URI"
+            continue
+        fi
+
+        echo "Generating Jupyter kernel for $app version $ver"
+
+        # Call the jupyter function and handle potential errors
+        if ! jupyter "$app" "$ver" "$image"; then
+            echo "Error: Failed to create Jupyter kernel for $app version $ver"
+        fi
     done
 fi
