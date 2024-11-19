@@ -924,7 +924,6 @@ jupyter() {
     fi
 
     # Check if the image contains ipykernel
-    echo "Checking $image for ipykernel"
     if ! singularity exec "${image_outdir}/${image}" python -c "import ipykernel" &> /dev/null; then
         echo "Error: ${image} does not contain ipykernel"
         exit 1
@@ -954,6 +953,9 @@ jupyter() {
     else
         echo "Kernel already exists: $kernel_dir"
     fi
+    echo "Jupyter kernel created: $kernel_name"
+    echo "You can now launch Jupyter Notebook and select the kernel '$app $ver'"
+    echo "If you'd like to edit the kernel, you can find it at: $kernel_dir"
 }
 
 ###############################################################################
