@@ -1069,7 +1069,7 @@ if [[ $jupyter -eq 1 ]]; then
         ver=$(uri2ver "$URI")
         image=$(uri2imgname "$URI")
         juypter "$app" "$ver" $image
-        fi
+    done
 fi
 
 # Create image output directory in users' home
