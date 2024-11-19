@@ -70,6 +70,7 @@ Options:
   -m, --moduledir DIR     Specify the directory for storing generated module files.
   -u, --update            Update the app file in the repos directory with the new version (default is no).
   -p, --personal          Create personal module files in the privatemodules directory (default is no).
+  -j, --jupyter           Generate Jupyter kernels for the specified URIs.
   -h, --help              Display this help message and exit.
 
 Examples:
@@ -905,6 +906,56 @@ EOF
     fi
 }
 
+jupyter() {
+    local app=$1
+    local ver=$2
+    local image=$3
+
+    # Define kernel name and directory
+    kernel_name="${app}-${ver}"
+    kernel_dir="$HOME/.local/share/jupyter/kernels/$kernel_name"
+
+    # Determine image output directory based on 'personal' flag
+    local image_outdir
+    if [[ $personal -eq 1 ]]; then
+        image_outdir="$PRIVATE_IMAGEDIR"
+    else
+        image_outdir="$IMG_OUTDIR"
+    fi
+
+    # Check if the image contains ipykernel
+    echo "Checking $image for ipykernel"
+    if ! singularity exec "${image_outdir}/${image}" python -c "import ipykernel" &> /dev/null; then
+        echo "Error: ${image} does not contain ipykernel"
+        exit 1
+    fi
+
+    # Create the kernel directory and set up kernel.json
+    if [[ ! -d "$kernel_dir" ]]; then
+        mkdir -p "$kernel_dir"
+        cp "$SCRIPT_TOP_DIR/jupyter_kernel.json" "$kernel_dir/kernel.json"
+
+        # Determine executable directory based on 'personal' flag
+        local exec_outdir
+        if [[ $personal -eq 1 ]]; then
+            exec_outdir="${PRIVATE_EXECUTABLE_DIR/#\$HOME/$HOME}"
+        else
+            exec_outdir="$PUBLIC_EXECUTABLE_DIR"
+        fi
+
+        # Define AppTool directory
+        local AppTool_dir="$exec_outdir/$app/$ver/bin"
+
+        # Update kernel.json with the correct paths and placeholders
+        sed -i -e "s|APPDIR|$AppTool_dir|g" \
+               -e "s|APP|$app|g" \
+               -e "s|VERSION|$ver|g" \
+               "${kernel_dir}/kernel.json"
+    else
+        echo "Kernel already exists: $kernel_dir"
+    fi
+}
+
 ###############################################################################
 # Main script starts here
 ###############################################################################
@@ -913,7 +964,8 @@ EOF
 OUTDIR_DEF="."  # Default output directory
 MOD_EXISTING_DIR="modulefiles"  # Directory to store ready-to-use modulefiles
 force=0 				# Overwrite modulefile and execs if they exists?
-personal=0 				# Create personal modulefiles into privatemodules
+personal=0 				# Create personal modulefiles into privatemodules, default is false
+jupyter=0 				# Create Jupyter kernel for the application, default is false
 # Ensure SUBCOMMAND is provided, else show help
 SUBCOMMAND="$1"
 if [[ -z "$SUBCOMMAND" ]]; then
@@ -946,6 +998,8 @@ while [[ -n "$1" ]]; do
             graceful_exit ;;
         -p|--personal)
             personal=1 ;;
+        --jupyter)
+            jupyter=1 ;;
         --)
             shift
             break ;;  # Stop processing options at --
@@ -1007,6 +1061,16 @@ for URI in "${ARGV[@]}"; do
         create_appinfo_file "$app"
     fi
 done
+
+# Create jupyter kernel for the application
+if [[ $jupyter -eq 1 ]]; then
+    for URI in "${ARGV[@]}"; do
+        app=$(uri2app "$URI")
+        ver=$(uri2ver "$URI")
+        image=$(uri2imgname "$URI")
+        juypter "$app" "$ver" $image
+        fi
+fi
 
 # Create image output directory in users' home
 if [[ $personal -eq 1 && ! -d "$HOME/container-apps/images" ]]; then
