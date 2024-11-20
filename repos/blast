@@ -1,6 +1,6 @@
 Description: BLAST (Basic Local Alignment Search Tool) finds regions of similarity between biological sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance.
 Home Page: https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastHome
-Programs: blastn,blastp,blastx,blast_formatter,amino-acid-composition,between-two-genes,blastdbcheck,blastdbcmd,blastdb_aliastool,cleanup-blastdb-volumes.py,deltablast,dustmasker,get_species_taxids.sh,legacy_blast.pl,makeblastdb,makembindex,makeprofiledb,psiblast,rpsblast,rpstblastn,run-ncbi-converter,segmasker,tblastn,tblastx,update_blastdb.pl,windowmasker
+Programs: blastn,blastp,blastx,blast_formatter,between-two-genes,blastdbcheck,blastdbcmd,blastdb_aliastool,cleanup-blastdb-volumes.py,deltablast,dustmasker,get_species_taxids.sh,legacy_blast.pl,makeblastdb,makembindex,makeprofiledb,psiblast,rpsblast,rpstblastn,run-ncbi-converter,segmasker,tblastn,tblastx,update_blastdb.pl,windowmasker
 
 version("2.13.0", uri="docker://staphb/blast:2.13.0")
 version("2.11.0", uri="docker://quay.io/biocontainers/blast:2.11.0--pl526he19e7b1_0")

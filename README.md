@@ -101,3 +101,10 @@ $ bowtie2 --help
 ```
 
 
+## Jupyter kernel
+
+For containerized applications that are able to run on Jupyter notebook/lab, container-mod is also able to create a jupyter kernel. The kernel will be stored in users' $HOME under `$HOME/.local/share/jupyter/kernels`. To create jupyter kernels, users need to run the script with `-j` or `--jupyter`.
+### Example
+```
+container-mod pipe -p -j docker://tensorflow/tensorflow:2.18.0-jupyter
+```

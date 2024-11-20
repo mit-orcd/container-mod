@@ -1020,75 +1020,105 @@ done
 OUTDIR="${OUTDIR:-$OUTDIR_DEF}"
 
 # Configurable settings
+#!/bin/bash
+
 #########################################
-IMG_OUTDIR="${OUTDIR}/images"           # Directory to store images
-MOD_OUTDIR="${OUTDIR}/incomplete"       # Directory to store incomplete modulefiles
-EXEC_OUTDIR="${OUTDIR}/executables"     # Directory to store executables
+# Configuration Directories
+#########################################
+IMG_OUTDIR="${OUTDIR}/images"
+MOD_OUTDIR="${OUTDIR}/incomplete"
+EXEC_OUTDIR="${OUTDIR}/executables"
 SCRIPT_TOP_DIR="$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"
-TEMPLATE_DIR="$SCRIPT_TOP_DIR/templates"                # Directory to store template files
-AppInfo_DIR="${SCRIPT_TOP_DIR}/repos"   # Directory to store application info files
+TEMPLATE_DIR="$SCRIPT_TOP_DIR/templates"
+AppInfo_DIR="${SCRIPT_TOP_DIR}/repos"
 PUBLIC_IMAGEDIR="/cluster/tufts/biocontainers/images"
 PRIVATE_MODULEDIR="$HOME/privatemodules"
 PRIVATE_IMAGEDIR="$HOME/container-apps/images"
 PUBLIC_EXECUTABLE_DIR="/cluster/tufts/biocontainers/tools"
 PRIVATE_EXECUTABLE_DIR="$HOME/container-apps/tools"
-#########################################
 
+#########################################
 # Restore positional parameters
+#########################################
 set -- "${ARGV[@]}"
 ARGC=${#ARGV[@]}  # Count of accumulated arguments
 
-# Helper function for handling subcommands
+#########################################
+# Functions
+#########################################
+
+# Create directory if it doesn't exist
+create_dir() {
+    local dir_path="$1"
+    local message="$2"
+    if [[ ! -d "$dir_path" ]]; then
+        mkdir -p "$dir_path"
+        echo "$message: $dir_path"
+    fi
+}
+
+# Process a list of URIs with a given command
 handle_subcommand() {
     local cmd="$1"
     shift
 
-    for URI in "${@}"; do
+    for URI in "$@"; do
         echo "Processing URI: $URI"
-        "$cmd" "$URI" || { echo "Error executing command '$cmd' for URI: $URI"; return 1; }
+        if ! "$cmd" "$URI"; then
+            echo "Error executing command '$cmd' for URI: $URI" >&2
+            return 1
+        fi
     done
 }
 
-# Copy the AppInfo_DIR to users home directory if does not exist
-if [[ $personal -eq 1 && ! -d "$HOME/container-apps/repos" ]]; then
-    mkdir -p "$HOME/container-apps/repos"
-    cp -r "$AppInfo_DIR" "$HOME/container-apps/"
-    echo "Copied $AppInfo_DIR to $HOME/container-apps"
-fi
+# Copy the AppInfo directory if missing
+ensure_appinfo_dir() {
+    if [[ $personal -eq 1 && ! -d "$HOME/container-apps/repos" ]]; then
+        mkdir -p "$HOME/container-apps/repos"
+        cp -r "$AppInfo_DIR" "$HOME/container-apps/"
+        echo "Copied $AppInfo_DIR to $HOME/container-apps/repos"
+    fi
+}
 
-# If the app file does not exist, create it
-for URI in "${ARGV[@]}"; do
+# Ensure app info file exists
+ensure_appinfo_file() {
+    local URI="$1"
+    local app
     app=$(uri2app "$URI")
-    if [[ $personal -eq 1 && ! -f "$HOME/container-apps/repos/$app" ]]; then
+    if [[ $personal -eq 1 && ! -f "$HOME/container-apps/repos/$app" && ! -f "$AppInfo_DIR/$app" ]]; then
         create_appinfo_file "$app"
     fi
+}
+
+#########################################
+# Initialization
+#########################################
+ensure_appinfo_dir
+
+for URI in "${ARGV[@]}"; do
+    ensure_appinfo_file "$URI"
 done
 
+create_dir "$HOME/container-apps/images" "Created image directory"
+create_dir "$HOME/container-apps/tools" "Created executable directory"
 
-# Create image output directory in users' home
-if [[ $personal -eq 1 && ! -d "$HOME/container-apps/images" ]]; then
-    mkdir -p "$HOME/container-apps/images"
-    echo "Created $HOME/container-apps/images"
-fi
-
-# Create executable output directory in users' home
-if [[ $personal -eq 1 && ! -d "$HOME/container-apps/tools" ]]; then
-    mkdir -p "$HOME/container-apps/tools"
-    echo "Created $HOME/container-apps/tools"
-fi
-
-# Subcommand switch
+#########################################
+# Subcommand Handling
+#########################################
 case "$SUBCOMMAND" in
     pull)
-        handle_subcommand pull "${ARGV[@]}" ;;
+        handle_subcommand pull "${ARGV[@]}" || exit 1 ;;
     module)
-        handle_subcommand module "${ARGV[@]}" ;;
+        handle_subcommand module "${ARGV[@]}" || exit 1 ;;
     exec)
-        handle_subcommand exec "${ARGV[@]}" ;;
+        handle_subcommand exec "${ARGV[@]}" || exit 1 ;;
     pipe)
         for URI in "${ARGV[@]}"; do
             echo "Processing URI: $URI"
-            pull "$URI" && module "$URI" && exec "$URI"
+            if ! (pull "$URI" && module "$URI" && exec "$URI"); then
+                echo "Error processing URI: $URI" >&2
+                exit 1
+            fi
         done
         ;;
     help)
@@ -1099,41 +1129,41 @@ case "$SUBCOMMAND" in
         exit 1 ;;
 esac
 
-
-if { [ "$SUBCOMMAND" == "module" ] || [ "$SUBCOMMAND" == "pipe" ]; } && [ "$personal" -eq 1 ]; then
+#########################################
+# Module Loading Message
+#########################################
+if { [[ "$SUBCOMMAND" == "module" ]] || [[ "$SUBCOMMAND" == "pipe" ]]; } && [[ $personal -eq 1 ]]; then
     for URI in "${ARGV[@]}"; do
         app=$(uri2app "$URI")
         ver=$(uri2ver "$URI")
         MSG=(
             "To use this module, load the following modules:"
-            "    "
+            ""
             "    module load use.own"
             "    module load $app/$ver"
-            "     "
+            ""
         )
         boxify_text "${MSG[@]}"
     done
 fi
 
-# Create Jupyter kernel for the application
+#########################################
+# Jupyter Kernel Creation
+#########################################
 if [[ $jupyter -eq 1 ]]; then
     for URI in "${ARGV[@]}"; do
-        # Extract app, version, and image from the URI
         app=$(uri2app "$URI")
         ver=$(uri2ver "$URI")
         image=$(uri2imgname "$URI")
 
-        # Validate extracted values
         if [[ -z $app || -z $ver || -z $image ]]; then
-            echo "Error: Unable to parse URI: $URI"
+            echo "Error: Unable to parse URI: $URI" >&2
             continue
         fi
 
         echo "Generating Jupyter kernel for $app version $ver"
-
-        # Call the jupyter function and handle potential errors
         if ! jupyter "$app" "$ver" "$image"; then
-            echo "Error: Failed to create Jupyter kernel for $app version $ver"
+            echo "Error: Failed to create Jupyter kernel for $app version $ver" >&2
         fi
     done
 fi
