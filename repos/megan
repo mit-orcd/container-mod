@@ -2,4 +2,5 @@ Description: Megan is a computer program that allows optimized analysis of large
 Home Page: https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/algorithms-in-bioinformatics/software/megan6/
 Programs: MEGAN,blast2lca,blast2rma,daa2info,daa2rma,daa-meganizer,gc-assembler,rma2info,sam2rma,references-annotator
 
+version("6.25.9", uri="docker://quay.io/biocontainers/megan:6.25.9--h9ee0642_0")
 version("6.21.7", uri="")

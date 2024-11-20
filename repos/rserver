@@ -1,0 +1,4 @@
+Description: RStudio Server enables you to run the RStudio IDE you know and love on a Linux server, accessed from your web browser, bringing the power and productivity of the RStudio IDE to a centralized server-based environment.
+Home Page: https://posit.co/download/rstudio-server/
+Programs: R,Rscript,rserver
+version("4.4.2", uri="docker://tuftsttsrt/rserver:4.4.2")

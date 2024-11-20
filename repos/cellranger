@@ -2,6 +2,7 @@ Description: Cellranger is a set of analysis pipelines that process Chromium sin
 Home Page: https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger
 Programs: cellranger
 
+version("7.2.0", uri="docker://cumulusprod/cellranger:7.2.0")
 version("7.1.0", uri="docker://gcfntnu/cellranger:7.1.0")
 version("7.0.1", uri="docker://cumulusprod/cellranger:7.0.1")
 version("7.0.0", uri="docker://cumulusprod/cellranger:7.0.0")
