@@ -271,8 +271,7 @@ exec() {
 
     # Error check for parse_exec
     if [ $? -ne 0 ]; then
-        echo "Error: No executables are defined for $app"
-        exit 1
+        warn -p "Error: No executables are defined for $app"
     fi
 
     # Testing whether we are generating personal or public apps
@@ -289,7 +288,7 @@ exec() {
 
     # If AppTool_dir exists and force is not set, skip executable generation
     if [[ -d "$AppTool_dir" && $force -eq 0 ]]; then
-        echo "Output directory $AppTool_dir already exists. Skipping executable generation."
+        warn -p "Output directory $AppTool_dir already exists. Skipping executable generation."
         return 0
     fi
 
@@ -304,23 +303,22 @@ exec() {
 
     # Create the directory if it doesn't exist or was just removed
     mkdir -p "$AppTool_dir" || {
-        echo "Error: Failed to create directory $AppTool_dir"
+        warn -p "Error: Failed to create directory $AppTool_dir"
         exit 1
     }
 
     # Check if exec_array is empty
     if [ ${#exec_array[@]} -eq 0 ]; then
-        echo "Warning: No executables are predefined for $app version $ver."
+        warn -p "Warning: No executables are predefined for $app version $ver."
     else
         # Iterate over the exec_array and process each executable
         for exec in "${exec_array[@]}"; do
             # Check if the executable exists
-            confirm_exec_exists "$exec" "$image_outdir/$image"|| {
-                echo "Warning: Executable $exec does not exist."
-                continue
-            }
-            echo "Generating executable for $exec"
-            generate_executable "$app" "$ver" "$image" "$exec"
+            if confirm_exec_exists "$exec" "$image_outdir/$image"; then
+                # Generate the executable
+                echo "Generating executable: $exec"
+                generate_executable "$app" "$ver" "$image" "$exec"
+            fi
         done
     fi
 }
@@ -350,7 +348,7 @@ function boxify_text()
 	done
 	echo "+-${longest//?/-}-+"
 }
-# end boxify_text
+
 
 uri2modname() {
 	# uri2modname "URI"
@@ -520,6 +518,7 @@ find_latest_modulefile() {
     local modulefile=""
 
     # Testing whether we are generating personal or public apps
+    # If personal, search in both privatemodules and the designated module directory
     if [[ $personal -eq 1 ]]; then
         local MOD_EXISTING_DIRS=("$HOME/privatemodules" "$MOD_EXISTING_DIR")
     else
@@ -812,7 +811,9 @@ confirm_exec_exists() {
     local image=$2
     if ! singularity exec "$image" which "$exec" &> /dev/null; then
         echo "Executable '$exec' is NOT installed in the container."
-        exit 1
+        return 1
+    else
+        return 0
     fi
 }
 
