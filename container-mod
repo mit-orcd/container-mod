@@ -1137,8 +1137,15 @@ for URI in "${ARGV[@]}"; do
 done
 
 # Create required directories
-create_dir "$HOME/container-apps/images" "Created image directory"
-create_dir "$HOME/container-apps/tools" "Created executable directory"
+if [[ $personal -eq 1 ]]; then
+    create_dir "$PRIVATE_EXECUTABLE_DIR" "Created executable directory"
+    create_dir "$PRIVATE_MODULEDIR" "Created module directory"
+    create_dir "$PRIVATE_IMAGEDIR" "Created image directory"
+else
+    create_dir "$EXEC_OUTDIR" "Created executable directory"
+    create_dir "$MOD_OUTDIR" "Created module directory"
+    create_dir "$IMG_OUTDIR" "Created image directory"
+fi
 
 ###############################################################################
 # Subcommand Handling
