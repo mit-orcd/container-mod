@@ -1,6 +1,0 @@
-Description: IQ-TREE is an efficient phylogenomic software by maximum likelihood.
-Home Page: http://www.iqtree.org
-Programs: iqtree2
-
-version("2.2.2.9", uri="")
-version("2.2.2.6", uri="docker://staphb/iqtree2:2.2.2.6")

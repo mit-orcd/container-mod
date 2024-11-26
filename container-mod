@@ -307,33 +307,35 @@ pull() {
     echo "Pulling image: $uri"
     mkdir -p "${image_outdir}"  # Create the output directory if it doesn't exist
     singularity pull "${image_outdir}/${imgname}" "$uri"  # Pull the Singularity image
-
     if [[ $update_repo -eq 1 ]]; then
+        # Check if app file exists
         if [[ ! -f "$app_file" ]]; then
-            echo "Error: App file '$app_file' not found. Please create an app file in repo first."
+            echo "Error: App file '$app_file' not found. Please create an app file in the repo first."
             return 1
         fi
 
         # Create a temporary file for the updated app file
+        temp_file="${app_file}.tmp"
         {
+            # Keep lines that do not start with "version(" 
             grep -v '^version(' "$app_file"
+            # Add the new version entry
             echo "version(\"$version\", uri=\"$uri\")"
+            # Append existing "version(" lines
             grep '^version(' "$app_file"
-        } > "$app_file.tmp"
+        } > "$temp_file"
 
-        # Check if .tmp file was created
-        if [ -f "$app_file.tmp" ]; then
-            echo "Temporary file created successfully: $app_file.tmp"
-        else
-            echo "Error: Temporary file creation failed!"
+        # Check if the temporary file was created successfully
+        if [[ ! -f "$temp_file" ]]; then
+            echo "Error: Failed to create the temporary file '$temp_file'."
             return 1
         fi
 
-        # Try renaming the .tmp file and check for success
-        if mv "$app_file.tmp" "$app_file"; then
+        # Replace the original app file with the updated content
+        if mv "$temp_file" "$app_file"; then
             echo "Updated app file: $app_file with new version $version"
         else
-            echo "Error: Failed to rename $app_file.tmp to $app_file"
+            echo "Error: Failed to rename '$temp_file' to '$app_file'."
             return 1
         fi
     fi
