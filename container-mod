@@ -138,20 +138,57 @@ handle_subcommand() {
 
 # Copy the AppInfo directory if missing
 ensure_appinfo_dir() {
-    if [[ $personal -eq 1 && ! -d "$HOME/container-apps/repos" ]]; then
-        mkdir -p "$HOME/container-apps/repos"
-        cp -r "$AppInfo_DIR" "$HOME/container-apps/"
-        echo "Copied $AppInfo_DIR to $HOME/container-apps/repos"
+    # Ensure the personal mode is enabled and the target directory doesn't exist
+    if [[ "$personal" -eq 1 && ! -d "$HOME/container-apps/repos" ]]; then
+        # Create the directory if it doesn't exist
+        mkdir -p "$HOME/container-apps" || {
+            echo "Error: Failed to create directory $HOME/container-apps" >&2
+            return 1
+        }
+
+        # Copy the AppInfo directory
+        if [[ -d "$AppInfo_DIR" ]]; then
+            cp -r "$AppInfo_DIR" "$HOME/container-apps/" || {
+                echo "Error: Failed to copy $AppInfo_DIR to $HOME/container-apps/" >&2
+                return 1
+            }
+        else
+            echo "Error: Source directory $AppInfo_DIR does not exist" >&2
+            return 1
+        fi
     fi
 }
 
 # Ensure app info file exists
 ensure_appinfo_file() {
     local URI="$1"
+
+    # Validate input argument
+    if [[ -z "$URI" ]]; then
+        echo "Error: URI parameter is missing." >&2
+        return 1
+    fi
+
     local app
-    app=$(uri2app "$URI")
-    if [[ $personal -eq 1 && ! -f "$HOME/container-apps/repos/$app" && ! -f "$AppInfo_DIR/$app" ]]; then
-        create_appinfo_file "$app"
+    app=$(uri2app "$URI") || { 
+        echo "Error: Failed to extract app name from URI: $URI" >&2
+        return 1
+    }
+
+    # Determine the target path for the appinfo file
+    local target_path
+    if [[ ! -f "$HOME/container-apps/repos/$app" && ! -f "$AppInfo_DIR/$app" ]]; then
+        if [[ "$personal" -eq 1 ]]; then
+            target_path="$HOME/container-apps/repos/$app"
+        else
+            target_path="$AppInfo_DIR/$app"
+        fi
+
+        # Create the appinfo file
+        create_appinfo_file "$app" "$target_path" || {
+            echo "Error: Failed to create appinfo file for $app at $target_path" >&2
+            return 1
+        }
     fi
 }
 
@@ -862,6 +899,8 @@ create_appinfo_file() {
     # based on user input. The function prompts the user to enter a description,
     # homepage, and list of available programs for the application.
     local app=$1
+    #localappinfo="$HOME/container-apps/repos/$app"
+    localappinfo=$2
     echo "$app is not found in our application information database."
     echo "let's create a new entry for $app."
     echo "Enter a simple description of your application (e.g., Blast is an algorithm and program for comparing primary biological sequence information): "
@@ -871,7 +910,6 @@ create_appinfo_file() {
     echo "Enter the programs that are available in your application (e.g., blastn, blastp, blastx, tblastn, tblastx):"
     read programs
     mkdir -p "$HOME/container-apps/repos"
-    localappinfo="$HOME/container-apps/repos/$app"
     echo "Description: $description" > "$localappinfo"
     echo "Home Page: $homepage" >> "$localappinfo"
     echo "Programs: $programs" >> "$localappinfo"
