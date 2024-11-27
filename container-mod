@@ -1042,7 +1042,10 @@ jupyter() {
 
     # Check if the image contains ipykernel
     if ! singularity exec "${image_outdir}/${image}" python -c "import ipykernel" &> /dev/null; then
-        echo "Error: ${image} does not contain ipykernel"
+        warn -p "Error: ${image} does not contain ipykernel. Without ipykernel, this container cannot be used as a Jupyter kernel."
+        warn -p "Please install ipython and ipykernel into the container and try again."
+        warn -p "You can install them using the following commands:"
+        warn -p "    pip install ipython ipykernel"
         exit 1
     fi
 
