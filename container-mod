@@ -1043,10 +1043,12 @@ jupyter() {
     # Check if the image contains ipykernel
     if ! singularity exec "${image_outdir}/${image}" python -c "import ipykernel" &> /dev/null; then
         MSG=(
-            "The required dependency ipykernel is not detected in ${image}!"
-            "Please install ipython and ipykernel into the container and run container-mod again."
-            "You have to update your Dockerfile or Singularity/Apptainer definition file"
-            "to include the following commands:"
+            "The required dependency ipykernel is not detected in ${image}."
+            ""
+            "Please create a new container with ipython and ipykernel."
+            ""
+            "Update your Dockerfile or Singularity/Apptainer definition file to include:"
+            ""
             "   pip install ipython ipykernel"
             )
         boxify_text "${MSG[@]}"
@@ -1253,7 +1255,6 @@ if { [[ "$SUBCOMMAND" == "module" ]] || [[ "$SUBCOMMAND" == "pipe" ]]; } && [[ $
             "    module load $app/$ver"
             ""
             "The modulefile is located at: $PRIVATE_MODULEDIR/$modname"
-            ""
         )
         boxify_text "${MSG[@]}"
     done
