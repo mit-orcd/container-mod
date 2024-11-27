@@ -1071,8 +1071,17 @@ jupyter() {
         echo "Kernel already exists: $kernel_dir"
     fi
     echo "Jupyter kernel created: $kernel_name"
-    echo "You can now launch Jupyter Notebook and select the kernel '$app $ver'"
-    echo "If you'd like to edit the kernel, you can find it at: $kernel_dir"
+    MSG=(
+            "You can now launch Jupyter notebook/lab and select the kernel:"
+            ""
+            "   $app $ver"
+            ""
+            "If you'd like to edit the kernel, you can find it at:"
+            ""
+            "   $kernel_dir"
+            ""
+        )
+        boxify_text "${MSG[@]}"
 }
 
 
