@@ -1042,20 +1042,15 @@ jupyter() {
 
     # Check if the image contains ipykernel
     if ! singularity exec "${image_outdir}/${image}" python -c "import ipykernel" &> /dev/null; then
-        warn -p "Error: ${image} does not contain ipykernel. Without ipykernel, this container cannot be used as a Jupyter kernel."
-        warn -p "Please install ipython and ipykernel into the container and try again."
-        warn -p "You can install them using the following commands:"
-        warn -p "    pip install ipython ipykernel"
+        MSG=(
+            "The required dependency ipykernel is not detected in ${image}!"
+            "Please install ipython and ipykernel into the container and run container-mod again."
+            "You have to update your Dockerfile or Singularity/Apptainer definition file"
+            "to include the following commands:"
+            "   pip install ipython ipykernel"
+            )
+        boxify_text "${MSG[@]}"
         exit 1
-    MSG=(
-        "The required dependency ipykernel is not detected in ${image}!"
-        "Please install ipython and ipykernel into the container and run container-mod again."
-        "You have to update your Dockerfile or Singularity/Apptainer definition file"
-        "to include the following commands:"
-        "   pip install ipython ipykernel"
-        )
-    boxify_text "${MSG[@]}"
-    
     fi
 
     # Create the kernel directory and set up kernel.json
