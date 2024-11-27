@@ -1047,6 +1047,15 @@ jupyter() {
         warn -p "You can install them using the following commands:"
         warn -p "    pip install ipython ipykernel"
         exit 1
+    MSG=(
+        "The required dependency ipykernel is not detected in ${image}!"
+        "Please install ipython and ipykernel into the container and run container-mod again."
+        "You have to update your Dockerfile or Singularity/Apptainer definition file"
+        "to include the following commands:"
+        "   pip install ipython ipykernel"
+        )
+    boxify_text "${MSG[@]}"
+    
     fi
 
     # Create the kernel directory and set up kernel.json
