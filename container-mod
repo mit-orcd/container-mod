@@ -3,8 +3,8 @@
 # Yucheng Zhang
 
 # Copyright (c) 2024 Tufts University
-# Copyright (c) 2021 Purdue University
-# Copyright (c) 2020 NVIDIA Corporation
+# This script is modified from the original script written by Lev Gorenstein from Purdue University. 
+# The original script is available at (https://github.com/PurdueRCAC/Biocontainers).
 
 # This script assumes that you have Singularity or Apptainer 
 # installed on your system.
@@ -12,9 +12,16 @@
 # Usage: Run "container-mod --help" for instructions.
 
 # Prerequisites: Ensure Singularity or Apptainer is available
-# Load Singularity if it is not already loaded; consider adding support for Apptainer.
+# Load Singularity or Apptainer if it is not already loaded.
 if ! command -v singularity > /dev/null 2>&1; then
-    module load singularity
+    if module load singularity 2>/dev/null; then
+        echo "Loaded singularity module."
+    elif module load apptainer 2>/dev/null; then
+        echo "Loaded apptainer module."
+    else
+        echo "Error: Neither singularity nor apptainer is available on this system." >&2
+        exit 1
+    fi
 fi
 
 VERSION="0.1"  # Increment this version for updates
