@@ -11,19 +11,6 @@
 # 
 # Usage: Run "container-mod --help" for instructions.
 
-# Prerequisites: Ensure Singularity or Apptainer is available
-# Load Singularity or Apptainer if it is not already loaded.
-if ! command -v singularity > /dev/null 2>&1; then
-    if module load singularity 2>/dev/null; then
-        echo "Loaded singularity module."
-    elif module load apptainer 2>/dev/null; then
-        echo "Loaded apptainer module."
-    else
-        echo "Error: Neither singularity nor apptainer is available on this system." >&2
-        exit 1
-    fi
-fi
-
 VERSION="0.1"  # Increment this version for updates
 
 ###############################################################################
@@ -1127,9 +1114,30 @@ PRIVATE_IMAGEDIR="$HOME/container-apps/images"
 # Ensure a subcommand is provided, or display an error and usage instructions
 SUBCOMMAND="$1"
 if [[ -z "$SUBCOMMAND" ]]; then
+    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+        help_message
+        exit 0
+    fi
     echo "Error: You must specify a subcommand."
     echo "Usage: ${0##*/} help"
     exit 1
+elif [[ "$SUBCOMMAND" == "-h" || "$SUBCOMMAND" == "--help" ]]; then
+    help_message
+    exit 0
+fi
+
+# Prerequisites: Ensure Singularity or Apptainer is available
+# Load Singularity or Apptainer if it is not already loaded.
+if ! command -v singularity > /dev/null 2>&1; then
+    if module load singularity 2>/dev/null; then
+        # Successfully loaded singularity, do nothing
+        :
+    elif module load apptainer 2>/dev/null; then
+        :
+    else
+        echo "Error: Neither singularity nor apptainer is available on this system." >&2
+        exit 1
+    fi
 fi
 
 # Skip the first argument (subcommand) for option parsing
