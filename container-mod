@@ -48,8 +48,9 @@ help_message() {
 
 ${scriptname} v$VERSION - Container Module Generator
 
-It is a script to pull container images from public container registries, such as DockerHub, 
-generate module files and wrapper scripts, allowing users to run containers just like regular modules.
+This script streamlines the process of pulling container images from public registries, such as DockerHub, 
+and automates the generation of module files and wrapper scripts, 
+enabling users to seamlessly run containers as if they were standard software modules.
 
 Usage:
     ${scriptname} <subcommand> [options] <URIs>
