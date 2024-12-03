@@ -11,15 +11,17 @@
 # 
 # Usage: Run "container-mod --help" for instructions.
 VERSION="0.1"  # Increment this version for updates
+
 ###############################################################################
 # Prerequisites: Ensure Singularity or Apptainer is available
 ###############################################################################
+
 if ! command -v singularity > /dev/null 2>&1; then
     if module load singularity 2>/dev/null; then
-        echo "Singularity module loaded successfully."
+        :
     else
         if module load apptainer 2>/dev/null; then
-            echo "Apptainer module loaded successfully."
+            :
         else
             echo "Failed to load both Singularity and Apptainer modules."
             exit 1
@@ -30,6 +32,18 @@ fi
 ###############################################################################
 # Helper functions 
 ###############################################################################
+
+clean_up() {
+	# Perform pre-exit housekeeping
+	return
+}
+
+# Function to print a message and exit with a status
+graceful_exit() {
+	# graceful_exit [status]]
+	clean_up
+	exit ${1:-$E_OK}
+}
 
 # Function to send warning messages to stderr.
 warn() {
@@ -95,7 +109,32 @@ Examples:
 EOF
 }
 
-function boxify_text()
+list_profiles() {
+    # List available profiles
+    if [ -d "${PROFILEHOMEDIR}" ]; then
+        for PROFILE in "${PROFILEHOMEDIR}"/*; do
+            PROFILENAME="$(basename "${PROFILE}")"
+            if [ "${PROFILENAME}" != "*" ]; then
+                echo "${PROFILENAME}  (Personal Profile)"
+            fi
+        done
+    fi
+    if [ -d "${PROFILEROOT}" ]; then
+        for PROFILE in "${PROFILEROOT}"/*; do
+            PROFILENAME="$(basename "${PROFILE}")"
+            if [ "${PROFILENAME}" != "*" ]; then
+                if [ -e "${PROFILEHOMEDIR}/${PROFILENAME}" ]; then
+                    echo "${PROFILENAME}  (Overridden)"
+                else
+                    echo "${PROFILENAME}"
+                fi
+            fi
+        done
+    fi
+    exit 0
+}
+
+boxify_text()
 {
 	#
 	# Usage: boxify_text AAAA [BBB ...]
@@ -351,7 +390,6 @@ pull() {
         return
     fi
 
-    echo "Pulling image: $uri"
     mkdir -p "${image_outdir}"  # Create the output directory if it doesn't exist
     singularity pull "${image_outdir}/${imgname}" "$uri" || exit 1 # Pull the Singularity image
     if [[ $update_repo -eq 1 ]]; then
@@ -1146,27 +1184,7 @@ elif [[ "$SUBCOMMAND" == "-h" || "$SUBCOMMAND" == "--help" ]]; then
     
 # List available profiles and exit if the -p or --profile flag is set
 elif [[ "$SUBCOMMAND" == "-l" || "$SUBCOMMAND" == "--list" ]]; then
-    # List available profiles
-    if [ -d "${PROFILEHOMEDIR}" ]; then
-        for PROFILE in "${PROFILEHOMEDIR}"/*; do
-            PROFILENAME="$(basename "${PROFILE}")"
-            if [ "${PROFILENAME}" != "*" ]; then
-                echo "${PROFILENAME}  (Personal Profile)"
-            fi
-        done
-    fi
-    if [ -d "${PROFILEROOT}" ]; then
-        for PROFILE in "${PROFILEROOT}"/*; do
-            PROFILENAME="$(basename "${PROFILE}")"
-            if [ "${PROFILENAME}" != "*" ]; then
-                if [ -e "${PROFILEHOMEDIR}/${PROFILENAME}" ]; then
-                    echo "${PROFILENAME}  (Overridden)"
-                else
-                    echo "${PROFILENAME}"
-                fi
-            fi
-        done
-    fi
+    list_profiles
     exit 0
 fi
 
@@ -1197,7 +1215,8 @@ while [[ -n "$1" ]]; do
             help_message
             graceful_exit ;;
         -l|--list)                      # List available profiles
-            LISTPROFILES=1 ;;
+            list_profiles 
+            graceful_exit ;;
         -p|--personal)                  # Enable personal modulefile creation
             personal=1 ;;
         -j|--jupyter)                   # Enable Jupyter kernel creation
