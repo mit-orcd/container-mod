@@ -10,8 +10,22 @@
 # installed on your system.
 # 
 # Usage: Run "container-mod --help" for instructions.
-
 VERSION="0.1"  # Increment this version for updates
+###############################################################################
+# Prerequisites: Ensure Singularity or Apptainer is available
+###############################################################################
+if ! command -v singularity > /dev/null 2>&1; then
+    if module load singularity 2>/dev/null; then
+        echo "Singularity module loaded successfully."
+    else
+        if module load apptainer 2>/dev/null; then
+            echo "Apptainer module loaded successfully."
+        else
+            echo "Failed to load both Singularity and Apptainer modules."
+            exit 1
+        fi
+    fi
+fi
 
 ###############################################################################
 # Helper functions 
@@ -123,12 +137,13 @@ handle_subcommand() {
     shift
 
     for URI in "$@"; do
-        echo "Processing URI: $URI"
+        echo "Processing URI: $URI with the subcommand: $cmd"
         if ! "$cmd" "$URI"; then
             echo "Error executing command '$cmd' for URI: $URI" >&2
-            return 1
+            exit 1 # Halt on the first failure
         fi
     done
+    return 0 # All commands succeeded
 }
 
 # Copy the AppInfo directory if missing
@@ -338,7 +353,7 @@ pull() {
 
     echo "Pulling image: $uri"
     mkdir -p "${image_outdir}"  # Create the output directory if it doesn't exist
-    singularity pull "${image_outdir}/${imgname}" "$uri"  # Pull the Singularity image
+    singularity pull "${image_outdir}/${imgname}" "$uri" || exit 1 # Pull the Singularity image
     if [[ $update_repo -eq 1 ]]; then
         # Check if app file exists
         if [[ ! -f "$app_file" ]]; then
@@ -1098,9 +1113,11 @@ jupyter() {
 force=0          # Overwrite modulefile and execs if they exist
 personal=0       # Create personal modulefiles in privatemodules (default: false)
 jupyter=0        # Create Jupyter kernel for the application (default: false)
+LISTPROFILES=0   # List available profiles (default: false)
 SCRIPT_TOP_DIR="$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"
 TEMPLATE_DIR="$SCRIPT_TOP_DIR/templates"
 AppInfo_DIR="${SCRIPT_TOP_DIR}/repos"
+PROFILEROOT="${SCRIPT_TOP_DIR}/profiles"
 ## Output directories
 OUTDIR_DEF="."  # Default output directory
 OUTDIR="${OUTDIR:-$OUTDIR_DEF}"
@@ -1111,6 +1128,7 @@ EXEC_OUTDIR="${OUTDIR}/executables"
 PRIVATE_EXECUTABLE_DIR="$HOME/container-apps/tools"
 PRIVATE_MODULEDIR="$HOME/privatemodules"
 PRIVATE_IMAGEDIR="$HOME/container-apps/images"
+PROFILEHOMEDIR="$HOME/container-apps/profiles"
 
 # Ensure a subcommand is provided, or display an error and usage instructions
 SUBCOMMAND="$1"
@@ -1125,20 +1143,31 @@ if [[ -z "$SUBCOMMAND" ]]; then
 elif [[ "$SUBCOMMAND" == "-h" || "$SUBCOMMAND" == "--help" ]]; then
     help_message
     exit 0
-fi
-
-# Prerequisites: Ensure Singularity or Apptainer is available
-# Load Singularity or Apptainer if it is not already loaded.
-if ! command -v singularity > /dev/null 2>&1; then
-    if module load singularity 2>/dev/null; then
-        # Successfully loaded singularity, do nothing
-        :
-    elif module load apptainer 2>/dev/null; then
-        :
-    else
-        echo "Error: Neither singularity nor apptainer is available on this system." >&2
-        exit 1
+    
+# List available profiles and exit if the -p or --profile flag is set
+elif [[ "$SUBCOMMAND" == "-l" || "$SUBCOMMAND" == "--list" ]]; then
+    # List available profiles
+    if [ -d "${PROFILEHOMEDIR}" ]; then
+        for PROFILE in "${PROFILEHOMEDIR}"/*; do
+            PROFILENAME="$(basename "${PROFILE}")"
+            if [ "${PROFILENAME}" != "*" ]; then
+                echo "${PROFILENAME}  (Personal Profile)"
+            fi
+        done
     fi
+    if [ -d "${PROFILEROOT}" ]; then
+        for PROFILE in "${PROFILEROOT}"/*; do
+            PROFILENAME="$(basename "${PROFILE}")"
+            if [ "${PROFILENAME}" != "*" ]; then
+                if [ -e "${PROFILEHOMEDIR}/${PROFILENAME}" ]; then
+                    echo "${PROFILENAME}  (Overridden)"
+                else
+                    echo "${PROFILENAME}"
+                fi
+            fi
+        done
+    fi
+    exit 0
 fi
 
 # Skip the first argument (subcommand) for option parsing
@@ -1167,6 +1196,8 @@ while [[ -n "$1" ]]; do
         -h|--help)                      # Display help message
             help_message
             graceful_exit ;;
+        -l|--list)                      # List available profiles
+            LISTPROFILES=1 ;;
         -p|--personal)                  # Enable personal modulefile creation
             personal=1 ;;
         -j|--jupyter)                   # Enable Jupyter kernel creation
@@ -1191,22 +1222,30 @@ ARGC=${#ARGV[@]}
 ###############################################################################
 # Profile Loading
 ###############################################################################
-SCRIPT_TOP_DIR="$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"
-PROFILE_DIR="$SCRIPT_TOP_DIR/profiles"
-
 if [[ -n "$PROFILE" ]]; then
-    PROFILE_FILE="$PROFILE_DIR/$PROFILE"
-    if [[ -f "$PROFILE_FILE" ]]; then
-        echo "Loading profile: $PROFILE"
-        source "$PROFILE_FILE"
+    # Check in PROFILEHOMEDIR first
+    if [[ -f "${PROFILEHOMEDIR}/$PROFILE" ]]; then
+        echo "Loading profile from personal directory: $PROFILE"
+        source "${PROFILEHOMEDIR}/$PROFILE"
+
+    # Fallback to PROFILEROOT if not found in PROFILEHOMEDIR
+    elif [[ -f "${PROFILEROOT}/$PROFILE" ]]; then
+        echo "Loading profile from root directory: $PROFILE"
+        source "${PROFILEROOT}/$PROFILE"
+
+    # Error if not found in either directory
     else
-        echo "Error: Profile '$PROFILE' not found in $PROFILE_DIR."
+        echo "Error: Profile '$PROFILE' not found in either:"
+        echo " - $PROFILEHOMEDIR"
+        echo " - $PROFILEROOT"
         exit 1
     fi
 else
     echo "No profile specified. Running in personal mode!"
     personal=1
 fi
+
+MOD_EXISTING_DIR="${MOD_EXISTING_DIR:-$MOD_EXISTING_DIR_DEF}"
 
 ###############################################################################
 # Initialization
@@ -1229,32 +1268,28 @@ else
     create_dir "$IMG_OUTDIR" "Created image directory"
 fi
 
+
 ###############################################################################
 # Subcommand Handling
 ###############################################################################
-case "$SUBCOMMAND" in
-    pull)         # Handle 'pull' subcommand
-        handle_subcommand pull "${ARGV[@]}" || exit 1 ;;
-    module)       # Handle 'module' subcommand
-        handle_subcommand module "${ARGV[@]}" || exit 1 ;;
-    exec)         # Handle 'exec' subcommand
-        handle_subcommand exec "${ARGV[@]}" || exit 1 ;;
-    pipe)         # Handle 'pipe' subcommand (chain pull, module, exec)
-        for URI in "${ARGV[@]}"; do
-            echo "Processing URI: $URI"
-            if ! (pull "$URI" && module "$URI" && exec "$URI"); then
-                echo "Error processing URI: $URI" >&2
-                exit 1
-            fi
-        done
-        ;;
-    help)         # Display help message
-        help_message ;;
-    *)            # Invalid subcommand handling
-        echo "Invalid subcommand: $SUBCOMMAND"
-        echo "Usage: ${0##*/} help"
-        exit 1 ;;
-esac
+if [ "$SUBCOMMAND" = "pull" ]; then
+    handle_subcommand pull "${ARGV[@]}" 
+elif [ "$SUBCOMMAND" = "module" ]; then
+    handle_subcommand module "${ARGV[@]}"
+elif [ "$SUBCOMMAND" = "exec" ]; then
+    handle_subcommand exec "${ARGV[@]}"
+elif [ "$SUBCOMMAND" = "pipe" ]; then
+    handle_subcommand pull "${ARGV[@]}"
+    handle_subcommand module "${ARGV[@]}"
+    handle_subcommand exec "${ARGV[@]}"
+elif [ "$SUBCOMMAND" = "help" ]; then
+    help_message
+    exit 0
+else
+    echo "Invalid subcommand: $SUBCOMMAND" >&2
+    echo "Usage: ${0##*/} help" >&2
+    exit 1
+fi
 
 ###############################################################################
 # Module Loading Message (if personal)
