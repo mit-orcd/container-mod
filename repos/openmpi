@@ -1,0 +1,4 @@
+Description: The Open MPI Project is an open source Message Passing Interface implementation that is developed and maintained by a consortium of academic, research, and industry partners. Open MPI is therefore able to combine the expertise, technologies, and resources from all across the High Performance Computing community in order to build the best MPI library available. Open MPI offers advantages for system and software vendors, application developers and computer science researchers.
+Home Page: https://www.open-mpi.org
+Programs: aggregate_profile.pl,mpiCC,mpicc,mpicxx,mpic++,mpiexec,mpif77,mpif90,mpifort,mpirun,ompi-clean,ompi-server,ompi_info,opal_wrapper,ortecc,orted,orterun,orte-clean,orte-info,orte-server,oshCC,oshcc,oshcxx,oshc++,oshfort,oshmem_info,oshrun,profile2mat.pl,shmemCC,shmemcc,shmemcxx,shmemc++,shmemfort,shmemrun
+
