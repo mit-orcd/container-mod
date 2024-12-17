@@ -1287,7 +1287,6 @@ else
     create_dir "$IMG_OUTDIR" "Created image directory"
 fi
 
-
 ###############################################################################
 # Subcommand Handling
 ###############################################################################
@@ -1313,19 +1312,56 @@ fi
 ###############################################################################
 # Module Loading Message (if personal)
 ###############################################################################
-if { [[ "$SUBCOMMAND" == "module" ]] || [[ "$SUBCOMMAND" == "pipe" ]]; } && [[ $personal -eq 1 ]]; then
+# Check if SUBCOMMAND is either 'module' or 'pipe'
+if [[ "$SUBCOMMAND" == "module" || "$SUBCOMMAND" == "pipe" ]]; then
+
+    # Check required environment variables
+    if [[ -z "$PRIVATE_MODULEDIR" || -z "$MOD_OUTDIR" ]]; then
+        echo "Error: PRIVATE_MODULEDIR or MOD_OUTDIR is not set. Exiting." >&2
+        exit 1
+    fi
+
+    # Iterate over all URIs provided as arguments
     for URI in "${ARGV[@]}"; do
+        # Validate non-empty URI
+        if [[ -z "$URI" ]]; then
+            echo "Error: Empty URI encountered in arguments. Skipping." >&2
+            continue
+        fi
+
+        # Extract app, version, and module name
         app=$(uri2app "$URI")
         ver=$(uri2ver "$URI")
-        modname=$(uri2modname "$URI")  # Capture the module name to use in the message
-        MSG=(
-            "To use this module, load the following modules:"
-            ""
-            "    module load use.own"
-            "    module load $app/$ver"
-            ""
-            "The modulefile is located at: $PRIVATE_MODULEDIR/$modname"
-        )
+        modname=$(uri2modname "$URI")
+
+        # Validate modname resolution
+        if [[ -z "$modname" ]]; then
+            echo "Error: Failed to resolve module name for URI: $URI. Skipping." >&2
+            continue
+        fi
+
+        # Determine message based on personal vs. shared environment
+        if [[ $personal -eq 1 ]]; then
+            MSG=(
+                "To use this module, load the following modules:"
+                ""
+                "    module load use.own"
+                "    module load $app/$ver"
+                ""
+                "The modulefile is located at: $PRIVATE_MODULEDIR/$modname"
+            )
+        else
+            MSG=(
+                "To use this module, load the following modules:"
+                ""
+                "    module use $MOD_OUTDIR"
+                "    module load $app/$ver"
+                ""
+                "The modulefile is located at: $MOD_OUTDIR/$modname"
+            )
+        fi
+
+        # Display the message in a boxed format
         boxify_text "${MSG[@]}"
     done
 fi
