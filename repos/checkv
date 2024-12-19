@@ -1,0 +1,3 @@
+Description: CheckV is a fully automated command-line pipeline for assessing the quality of single-contig viral genomes, including identification of host contamination for integrated proviruses, estimating completeness for genome fragments, and identification of closed genomes.
+Home Page: https://bitbucket.org/berkeleylab/checkv
+Programs: checkv

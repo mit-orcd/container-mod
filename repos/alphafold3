@@ -1,0 +1,5 @@
+Description: AlphaFold3 is the latest iteration of DeepMind’s groundbreaking protein structure prediction system, building on the success of AlphaFold2 to deliver enhanced accuracy, scalability, and features for tackling complex biological challenges.
+Home Page: https://github.com/google-deepmind/alphafold3
+Programs: fetch_databases.sh,run_alphafold.py
+
+version("3.0.0", uri="docker://tuftsttsrt/alphafold3:3.0.0")
