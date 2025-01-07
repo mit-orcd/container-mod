@@ -1,0 +1,3 @@
+Description: Clara Parabricks is a software suite for industry-standard next generation sequencing analysis on NVIDIA GPUs, consisting of everyday bioinformatics command-line tools, such as BWA-MEM, HaplotypeCaller, and Mutect2, running at blazing speeds.
+Home Page: https://catalog.ngc.nvidia.com/orgs/nvidia/collections/claraparabricks
+Programs: pbrun
