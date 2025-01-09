@@ -24,16 +24,17 @@ The script also provides flexible options, including specifying custom output di
 
 - pull <URI>: Pulls a container image from the provided URI.
 - module <URI>: Generates a module file for the container.
-- exec <URI>: Creates a wrapper bash script for the container’s programs.
-- pipe <URI>: Executes a pipeline that pulls the image, generates a module file, and creates the executable in one step.
+- exec <URI>: Creates wrapper bash scripts for the container’s programs.
+- pipe <URI>: Executes the pipeline that pulls the image, generates a module file, and creates executables in one step.
 
 ### Options
 
  - -d, --dir DIR: Specify the output directory for images, module files, and executables. Defaults to the current directory.
 - -f, --force: Force overwrite of existing module files, or executables. Default is to skip existing files.
+-  -j, --jupyter: Generate Jupyter kernels for the specified URIs. With the jupyter kernel, users can run containers within Jupyter Lab or Jupyter Notebook. The prerequisite is that **ipykernel** must be installed within the container.
 - -m, --moduledir DIR: Specify the directory that stores module files that can be used as template. Defaults to modulefiles.
 - -u, --update: If set, the repository app file will be updated with new version information.
-- -p, --personal: Create personal module files in the privatemodules directory (default is no).
+- -p, --personal: Create personal module files in users' `$HOME/privatemodules` (default is no).
 - -h, --help: Display this help message and exit.
 
 ## Examples
