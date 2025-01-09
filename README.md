@@ -1,7 +1,6 @@
 # container-mod
 
-Workflow to pull containers from public registries and generate modulefiles
-README for Container Management Script
+**container-mod** streamlines the process of pulling containers from public registries and automatically generating ready-to-use modulefiles. It is a versatile tool designed for use by HPC system administrators and group managers to create and manage modules accessible to all HPC users or group members. Additionally, regular users can leverage container-mod to create personal modulefiles for their individual workflows, enhancing efficiency and reproducibility in HPC environments.
 
 ## Overview
 
