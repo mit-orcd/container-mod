@@ -22,36 +22,49 @@ The script also provides flexible options, including specifying custom output di
 
 ### Subcommands
 
-- pull <URI>: Pulls a container image from the provided URI.
-- module <URI>: Generates a module file for the container.
-- exec <URI>: Creates wrapper bash scripts for the container’s programs.
-- pipe <URI>: Executes the pipeline that pulls the image, generates a module file, and creates executables in one step.
+- `pull <URI>`: Pulls a container image from the provided URI.
+- `module <URI>`: Generates a module file for the container.
+- `exec <URI>`: Creates wrapper bash scripts for the container’s programs.
+- `pipe <URI>`: Executes the pipeline that pulls the image, generates a module file, and creates executables in one step.
 
 ### Options
 
- - -d, --dir DIR: Specify the output directory for images, module files, and executables. Defaults to the current directory.
-- -f, --force: Force overwrite of existing module files, or executables. Default is to skip existing files.
--  -j, --jupyter: Generate Jupyter kernels for the specified URIs. With the jupyter kernel, users can run containers within Jupyter Lab or Jupyter Notebook. The prerequisite is that **ipykernel** must be installed within the container.
-- -m, --moduledir DIR: Specify the directory that stores module files that can be used as template. Defaults to modulefiles.
-- -u, --update: If set, the repository app file will be updated with new version information.
-- -p, --personal: Create personal module files in users' `$HOME/privatemodules` (default is no).
-- -h, --help: Display this help message and exit.
+ - `-d, --dir DIR`: Specify the output directory for images, module files, and executables. Defaults to the current directory.
+- `-f, --force`: Force overwrite of existing module files, or executables. Default is to skip existing files.
+- `-j, --jupyter`: Generate Jupyter kernels for the specified URIs. With the jupyter kernel, users can run containers within Jupyter Lab or Jupyter Notebook. The prerequisite is that **ipykernel** must be installed within the container.
+- `-m, --moduledir DIR`: Specify the directory that stores module files that can be used as template. Defaults to modulefiles.
+- `-u, --update`: If set, the repository app file will be updated with new version information.
+- `-p, --personal`: Create personal module files in users' `$HOME/privatemodules` (default is no).
+- `-h, --help`: Display this help message and exit.
+
+## Repository database
+In the repos folder, each scientific application is represented by an individual information file, which serves as the basis for generating the corresponding module file. Each info file requires three fields: **Description**, **Home Page**, and **Programs**. The **Description** and **Home Page** fields provide metadata for the module file, while **Programs** is a comma-delimited list of commands or executables provided by the application. The workflow uses this list to generate bash wrappers for each command. Additionally, an optional **version** field helps track the URI of the pulled containers for reproducibility.
+
+```
+Description: Bowtie 2 is an ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences. It is particularly good at aligning reads of about 50 up to 100s or 1,000s of characters, and particularly good at aligning to relatively long (e.g. mammalian) genomes. Bowtie 2 indexes the genome with an FM Index to keep its memory footprint small: for the human genome, its memory footprint is typically around 3.2 GB. Bowtie 2 supports gapped, local, and paired-end alignment modes.
+Home Page: https://github.com/BenLangmead/bowtie2
+Programs: bowtie2,bowtie2-build,bowtie2-inspect
+
+version("2.5.4", uri="docker://quay.io/biocontainers/bowtie2:2.5.4--h7071971_4")
+version("2.5.1", uri="docker://quay.io/biocontainers/bowtie2:2.5.1--py310h8d7afc0_0")
+version("2.4.2", uri="docker://quay.io/biocontainers/bowtie2:2.4.2--py38hc2f83ea_2")
+```
 
 ## Examples
 
-### Pull an image:
+### Pull an image
 
 ```
 $ container-mod pull docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
 ```
 
-### Create a lmod module file
+### Generate a lmod module file
 
 ```
 $ container-mod module docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
 ```
 
-### Creating executables
+### Create bash wrappers for executables
 
 ```
 $ container-mod exec docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
@@ -64,6 +77,8 @@ $ container-mod pipe docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
 ```
 
 ### Force overwrite existing files
+
+If output files already exist in the specified output folder, the script will skip generating new files by default. To overwrite existing files and regenerate the output, users can include the `-f` or `--force` option.
 
 ```
 $ container-mod pipe -f docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
@@ -99,7 +114,6 @@ $ module load use.own
 $ module load bowtie2/2.5.4
 $ bowtie2 --help
 ```
-
 
 ## Jupyter kernel
 
