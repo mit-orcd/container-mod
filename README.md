@@ -6,12 +6,12 @@
 
 This script is designed to streamline the management of Singularity/Apptainer containers. It handles the following tasks:
 
-1. Pulling Container Images: Retrieve Singularity/Apptainer images from specified URIs.
-2. Generating Module Files: Create module files in Lmod format based on container images.
-3. Creating Executables: Generate wrapper bash scripts that link to container programs.
+1. Pulling container images: retrieve Singularity/Apptainer images from specified URIs.
+2. Generating module files: create module files in Lmod format based on container images.
+3. Creating Executable Wrappers: Generate wrapper bash scripts for each program or command provided by the target application. These lightweight scripts simplify access to containerized tools by mimicking the behavior of native executables, allowing users to run commands as if the application were installed locally. 
 4. Pipeline Mode: Automatically pull images, generate module files, and create executables in one command.
 
-The script also supports options to specify output directories, force overwriting existing files, and update repository files with new version information.
+The script also provides flexible options, including specifying custom output directories, forcing overwrites of existing files, and updating repository files with new version information. Additionally, for containers that include **Python** and **ipykernel**, it can also generate a Jupyter kernel file, enabling users to run the container within Jupyter Lab or Notebook on the Open OnDemand platform.
 
 ## Prerequisites
 
