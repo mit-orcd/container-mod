@@ -477,7 +477,7 @@ module() {
     # If force is true and module file exists, remove it before creating a new one
     if [[ -f "$OUTFILE" && $force -eq 1 ]]; then
         echo "Force option enabled, removing existing module file $OUTFILE"
-        rm -f "$OUTFILE" || {
+        rm -rf "$OUTFILE" || {
             echo "Error: Failed to remove existing module file $OUTFILE"
             exit 1
         }
