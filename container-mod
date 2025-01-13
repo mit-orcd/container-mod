@@ -227,8 +227,8 @@ ensure_appinfo_file() {
     # Determine the target path for the appinfo file
     local target_path
     echo "Checking existence of files for $app"
-    echo "HOME/container-apps/repos/$app exists? $(test -f "$HOME/container-apps/repos/$app" && echo yes || echo no)"
-    echo "AppInfo_DIR/$app exists? $(test -f "$AppInfo_DIR/$app" && echo yes || echo no)"
+    echo "$HOME/container-apps/repos/$app exists? $(test -f "$HOME/container-apps/repos/$app" && echo yes || echo no)"
+    echo "$AppInfo_DIR/$app exists? $(test -f "$AppInfo_DIR/$app" && echo yes || echo no)"
 
     if [[ ! -f "$HOME/container-apps/repos/$app" && ! -f "$AppInfo_DIR/$app" ]]; then
     	if [[ "$personal" -eq 1 ]]; then
@@ -1084,7 +1084,13 @@ jupyter() {
 
     # Define kernel name and directory
     kernel_name="${app}-${ver}"
-    kernel_dir="$HOME/.local/share/jupyter/kernels/$kernel_name"
+    if [[ $personal -eq 1 ]]; then
+        kernel_dir="$HOME/.local/share/jupyter/kernels/$kernel_name"
+    else
+        local kernel_dir="$JUPYTER_OUTDIR/$kernel_name"
+    fi
+
+    mkdir -p "$kernel_dir"
 
     # Determine image output directory based on 'personal' flag
     local image_outdir
@@ -1168,6 +1174,7 @@ OUTDIR="${OUTDIR:-$OUTDIR_DEF}"
 IMG_OUTDIR="${OUTDIR}/images"
 MOD_OUTDIR="${OUTDIR}/incomplete"
 EXEC_OUTDIR="${OUTDIR}/executables"
+JUPYTER_OUTDIR="${OUTDIR}/kernels"
 ## Output directories for personal modules/executables
 PRIVATE_EXECUTABLE_DIR="$HOME/container-apps/tools"
 PRIVATE_MODULEDIR="$HOME/privatemodules"
