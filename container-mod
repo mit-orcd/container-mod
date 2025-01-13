@@ -226,18 +226,24 @@ ensure_appinfo_file() {
 
     # Determine the target path for the appinfo file
     local target_path
-    if [[ ! -f "$HOME/container-apps/repos/$app" && ! -f "$AppInfo_DIR/$app" ]]; then
-        if [[ "$personal" -eq 1 ]]; then
-            target_path="$HOME/container-apps/repos/$app"
-        else
-            target_path="$AppInfo_DIR/$app"
-        fi
+    echo "Checking existence of files for $app"
+    echo "HOME/container-apps/repos/$app exists? $(test -f "$HOME/container-apps/repos/$app" && echo yes || echo no)"
+    echo "AppInfo_DIR/$app exists? $(test -f "$AppInfo_DIR/$app" && echo yes || echo no)"
 
-        # Create the appinfo file
-        create_appinfo_file "$app" "$target_path" || {
-            echo "Error: Failed to create appinfo file for $app at $target_path" >&2
-            return 1
-        }
+    if [[ ! -f "$HOME/container-apps/repos/$app" && ! -f "$AppInfo_DIR/$app" ]]; then
+    	if [[ "$personal" -eq 1 ]]; then
+        	target_path="$HOME/container-apps/repos/$app"
+    	else
+        	target_path="$AppInfo_DIR/$app"
+    	fi
+    	echo "Debug: target_path is set to $target_path"
+    	# Create the appinfo file
+    	create_appinfo_file "$app" "$target_path" || {
+        	echo "Error: Failed to create appinfo file for $app at $target_path" >&2
+        	return 1
+    	}
+    else
+    	echo "Appinfo file already exists for $app, skipping creation."
     fi
 }
 
