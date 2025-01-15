@@ -1,0 +1,4 @@
+Description: miniforge is the community (conda-forge) driven minimalistic conda installer. Subsequent package installations come thus from conda-forge channel.
+Home Page: https://github.com/conda-forge/miniforge
+Programs: conda,pip,pip3,python,python3
+version("24.11.2", uri="docker://tuftsttsrt/miniforge:24.11.2")
