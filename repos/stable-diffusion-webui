@@ -1,0 +1,4 @@
+Description: Stable Diffusion web UI is a web interface for Stable Diffusion, implemented using Gradio library.
+Home Page: https://github.com/AUTOMATIC1111/stable-diffusion-webui
+Programs: webui.sh
+
