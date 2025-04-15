@@ -22,7 +22,6 @@
 -- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 -- IN THE SOFTWARE.
 
--- TODO: edit name, description, home page URL (in help and whatis)
 help([==[
 
 Description
@@ -45,7 +44,6 @@ local image = "${IMAGE}"
 local uri = "${URI}"
 local version = "${VERSION}"
 
--- TODO: check module conflicts (think older version, OpenMPI, etc)
 conflict(myModuleName())
 
 local modroot="${EXECUTABLE_DIR}/${APP}/" .. "${VERSION}"

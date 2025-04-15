@@ -1087,10 +1087,8 @@ jupyter() {
     if [[ $personal -eq 1 ]]; then
         kernel_dir="$HOME/.local/share/jupyter/kernels/$kernel_name"
     else
-        local kernel_dir="$JUPYTER_OUTDIR/$kernel_name"
+        kernel_dir="$JUPYTER_OUTDIR/$kernel_name"
     fi
-
-    mkdir -p "$kernel_dir"
 
     # Determine image output directory based on 'personal' flag
     local image_outdir

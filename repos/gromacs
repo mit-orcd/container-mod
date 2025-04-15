@@ -1,0 +1,4 @@
+Description: GROMACS is a molecular dynamics package primarily designed for simulations of proteins, lipids and nucleic acids.
+Home Page: https://www.gromacs.org
+Programs: gmx_mpi
+version("2018.8-plumed", uri="docker://tuftsttsrt/gromacs:2018.8-plumed")

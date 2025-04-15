@@ -1,0 +1,3 @@
+Description: RFdiffusion is an open source method for structure generation, with or without conditional information (a motif, target etc).
+Home Page: https://github.com/RosettaCommons/RFdiffusion
+Programs: run_inference.py,download_models.sh

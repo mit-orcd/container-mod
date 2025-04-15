@@ -1,0 +1,5 @@
+Description: Ilastik: Interactive learning and segmentation toolkit
+Home Page: https://www.ilastik.org
+Programs: run_ilastik.sh
+version("1.4.0", uri="docker://tuftsttsrt/ilastik-gpu:1.4.0")
+version("1.4.0", uri="docker://tuftsttsrt/ilastik-gpu:1.4.0")
