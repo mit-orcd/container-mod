@@ -2,4 +2,5 @@ Description: cellSNP aims to pileup the expressed alleles in single-cell or bulk
 Home Page: https://github.com/single-cell-genetics/cellSNP
 Programs: cellsnp-lite
 
+version("1.2.3", uri="docker://quay.io/biocontainers/cellsnp-lite:1.2.3--h1a9c9f8_4")
 version("1.2.2", uri="docker://quay.io/biocontainers/cellsnp-lite:1.2.2--h6233b05_2")
