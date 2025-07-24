@@ -82,7 +82,9 @@ _prompt_for_local_details() {
         return 0
     fi
 
-    echo "Local image file detected: $uri"
+    # Redirect this informational message to stderr to prevent command substitution capture.
+    echo "Local image file detected: $uri" >&2
+
     local app version
     read -r -p "-> Enter the application name: " app
     if [[ -z "$app" ]]; then
