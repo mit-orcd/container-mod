@@ -387,11 +387,29 @@ pull() {
         return 1
     fi
 
-    # NOTE: Your helper functions (uri2app, uri2ver) may need to be adjusted
-    # to correctly parse information from local filenames.
-    local app="$(uri2app "$uri")"
-    local version="$(uri2ver "$uri")"
-    
+    # --- Get application name and version ---
+    local app version
+    if [[ $is_local_file -eq 1 ]]; then
+        # For local files, prompt the user for details
+        echo "Local image file detected: $uri"
+        read -r -p "Enter the application name: " app
+        if [[ -z "$app" ]]; then
+            echo "Error: Application name cannot be empty." >&2
+            return 1
+        fi
+        
+        read -r -p "Enter the application version: " version
+        if [[ -z "$version" ]]; then
+            echo "Error: Version cannot be empty." >&2
+            return 1
+        fi
+    else
+        # For remote URIs, parse them using helper functions
+        app="$(uri2app "$uri")"
+        version="$(uri2ver "$uri")"
+    fi
+
+    # Determine the final image name
     local imgname
     if [[ $is_local_file -eq 1 ]]; then
         imgname="$(basename "$uri")"
@@ -423,8 +441,7 @@ pull() {
     if [[ $is_local_file -eq 1 ]]; then
         local source_path
         source_path="$(realpath "$uri")"
-        echo "Local file detected. Linking '$source_path' to '$target_image_path'..."
-        # Create a symbolic link to the original file
+        echo "Linking '$source_path' to '$target_image_path'..."
         ln -s "$source_path" "$target_image_path" || {
             echo "Error: Failed to create symbolic link." >&2
             rmdir --ignore-fail-on-non-empty "${image_outdir}"
@@ -439,8 +456,7 @@ pull() {
     if [[ $update_repo -eq 1 ]]; then
         if [[ ! -f "$app_file" ]]; then
             echo "Error: App file '$app_file' not found. Please create it first." >&2
-            # Clean up the pulled image or created symlink
-            rm -f "$target_image_path"
+            rm -f "$target_image_path" # Clean up the pulled image or created symlink
             return 1
         fi
 
