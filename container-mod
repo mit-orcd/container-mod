@@ -74,7 +74,7 @@ warn() {
 }
 
 # Prompts user for app name and version for a local file and caches the result.
-# This internal function is called by uri2app and uri2ver.
+# This internal function is called by _ensure_uri_details_cached.
 _prompt_for_local_details() {
     local uri="$1"
     # If already cached, do nothing.
@@ -102,6 +102,56 @@ _prompt_for_local_details() {
     VER_CACHE["$uri"]="$version"
     return 0
 }
+
+# Populates the APP_CACHE and VER_CACHE for a given URI.
+# This function is called directly to ensure it can modify the global cache arrays
+# without being affected by subshells from command substitution.
+_ensure_uri_details_cached() {
+    local uri="$1"
+    # If already cached, do nothing.
+    if [[ -v "APP_CACHE[$uri]" ]]; then
+        return 0
+    fi
+
+    local app ver
+
+    # If it's a local file, prompt the user for details.
+    if [[ -f "$uri" ]]; then
+        # This call to the prompter is now safe because this parent
+        # function is not called with command substitution.
+        _prompt_for_local_details "$uri" || return 1
+        return 0 # The cache is now populated.
+    fi
+
+    # --- If it's a remote URI, parse it and populate the cache ---
+
+    # App parsing logic (from the old uri2app)
+	if [[ "$uri" == */qiime2/core:* ]]; then
+		app="qiime2"
+	elif [[ "$uri" == */r-base:* ]]; then
+		app="r"
+	elif [[ "$uri" == */cumulusprod_cellranger:* ]]; then
+		app="cellranger"
+	elif [[ "$uri" == */nvidia/clara/clara-parabricks:* ]]; then
+		app="parabricks"
+    elif [[ "$uri" == */nvidia/devtools/nsight-systems-cli:* ]]; then
+        app="nsightsys"
+	else
+		app="${uri##*/}"
+		app=${app%%:*}
+	fi
+
+    # Version parsing logic (from the old uri2ver)
+	ver="${uri##*/}"
+	ver=${ver##*:}
+	ver=$(echo "$ver" | sed -re 's/(--.*)?(_[0-9]+)?$//')
+
+    # Populate the cache for the remote URI
+    APP_CACHE["$uri"]="$app"
+    VER_CACHE["$uri"]="$ver"
+    return 0
+}
+
 
 # Function to display the help message
 help_message() {
@@ -306,74 +356,17 @@ uri2modname() {
 
 uri2app() {
 	# uri2app "URI"
-	# Extracts the application name. For local files, it prompts the user once
-    # and caches the result. For remote URIs, it parses the string.
-	local uri="$1"
-
-    # Return cached value if it exists
-    if [[ -v "APP_CACHE[$uri]" ]]; then
-        echo "${APP_CACHE[$uri]}"
-        return 0
-    fi
-
-    # If it's a local file, prompt for details
-    if [[ -f "$uri" ]]; then
-        _prompt_for_local_details "$uri" || return 1 # Exit if prompt fails
-        echo "${APP_CACHE[$uri]}"
-        return 0
-    fi
-
-	# --- Original parsing logic for remote URIs ---
-	local app
-	if [[ "$uri" == */qiime2/core:* ]]; then
-		app="qiime2"
-	elif [[ "$uri" == */r-base:* ]]; then
-		app="r"
-	elif [[ "$uri" == */cumulusprod_cellranger:* ]]; then
-		app="cellranger"
-	elif [[ "$uri" == */nvidia/clara/clara-parabricks:* ]]; then
-		app="parabricks"
-    elif [[ "$uri" == */nvidia/devtools/nsight-systems-cli:* ]]; then
-        app="nsightsys"
-	else
-		app="${uri##*/}" 	# Drop all until just name:version
-		app=${app%%:*} 		# And drop ":version"
-	fi
-
-    # Cache the result and echo
-    APP_CACHE["$uri"]="$app"
-	echo "$app"
+	# Safely returns the cached application name for a given URI.
+	# Assumes the cache has been populated by _ensure_uri_details_cached.
+    echo "${APP_CACHE[$1]}"
 }
 
 
 uri2ver() {
 	# uri2ver "URI"
-	# Extracts the version. For local files, it prompts the user once
-    # and caches the result. For remote URIs, it parses the string.
-	local uri="$1"
-
-    # Return cached value if it exists
-    if [[ -v "VER_CACHE[$uri]" ]]; then
-        echo "${VER_CACHE[$uri]}"
-        return 0
-    fi
-
-    # If it's a local file, prompt for details
-    if [[ -f "$uri" ]]; then
-        _prompt_for_local_details "$uri" || return 1 # Exit if prompt fails
-        echo "${VER_CACHE[$uri]}"
-        return 0
-    fi
-
-	# --- Original parsing logic for remote URIs ---
-	local ver
-	ver="${uri##*/}" 		# Drop all until just name:version
-	ver=${ver##*:} 			# And drop "name:"
-	ver=$(echo "$ver" | sed -re 's/(--.*)?(_[0-9]+)?$//')
-
-    # Cache the result and echo
-    VER_CACHE["$uri"]="$ver"
-	echo "$ver"
+	# Safely returns the cached version for a given URI.
+	# Assumes the cache has been populated by _ensure_uri_details_cached.
+    echo "${VER_CACHE[$1]}"
 }
 
 ###############################################################################
@@ -1166,8 +1159,14 @@ MOD_EXISTING_DIR="${MOD_EXISTING_DIR:-$MOD_EXISTING_DIR_DEF}"
 ###############################################################################
 ensure_appinfo_dir  # Ensure appinfo directory exists
 
-# Process each URI in the argument list
+# Populate cache and ensure app files exist for all URIs before processing
 for URI in "${ARGV[@]}"; do
+    # This call populates the cache. It is NOT in a subshell.
+    _ensure_uri_details_cached "$URI" || {
+        echo "Error: Could not get application details for URI: $URI" >&2
+        exit 1
+    }
+    # This call can now safely use the cached info.
     ensure_appinfo_file "$URI"
 done
 
