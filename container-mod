@@ -547,7 +547,6 @@ module() {
 
     # Write module content to the file, exit on failure
     if echo "$MODULE" > "$OUTFILE"; then
-        echo "Remember to edit '$OUTFILE' stub (look for TODO: labels!)"
         echo
     else
         echo "Error: Failed to write to '$OUTFILE'"
