@@ -353,6 +353,19 @@ uri2imgname() {
 	echo "$file"
 }
 
+uri2modname() {
+	# uri2modname "URI"
+	local uri="$1" file
+	local app
+    app=$(uri2app "$uri") || return 1 # Application name
+	local buf="${uri##*/}" 		# Drop all until just name:version
+	local modver
+    modver=$(uri2ver "$uri") || return 1 # Version starts after last ':'
+
+	file="$app/$modver.lua"
+	echo "$file"
+}
+
 
 uri2app() {
 	# uri2app "URI"
@@ -398,11 +411,8 @@ pull() {
 
     # Determine the final image name
     local imgname
-    if [[ $is_local_file -eq 1 ]]; then
-        imgname="$(basename "$uri")"
-    else
-        imgname="$(uri2imgname "$uri")"
-    fi
+    imgname=$(uri2imgname "$uri") || return 1
+
 
     # Set output directories
     local image_outdir app_file
