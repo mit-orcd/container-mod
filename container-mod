@@ -370,63 +370,103 @@ uri2ver() {
 # Functions for pulling Singularity images
 ###############################################################################
 pull() {
-    # pull "URI"
-    # Pulls a Singularity image from the specified URI and stores it
-    # in the directory defined by the IMG_OUTDIR variable, and updates
-    # the corresponding app file in the repos directory if the update option is set.
+    # pull "URI" or "PATH_TO_IMAGE"
+    # Pulls a Singularity image from a remote URI, or creates a symbolic link
+    # to a local image file. The image or link is placed in the directory
+    # defined by IMG_OUTDIR or PRIVATE_IMAGEDIR, and the corresponding app file
+    # in the repos directory is updated if requested.
     
     local uri=$1
-    local imgname="$(uri2imgname "$uri")"
-    local app="$(uri2app "$uri")"  # Extract app name from URI
-    local version="$(uri2ver "$uri")"  # Extract version from URI
-    local app_file="repos/$app"  # Path to the app's file
+    local is_local_file=0
 
-    # Path to the app's file in the repos folder
-    if [[ $personal -eq 1 ]]; then
-        local image_outdir="$PRIVATE_IMAGEDIR"
-        local app_file="$HOME/container-apps/repos/$app"
-    else
-        local image_outdir="$IMG_OUTDIR"
-        local app_file="$AppInfo_DIR/$app"
+    # Determine if the input is a local file path or a remote URI
+    if [[ -f "$uri" ]]; then
+        is_local_file=1
+    elif [[ "$uri" != *"://"* ]]; then
+        echo "Error: The specified local file does not exist: $uri" >&2
+        return 1
     fi
 
-    # Check if the image file already exists
-    if [ -f "${image_outdir}/${imgname}" ]; then
-        echo "Image already exists: ${image_outdir}/${imgname}"
+    # NOTE: Your helper functions (uri2app, uri2ver) may need to be adjusted
+    # to correctly parse information from local filenames.
+    local app="$(uri2app "$uri")"
+    local version="$(uri2ver "$uri")"
+    
+    local imgname
+    if [[ $is_local_file -eq 1 ]]; then
+        imgname="$(basename "$uri")"
+    else
+        imgname="$(uri2imgname "$uri")"
+    fi
+
+    # Set output directories
+    local image_outdir app_file
+    if [[ $personal -eq 1 ]]; then
+        image_outdir="$PRIVATE_IMAGEDIR"
+        app_file="$HOME/container-apps/repos/$app"
+    else
+        image_outdir="$IMG_OUTDIR"
+        app_file="$AppInfo_DIR/$app"
+    fi
+
+    local target_image_path="${image_outdir}/${imgname}"
+
+    # Check if a file or link with the same name already exists in the destination
+    if [[ -e "$target_image_path" ]]; then
+        echo "A file or link already exists: ${target_image_path}"
         return
     fi
 
-    mkdir -p "${image_outdir}"  # Create the output directory if it doesn't exist
-    singularity pull "${image_outdir}/${imgname}" "$uri" || exit 1 # Pull the Singularity image
+    mkdir -p "${image_outdir}"
+
+    # --- Main Action: Pull remote image or link local image ---
+    if [[ $is_local_file -eq 1 ]]; then
+        local source_path
+        source_path="$(realpath "$uri")"
+        echo "Local file detected. Linking '$source_path' to '$target_image_path'..."
+        # Create a symbolic link to the original file
+        ln -s "$source_path" "$target_image_path" || {
+            echo "Error: Failed to create symbolic link." >&2
+            rmdir --ignore-fail-on-non-empty "${image_outdir}"
+            return 1
+        }
+    else
+        echo "Pulling Singularity image from '$uri'..."
+        singularity pull "$target_image_path" "$uri" || exit 1
+    fi
+
+    # --- Update repository file if requested ---
     if [[ $update_repo -eq 1 ]]; then
-        # Check if app file exists
         if [[ ! -f "$app_file" ]]; then
-            echo "Error: App file '$app_file' not found. Please create an app file in the repo first."
+            echo "Error: App file '$app_file' not found. Please create it first." >&2
+            # Clean up the pulled image or created symlink
+            rm -f "$target_image_path"
             return 1
         fi
 
-        # Create a temporary file for the updated app file
-        temp_file="${app_file}.tmp"
+        local repo_uri="$uri"
+        if [[ $is_local_file -eq 1 ]]; then
+            repo_uri="$(realpath "$uri")"
+        fi
+
+        local temp_file="${app_file}.tmp"
         {
-            # Keep lines that do not start with "version(" 
             grep -v '^version(' "$app_file"
-            # Add the new version entry
-            echo "version(\"$version\", uri=\"$uri\")"
-            # Append existing "version(" lines
+            echo "version(\"$version\", uri=\"$repo_uri\")"
             grep '^version(' "$app_file"
         } > "$temp_file"
 
-        # Check if the temporary file was created successfully
-        if [[ ! -f "$temp_file" ]]; then
-            echo "Error: Failed to create the temporary file '$temp_file'."
+        if [[ ! -s "$temp_file" ]]; then
+            echo "Error: Failed to create temporary update file '$temp_file'." >&2
+            rm -f "$target_image_path"
             return 1
         fi
 
-        # Replace the original app file with the updated content
         if mv "$temp_file" "$app_file"; then
             echo "Updated app file: $app_file with new version $version"
         else
-            echo "Error: Failed to rename '$temp_file' to '$app_file'."
+            echo "Error: Failed to update app file '$app_file'." >&2
+            rm -f "$temp_file" "$target_image_path"
             return 1
         fi
     fi
