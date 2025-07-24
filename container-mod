@@ -721,22 +721,21 @@ exec() {
     local uri="$1"
     local app; app=$(uri2app "$uri") || return 1
     local ver; ver=$(uri2ver "$uri") || return 1
-    local image; image=$(uri2imgname "$uri") || return 1
 
-    # Determine the final, full path to the image
-    local final_image_path
+    local final_image_dir final_image_name
     if [[ -f "$uri" ]]; then
-        # For local files, use the real, absolute path
-        final_image_path="$(realpath "$uri")"
+        # For local files, split the absolute path into its directory and filename
+        local absolute_path; absolute_path="$(realpath "$uri")"
+        final_image_dir="$(dirname "$absolute_path")"
+        final_image_name="$(basename "$absolute_path")"
     else
-        # For remote files, build the path to where it was pulled
-        local image_outdir
+        # For remote files, use the managed image directory and generated name
         if [[ $personal -eq 1 ]]; then
-            image_outdir="$PRIVATE_IMAGEDIR"
+            final_image_dir="$PRIVATE_IMAGEDIR"
         else
-            image_outdir="$IMG_OUTDIR"
+            final_image_dir="$IMG_OUTDIR"
         fi
-        final_image_path="${image_outdir}/${image}"
+        final_image_name=$(uri2imgname "$uri") || return 1
     fi
 
     exec_array=($(parse_exec))
@@ -768,15 +767,15 @@ exec() {
     else
         echo "Generating executables provided by $app version $ver..."
         for command_exec in "${exec_array[@]}"; do
-            if confirm_exec_exists "$command_exec" "$final_image_path"; then
-                # Pass the final image path to the generator
-                if generate_executable "$app" "$ver" "$command_exec" "$final_image_path" "$AppTool_dir"; then
+            # The path passed to confirm_exec_exists must be the reconstructed full path
+            if confirm_exec_exists "$command_exec" "$final_image_dir/$final_image_name"; then
+                if generate_executable "$app" "$ver" "$command_exec" "$final_image_dir" "$final_image_name" "$AppTool_dir"; then
                     echo "Successfully generated: $command_exec"
                 else
                     echo "Error: Failed to generate executable: $command_exec" >&2
                 fi
             else
-                 echo "Warning: Executable not found: $command_exec in $final_image_path" >&2
+                 echo "Warning: Executable not found: $command_exec in $final_image_dir/$final_image_name" >&2
             fi
         done
     fi
