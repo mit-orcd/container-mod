@@ -335,21 +335,21 @@ ensure_appinfo_file() {
 
 uri2imgname() {
 	# uri2imgname "URI"
-	local uri="$1" file=""
+	# Converts a URI to a Singularity image filename.
+	# Handles both local file paths and remote URIs correctly.
+	local uri="$1"
+
+    # If the URI is an existing local file, use basename to return only the filename.
+    # This correctly strips the entire path prefix.
+    if [[ -f "$uri" ]]; then
+        basename "$uri"
+        return 0
+    fi
+
+    # Original logic for remote URIs
+	local file=""
 	file="${uri#*://}" 		# Drop {docker,https}:// prefix, if any
 	file="${file//\//_}.sif" 	# And replace '/' with '_'
-	echo "$file"
-}
-
-uri2modname() {
-	# uri2modname "URI"
-	local uri="$1" file
-	local app=$(uri2app "$uri") || return 1 # Application name
-	local buf="${uri##*/}" 		# Drop all until just name:version
-	local modver=${buf##*:} 	# Version starts after last ':'
-	modver=$(echo "$modver" | sed -re 's/(--.*)?(_[0-9]+)?$//') # trim --hash_release
-
-	file="$app/$modver.lua"
 	echo "$file"
 }
 
