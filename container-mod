@@ -242,6 +242,19 @@ boxify_text()
 	echo "+-${longest//?/-}-+"
 }
 
+# Safely escapes a string for use as the replacement text in a sed command.
+# This function handles characters that have a special meaning in the replacement
+# part of a sed 's' command, such as backslashes (\) and ampersands (&).
+# It also escapes the pipe character (|), which is used as the delimiter
+# in this script's sed commands, preventing syntax errors.
+#
+# @param $1 The input string to escape.
+# @return Prints the escaped string to standard output.
+sedi_escape() {
+    # Escapes characters for safe use in sed 's|...|HERE|g'
+    echo -n "$1" | sed -e 's/\\/\\\\/g' -e 's/|/\\|/g' -e 's/&/\\&/g'
+}
+
 # Create directory if it doesn't exist
 create_dir() {
     local dir_path="$1"
