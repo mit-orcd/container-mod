@@ -357,10 +357,9 @@ uri2modname() {
 	# uri2modname "URI"
 	local uri="$1" file
 	local app
-    app=$(uri2app "$uri") || return 1 # Application name
-	local buf="${uri##*/}" 		# Drop all until just name:version
+    app=$(uri2app "$uri") || return 1
 	local modver
-    modver=$(uri2ver "$uri") || return 1 # Version starts after last ':'
+    modver=$(uri2ver "$uri") || return 1
 
 	file="$app/$modver.lua"
 	echo "$file"
@@ -387,10 +386,7 @@ uri2ver() {
 ###############################################################################
 pull() {
     # pull "URI" or "PATH_TO_IMAGE"
-    # Pulls a Singularity image from a remote URI, or creates a symbolic link
-    # to a local image file. The image or link is placed in the directory
-    # defined by IMG_OUTDIR or PRIVATE_IMAGEDIR, and the corresponding app file
-    # in the repos directory is updated if requested.
+    # Pulls a Singularity image from a remote URI. For local images, it does nothing.
     local uri=$1
     local is_local_file=0
 
@@ -402,66 +398,74 @@ pull() {
         return 1
     fi
 
-    # --- Get application name and version (now handled by helper functions) ---
-    local app
-    app=$(uri2app "$uri") || return 1
-    local version
-    version=$(uri2ver "$uri") || return 1
+    # --- For local files, do nothing and return (but handle repo update) ---
+    if [[ $is_local_file -eq 1 ]]; then
+        echo "Local image file detected. Leaving it in its original location: $uri"
+        if [[ $update_repo -eq 1 ]]; then
+            local app; app=$(uri2app "$uri") || return 1
+            local version; version=$(uri2ver "$uri") || return 1
+            local app_file="$AppInfo_DIR/$app"
+            if [[ $personal -eq 1 ]]; then
+                app_file="$HOME/container-apps/repos/$app"
+            fi
 
+            if [[ ! -f "$app_file" ]]; then
+                echo "Error: App file '$app_file' not found for update. Please create it first." >&2
+                return 1
+            fi
+            local repo_uri; repo_uri="$(realpath "$uri")"
+            local temp_file="${app_file}.tmp"
+            {
+                grep -v '^version(' "$app_file"
+                echo "version(\"$version\", uri=\"$repo_uri\")"
+                grep '^version(' "$app_file"
+            } > "$temp_file"
+            if mv "$temp_file" "$app_file"; then
+                echo "Updated app file: $app_file with new version $version"
+            else
+                echo "Error: Failed to update app file '$app_file'." >&2
+                return 1
+            fi
+        fi
+        return 0
+    fi
 
-    # Determine the final image name
-    local imgname
-    imgname=$(uri2imgname "$uri") || return 1
+    # --- For remote URIs, pull the image as before ---
+    local app; app=$(uri2app "$uri") || return 1
+    local version; version=$(uri2ver "$uri") || return 1
+    local imgname; imgname=$(uri2imgname "$uri") || return 1
 
-
-    # Set output directories
-    local image_outdir app_file
+    local image_outdir
     if [[ $personal -eq 1 ]]; then
         image_outdir="$PRIVATE_IMAGEDIR"
-        app_file="$HOME/container-apps/repos/$app"
     else
         image_outdir="$IMG_OUTDIR"
-        app_file="$AppInfo_DIR/$app"
     fi
 
     local target_image_path="${image_outdir}/${imgname}"
 
-    # Check if a file or link with the same name already exists in the destination
     if [[ -e "$target_image_path" ]]; then
         echo "A file or link already exists: ${target_image_path}"
         return
     fi
 
     mkdir -p "${image_outdir}"
+    echo "Pulling Singularity image from '$uri'..."
+    singularity pull "$target_image_path" "$uri" || exit 1
 
-    # --- Main Action: Pull remote image or link local image ---
-    if [[ $is_local_file -eq 1 ]]; then
-        local source_path
-        source_path="$(realpath "$uri")"
-        echo "Linking '$source_path' to '$target_image_path'..."
-        ln -s "$source_path" "$target_image_path" || {
-            echo "Error: Failed to create symbolic link." >&2
-            rmdir --ignore-fail-on-non-empty "${image_outdir}"
-            return 1
-        }
-    else
-        echo "Pulling Singularity image from '$uri'..."
-        singularity pull "$target_image_path" "$uri" || exit 1
-    fi
-
-    # --- Update repository file if requested ---
+    # --- Update repository file if requested (for remote pulls) ---
     if [[ $update_repo -eq 1 ]]; then
+        local app_file="$AppInfo_DIR/$app"
+        if [[ $personal -eq 1 ]]; then
+             app_file="$HOME/container-apps/repos/$app"
+        fi
         if [[ ! -f "$app_file" ]]; then
             echo "Error: App file '$app_file' not found. Please create it first." >&2
-            rm -f "$target_image_path" # Clean up the pulled image or created symlink
+            rm -f "$target_image_path"
             return 1
         fi
 
         local repo_uri="$uri"
-        if [[ $is_local_file -eq 1 ]]; then
-            repo_uri="$(realpath "$uri")"
-        fi
-
         local temp_file="${app_file}.tmp"
         {
             grep -v '^version(' "$app_file"
@@ -715,73 +719,64 @@ repurpose_old_modulefile() {
 exec() {
     # exec "URI"
     local uri="$1"
-    # Parse the URI into app, version, and image
-    local app
-    app=$(uri2app "$uri") || return 1
-    local ver
-    ver=$(uri2ver "$uri") || return 1
-    local image
-    image=$(uri2imgname "$uri") || return 1
+    local app; app=$(uri2app "$uri") || return 1
+    local ver; ver=$(uri2ver "$uri") || return 1
+    local image; image=$(uri2imgname "$uri") || return 1
 
-    # Call the parse_exec function and capture output into an array
+    # Determine the final, full path to the image
+    local final_image_path
+    if [[ -f "$uri" ]]; then
+        # For local files, use the real, absolute path
+        final_image_path="$(realpath "$uri")"
+    else
+        # For remote files, build the path to where it was pulled
+        local image_outdir
+        if [[ $personal -eq 1 ]]; then
+            image_outdir="$PRIVATE_IMAGEDIR"
+        else
+            image_outdir="$IMG_OUTDIR"
+        fi
+        final_image_path="${image_outdir}/${image}"
+    fi
+
     exec_array=($(parse_exec))
-
-    # Error check for parse_exec
     if [ $? -ne 0 ]; then
         warn -p "Error: No executables are defined for $app"
     fi
 
-    # Testing whether we are generating personal or public apps
+    local exec_outdir
     if [[ $personal -eq 1 ]]; then
-        local exec_outdir="$PRIVATE_EXECUTABLE_DIR"
-        local image_outdir="$PRIVATE_IMAGEDIR"
+        exec_outdir="$PRIVATE_EXECUTABLE_DIR"
     else
-        local exec_outdir="$EXEC_OUTDIR"
-        local image_outdir="$IMG_OUTDIR"
+        exec_outdir="$EXEC_OUTDIR"
     fi
 
-    # Define the output directory
     local AppTool_dir="$exec_outdir/$app/$ver/bin"
-
-    # If AppTool_dir exists and force is not set, skip executable generation
     if [[ -d "$AppTool_dir" && $force -eq 0 ]]; then
         warn -p "Output directory $AppTool_dir already exists. Skipping executable generation."
         return 0
     fi
 
-    # If force is true and directory exists, remove it before creating a new one
     if [[ -d "$AppTool_dir" && $force -eq 1 ]]; then
         echo "Force option enabled, removing existing directory $AppTool_dir"
-        rm -rf "$AppTool_dir" || {
-            echo "Error: Failed to remove directory $AppTool_dir"
-            exit 1
-        }
+        rm -rf "$AppTool_dir" || { echo "Error: Failed to remove directory $AppTool_dir"; exit 1; }
     fi
+    mkdir -p "$AppTool_dir" || { warn -p "Error: Failed to create directory $AppTool_dir"; exit 1; }
 
-    # Create the directory if it doesn't exist or was just removed
-    mkdir -p "$AppTool_dir" || {
-        warn -p "Error: Failed to create directory $AppTool_dir"
-        exit 1
-    }
-
-    # Check if exec_array is empty
     if [[ ${#exec_array[@]} -eq 0 ]]; then
         warn -p "Warning: No executables are predefined for $app version $ver."
     else
         echo "Generating executables provided by $app version $ver..."
-
-        # Process each executable in the array
-        for exec in "${exec_array[@]}"; do
-            # Check if the executable exists
-            if confirm_exec_exists "$exec" "$image_outdir/$image"; then
-                # Attempt to generate the executable
-                if generate_executable "$app" "$ver" "$image" "$exec"; then
-                    echo "Successfully generated: $exec"
+        for command_exec in "${exec_array[@]}"; do
+            if confirm_exec_exists "$command_exec" "$final_image_path"; then
+                # Pass the final image path to the generator
+                if generate_executable "$app" "$ver" "$command_exec" "$final_image_path" "$AppTool_dir"; then
+                    echo "Successfully generated: $command_exec"
                 else
-                    echo "Error: Failed to generate executable: $exec" >&2
+                    echo "Error: Failed to generate executable: $command_exec" >&2
                 fi
             else
-                 echo "Warning: Executable not found: $exec in $image_outdir/$image" >&2
+                 echo "Warning: Executable not found: $command_exec in $final_image_path" >&2
             fi
         done
     fi
@@ -800,30 +795,22 @@ confirm_exec_exists() {
 }
 
 generate_executable() {
-    # generate_executable $app $version $image $command
+    # generate_executable $app $version $command $image_path $AppTool_dir
     local app=$1
     local version=$2
-    local image=$3
-    local command=$4
+    local command=$3
+    local image_path=$4 # The full, absolute path to the image file
+    local AppTool_dir=$5
     local executable="$AppTool_dir/$command"
-    # Testing whether we are generating personal or public apps
-    if [[ $personal -eq 1 ]]; then
-        # Using local scope and expanding $HOME
-        local image_dir="${PRIVATE_IMAGEDIR/#\$HOME/$HOME}"
-    else
-        local image_dir="$PUBLIC_IMAGEDIR"
-    fi
 
-    # Ensure necessary variables are set
-    if [[ -z "$app" || -z "$version" || -z "$image" || -z "$command" ]]; then
-        echo "Error: Missing arguments for generate_executable: app=$app, version=$version, image=$image, command=$command"
+    if [[ -z "$app" || -z "$version" || -z "$command" || -z "$image_path" || -z "$AppTool_dir" ]]; then
+        echo "Error: Missing arguments for generate_executable"
         return 1
     fi
 
-    # Create the executable directory if it doesn't exist
     mkdir -p "$(dirname "$executable")"
 
-    # Generate the bash wrapper script
+    # Generate the bash wrapper script using the direct image_path
     cat <<EOF >"$executable"
 #!/usr/bin/env bash
 
@@ -831,8 +818,7 @@ generate_executable() {
 VER="$version"
 PKG="$app"
 PROGRAM="$command"
-IMAGE_DIR="$image_dir"
-IMAGE="$image"
+IMAGE_PATH="$image_path" # Use the direct path to the SIF file
 
 # Load Singularity if it is not already loaded
 if ! command -v singularity &> /dev/null; then
@@ -850,12 +836,10 @@ if rocm-smi -L &> /dev/null; then
 fi
 
 # Run the container with appropriate options
-singularity exec \$OPTIONS "\$IMAGE_DIR/\$IMAGE" "\$PROGRAM" "\$@"
+singularity exec \$OPTIONS "\$IMAGE_PATH" "\$PROGRAM" "\$@"
 EOF
 
-    # Make the wrapper script executable
     chmod +x "$executable"
-
     if [[ $? -ne 0 ]]; then
         echo "Error: Failed to generate wrapper for $command"
         return 1
