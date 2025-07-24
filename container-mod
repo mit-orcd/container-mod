@@ -3,14 +3,14 @@
 # Yucheng Zhang
 
 # Copyright (c) 2024 Tufts University
-# This script is modified from the original script written by Lev Gorenstein from Purdue University. 
+# This script is modified from the original script written by Lev Gorenstein from Purdue University.
 # The original script is available at (https://github.com/PurdueRCAC/Biocontainers).
 
-# This script assumes that you have Singularity or Apptainer 
+# This script assumes that you have Singularity or Apptainer
 # installed on your system.
-# 
+#
 # Usage: Run "container-mod --help" for instructions.
-VERSION="0.1"  # Increment this version for updates
+VERSION="0.1.1" # Increment this version for updates
 
 ###############################################################################
 # Prerequisites: Ensure Singularity or Apptainer is available
@@ -30,8 +30,12 @@ if ! command -v singularity > /dev/null 2>&1; then
 fi
 
 ###############################################################################
-# Helper functions 
+# Helper functions
 ###############################################################################
+
+# --- Caches for app name and version to avoid repeated prompting ---
+declare -A APP_CACHE
+declare -A VER_CACHE
 
 clean_up() {
 	# Perform pre-exit housekeeping
@@ -58,7 +62,7 @@ warn() {
             p) withname=1 ;;
         esac
     done
-    shift $((OPTIND - 1))  # Shift away the processed options
+    shift $((OPTIND - 1)) # Shift away the processed options
 
     # Output messages
     for msg in "$@" ; do
@@ -69,6 +73,34 @@ warn() {
     done
 }
 
+# Prompts user for app name and version for a local file and caches the result.
+# This internal function is called by uri2app and uri2ver.
+_prompt_for_local_details() {
+    local uri="$1"
+    # If already cached, do nothing.
+    if [[ -v "APP_CACHE[$uri]" ]]; then
+        return 0
+    fi
+
+    echo "Local image file detected: $uri"
+    local app version
+    read -r -p "-> Enter the application name: " app
+    if [[ -z "$app" ]]; then
+        echo "Error: Application name cannot be empty." >&2
+        return 1
+    fi
+
+    read -r -p "-> Enter the application version: " version
+    if [[ -z "$version" ]]; then
+        echo "Error: Version cannot be empty." >&2
+        return 1
+    fi
+
+    APP_CACHE["$uri"]="$app"
+    VER_CACHE["$uri"]="$version"
+    return 0
+}
+
 # Function to display the help message
 help_message() {
     scriptname="container-mod"
@@ -76,10 +108,9 @@ help_message() {
 
 ${scriptname} v$VERSION - Container Module Generator
 
-This script streamlines the process of pulling container images from public registries, such as DockerHub, 
-and automates the generation of module files and wrapper scripts, 
+This script streamlines the process of pulling container images from public registries,
+and automates the generation of module files and wrapper scripts,
 enabling users to seamlessly run containers as if they were standard software modules.
-
 Usage:
     ${scriptname} <subcommand> [options] <URIs>
 
@@ -88,17 +119,16 @@ Subcommands:
     module      Generate module files for the specified URIs.
     exec        Generate wrapper scripts for the programs provided by the container.
     pipe        Pull, generate module files, and generate wrapper scripts for the specified URIs.
-
 Options:
   -d, --dir DIR           Specify the output directory for images and module files (default is the current directory).
   -f, --force             Force overwrite of existing images and module files (default behavior is to skip).
   -m, --moduledir DIR     Specify the directory for storing generated module files.
   -u, --update            Update the app file in the repos directory with the new version (default is no).
   -p, --personal          Create personal module files in the privatemodules directory (default is no).
-  --profile               Use the specified profile for configuration. Available profiles are stored in profiles directory.
+  --profile               Use the specified profile for configuration.
+Available profiles are stored in profiles directory.
   -j, --jupyter           Generate Jupyter kernels for the specified URIs.
   -h, --help              Display this help message and exit.
-
 Examples:
     ${scriptname} pull docker://quay.io/biocontainers/vcftools:0.1.16
     ${scriptname} module docker://quay.io/biocontainers/vcftools:0.1.16
@@ -219,7 +249,7 @@ ensure_appinfo_file() {
     fi
 
     local app
-    app=$(uri2app "$URI") || { 
+    app=$(uri2app "$URI") || {
         echo "Error: Failed to extract app name from URI: $URI" >&2
         return 1
     }
@@ -253,16 +283,6 @@ ensure_appinfo_file() {
 
 uri2imgname() {
 	# uri2imgname "URI"
-	# Takes an image URI ($1) and converts into desired Singularity
-	# image name according to our conventions (which is really a
-	# Scott McMillan's convention in his NGC Containers Modules collection
-	# (https://github.com/NVIDIA/ngc-container-environment-modules/).
-	# E.g.:
-	#   URI:  [docker://]quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
-	#   IMG:  quay.io_biocontainers_vcftools:0.1.16--h9a82719_5.sif
-	#
-	# Note: VERY PRIMITIVE! Fancy URIs (e.g. usernames/passwords) may fail.
-
 	local uri="$1" file=""
 	file="${uri#*://}" 		# Drop {docker,https}:// prefix, if any
 	file="${file//\//_}.sif" 	# And replace '/' with '_'
@@ -271,36 +291,10 @@ uri2imgname() {
 
 uri2modname() {
 	# uri2modname "URI"
-	# Takes an image URI  and converts into desired modulefile
-	# name according to our naming conventions.
-	#
-	# Note: biocontainers often have additional interpreter, unique hash
-	# and/or container release information appended, in the form of a
-	#	--<pyXY|plXYZ>h<hash>_<release>
-	# string (where XYZ version numbers may or may not be present).
-	# We strip hash and release number, but keep the interpreter
-	# information in the module name just in case.
-	# E.g.:
-	#   URI:  [docker://]quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
-	#   MOD:  vcftools/0.1.16.lua
-	# and
-	#   URI:  [docker://]quay.io/biocontainers/bowtie2:2.4.2--py36hff7a194_2
-	#   MOD:  bowtie2/2.4.2-py36
-	#
-	# Note: VERY PRIMITIVE! Fancy URIs (e.g. usernames/passwords) may fail.
-
 	local uri="$1" file
-	local app=$(uri2app "$uri") 	# Application name
+	local app=$(uri2app "$uri") || return 1 # Application name
 	local buf="${uri##*/}" 		# Drop all until just name:version
 	local modver=${buf##*:} 	# Version starts after last ':'
-
-	# Handle interpreter/hash/release string.
-	# First, if there is an '--interpreter' (or '--extralibNNinterpreterMM')
-	# part, make it single dash and move the '--' after it:
-	#       deeptools:3.5.1--py_0         -> deeptools:3.5.1-py--_0 
-	# 	bowtie2:2.4.2--py36hff7a194_2 -> bowtie2:2.4.2-py36--hff7a194_2
-	#       biopython:1.70--np112py36_1   -> biopython:1.70-np112py36--_1
-	# And then trim hash and release (everything past '--' or '_$')
 	modver=$(echo "$modver" | sed -re 's/(--.*)?(_[0-9]+)?$//') # trim --hash_release
 
 	file="$app/$modver.lua"
@@ -310,24 +304,25 @@ uri2modname() {
 
 uri2app() {
 	# uri2app "URI"
-	# Takes an image URI ($1) and extracts the application name according
-	# to our conventions.  Handles some applications specially
-	# E.g.:
-	#   URI:  [docker://]quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
-	#   APP:  vcftools
-	# Special:
-	#   URI:  [docker://]quay.io/qiime2/core:2021.2
-	#   APP:  qiime2
-	#   URI:  [docker://]r-base:4.1.1
-	#   APP:  r
-	#   URI:  [docker://]nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1
-	#   APP:  parabricks
-	# etc.
+	# Extracts the application name. For local files, it prompts the user once
+    # and caches the result. For remote URIs, it parses the string.
+	local uri="$1"
 
-	local uri="$1" app
+    # Return cached value if it exists
+    if [[ -v "APP_CACHE[$uri]" ]]; then
+        echo "${APP_CACHE[$uri]}"
+        return 0
+    fi
 
-	# Some special apps have their own dedicated repositories (as opposed
-	# to a central 'biocontainers' one), handle them first.
+    # If it's a local file, prompt for details
+    if [[ -f "$uri" ]]; then
+        _prompt_for_local_details "$uri" || return 1 # Exit if prompt fails
+        echo "${APP_CACHE[$uri]}"
+        return 0
+    fi
+
+	# --- Original parsing logic for remote URIs ---
+	local app
 	if [[ "$uri" == */qiime2/core:* ]]; then
 		app="qiime2"
 	elif [[ "$uri" == */r-base:* ]]; then
@@ -336,33 +331,46 @@ uri2app() {
 		app="cellranger"
 	elif [[ "$uri" == */nvidia/clara/clara-parabricks:* ]]; then
 		app="parabricks"
-        elif [[ "$uri" == */nvidia/devtools/nsight-systems-cli:* ]]; then
-                app="nsightsys"
+    elif [[ "$uri" == */nvidia/devtools/nsight-systems-cli:* ]]; then
+        app="nsightsys"
 	else
-		# And all "normal" apps will fall here
 		app="${uri##*/}" 	# Drop all until just name:version
 		app=${app%%:*} 		# And drop ":version"
 	fi
+
+    # Cache the result and echo
+    APP_CACHE["$uri"]="$app"
 	echo "$app"
 }
 
 
 uri2ver() {
 	# uri2ver "URI"
-	# Takes an image URI ($1) and extracts the application version
-	# according to our conventions.  Biocontainers often have
-	# a "--<interpreter>h<hash>_<release>" appended to the application
-	# version - these are not part of application version (and get removed).
-	# E.g.:
-	#   URI:  [docker://]quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
-	#   VER:  0.1.16
+	# Extracts the version. For local files, it prompts the user once
+    # and caches the result. For remote URIs, it parses the string.
+	local uri="$1"
 
-	local uri="$1" ver
+    # Return cached value if it exists
+    if [[ -v "VER_CACHE[$uri]" ]]; then
+        echo "${VER_CACHE[$uri]}"
+        return 0
+    fi
+
+    # If it's a local file, prompt for details
+    if [[ -f "$uri" ]]; then
+        _prompt_for_local_details "$uri" || return 1 # Exit if prompt fails
+        echo "${VER_CACHE[$uri]}"
+        return 0
+    fi
+
+	# --- Original parsing logic for remote URIs ---
+	local ver
 	ver="${uri##*/}" 		# Drop all until just name:version
 	ver=${ver##*:} 			# And drop "name:"
-
-	# Trim all "--<interpreter>h<hash>_<release>" extras.
 	ver=$(echo "$ver" | sed -re 's/(--.*)?(_[0-9]+)?$//')
+
+    # Cache the result and echo
+    VER_CACHE["$uri"]="$ver"
 	echo "$ver"
 }
 
@@ -375,7 +383,6 @@ pull() {
     # to a local image file. The image or link is placed in the directory
     # defined by IMG_OUTDIR or PRIVATE_IMAGEDIR, and the corresponding app file
     # in the repos directory is updated if requested.
-    
     local uri=$1
     local is_local_file=0
 
@@ -387,27 +394,12 @@ pull() {
         return 1
     fi
 
-    # --- Get application name and version ---
-    local app version
-    if [[ $is_local_file -eq 1 ]]; then
-        # For local files, prompt the user for details
-        echo "Local image file detected: $uri"
-        read -r -p "Enter the application name: " app
-        if [[ -z "$app" ]]; then
-            echo "Error: Application name cannot be empty." >&2
-            return 1
-        fi
-        
-        read -r -p "Enter the application version: " version
-        if [[ -z "$version" ]]; then
-            echo "Error: Version cannot be empty." >&2
-            return 1
-        fi
-    else
-        # For remote URIs, parse them using helper functions
-        app="$(uri2app "$uri")"
-        version="$(uri2ver "$uri")"
-    fi
+    # --- Get application name and version (now handled by helper functions) ---
+    local app
+    app=$(uri2app "$uri") || return 1
+    local version
+    version=$(uri2ver "$uri") || return 1
+
 
     # Determine the final image name
     local imgname
@@ -493,33 +485,8 @@ pull() {
 ###############################################################################
 module() {
     # module "URI"
-    # Generates a module file for a given application URI and saves it
-    # in the specified output directory.
-    #
-    # This function performs the following tasks:
-    # 1. Takes the provided URI and converts it into a module file name
-    #    using the uri2modname function.
-    # 2. Checks if the module file already exists. If it does and the
-    #    force option is not enabled, the function skips the generation
-    #    process and adds the URI to the SKIPPED_URIS array.
-    # 3. Creates the necessary directory structure for the module file.
-    # 4. Generates the content of the module file using the
-    #    print_modulefile function.
-    # 5. Writes the generated content to the module file and provides
-    #    a reminder to edit the stub for additional modifications.
-    #
-    # Arguments:
-    #   URI - The application URI that identifies the desired image.
-    #
-    # Example Usage:
-    #   module "docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5"
-    #
-    # Errors:
-    # If the output directory cannot be created or if there is an
-    # issue writing to the module file, an error message will be displayed
-    # and the function will exit with a non-zero status. 
     local URI="$1"
-    
+
     # Testing whether we are generating personal or public modules
     if [[ $personal -eq 1 ]]; then
         local module_outdir="$PRIVATE_MODULEDIR"
@@ -527,15 +494,17 @@ module() {
         local module_outdir="$MOD_OUTDIR"
     fi
 
-    local OUTFILE="${module_outdir}/$(uri2modname "$URI")"
-    
+    local modname
+    modname=$(uri2modname "$URI") || return 1
+    local OUTFILE="${module_outdir}/${modname}"
+
     # If modulefile already exists, skip it (unless --force is in effect)
     if [[ -f "$OUTFILE" && $force -eq 0 ]]; then
         echo "SKIPPED: $URI --> $OUTFILE (file exists)"
         SKIPPED_URIS+=("$URI")
         return 0
     fi
-    
+
     # If force is true and module file exists, remove it before creating a new one
     if [[ -f "$OUTFILE" && $force -eq 1 ]]; then
         echo "Force option enabled, removing existing module file $OUTFILE"
@@ -550,10 +519,10 @@ module() {
         echo "Error: Failed to create directory for '$OUTFILE'"
         exit 1
     }
-    
+
     # Generate module file content
     MODULE=$(print_modulefile "$URI")
-    
+
     # Write module content to the file, exit on failure
     if echo "$MODULE" > "$OUTFILE"; then
         echo "Remember to edit '$OUTFILE' stub (look for TODO: labels!)"
@@ -566,30 +535,11 @@ module() {
 
 print_modulefile() {
     # print_modulefile "URI"
-    # Generates or repurposes a modulefile for the specified application based
-    # on the provided image URI.
-    #
-    # This function performs the following steps:
-    # 1. Accepts an image URI as input, which is expected to be in a format
-    #    recognizable by the modulefile generation system.
-    # 2. Extracts the application name from the URI using the uri2app function.
-    # 3. Checks for the existence of any previously created modulefiles for
-    #    the application by calling find_latest_modulefile.
-    # 4. If no prior modulefiles are found, it generates a new modulefile
-    #    using the generate_new_modulefile function.
-    # 5. If an existing modulefile is found, it repurposes that file as a
-    #    template for the new modulefile using the repurpose_old_modulefile function.
-    #
-    # Arguments:
-    #   uri - The image URI for which to generate or repurpose the modulefile.
-    #
-    # Returns:
-    #   0 if successful, or 1 if an error occurred during modulefile generation
-    #   or repurposing.
-    
     local uri="$1"
-    local app=$(uri2app "$uri")             # e.g., vcftools
-    local latest_modulefile=$(find_latest_modulefile "$app") # file or empty
+    local app
+    app=$(uri2app "$uri") || return 1             # e.g., vcftools
+    local latest_modulefile
+    latest_modulefile=$(find_latest_modulefile "$app") # file or empty
 
     # Check if no latest modulefile exists
     if [[ -z "$latest_modulefile" ]]; then
@@ -613,24 +563,6 @@ print_modulefile() {
 
 find_latest_modulefile() {
     # find_latest_modulefile "app"
-    # Searches for the latest modulefile for the specified application.
-    #
-    # This function performs the following tasks:
-    # 1. Accepts the application name as an argument.
-    # 2. Checks for the existence of modulefiles (Lua files) in the
-    #    designated module directory for the specified application.
-    # 3. If modulefiles are found, it sorts them by their last modified
-    #    time and retrieves the most recently modified modulefile.
-    # 4. If no modulefiles are found, it issues a warning message.
-    #
-    # Arguments:
-    #   app - The name of the application for which to find the latest
-    #         modulefile.
-    #
-    # Returns:
-    #   The path to the latest modulefile, or an empty string if no
-    #   modulefiles are found.
-
     local app="$1"
     local modulefile=""
 
@@ -648,7 +580,7 @@ find_latest_modulefile() {
     if ls "$dir/$app/"*.lua 1> /dev/null 2>&1; then
         # Find the most recent modulefile in this directory
         latest_file=$(ls -t "$dir/$app/"*.lua | head -n 1)
-        
+
         # If modulefile is empty or latest_file is more recent, update modulefile
         if [[ -z "$modulefile" || "$latest_file" -nt "$modulefile" ]]; then
             modulefile="$latest_file"
@@ -662,24 +594,8 @@ find_latest_modulefile() {
 
 generate_new_modulefile() {
     # generate_new_modulefile "URI"
-    # Generates a new modulefile for a given application based on the provided
-    # image URI. This function extracts metadata from the URI, checks for
-    # the existence of a template file, and populates the modulefile content
-    # by substituting placeholders with actual values.
-    #
-    # The generated modulefile contains information such as the application name,
-    # version, description, homepage, registry details, and executable directory.
-    #
-    # Arguments:
-    #   uri - The image URI for which to generate the modulefile.
-    #
-    # Returns:
-    #   0 if the modulefile was successfully generated and outputted,
-    #   1 if the template file is not found or if an error occurs during
-    #   generation.
-
     local uri="$1"
-    
+
     # Testing whether we are generating personal or public apps
     if [[ $personal -eq 1 ]]; then
         local exec_outdir="${PRIVATE_EXECUTABLE_DIR/#\$HOME/$HOME}"
@@ -687,9 +603,13 @@ generate_new_modulefile() {
         local exec_outdir="$PUBLIC_EXECUTABLE_DIR"
     fi
 
-    local image=$(uri2imgname "$uri")
-    local app=$(uri2app "$uri")
-    local ver=$(uri2ver "$uri")
+    local image
+    image=$(uri2imgname "$uri") || return 1
+    local app
+    app=$(uri2app "$uri") || return 1
+    local ver
+    ver=$(uri2ver "$uri") || return 1
+
 
     # Initialize description and homepage variables
     local homepage=""
@@ -701,23 +621,23 @@ generate_new_modulefile() {
     local registry_url=""
 
     case "$uri" in
-        *"biocontainers"*)
+         *"biocontainers"*)
             registry="BioContainers"
             registry_url="https://biocontainers.pro/tools/$app"
             ;;
-        *"quay.io"*)
+         *"quay.io"*)
             registry="Quay.io"
             registry_url="https://quay.io/repository/$app"
             ;;
-        *"nvcr.io"*)
+         *"nvcr.io"*)
             registry="Nvidia NGC"
             registry_url="https://catalog.ngc.nvidia.com/containers"
             ;;
-        *"gcr.io"*)
+         *"gcr.io"*)
             registry="Google Container Registry"
             registry_url="$uri"
             ;;
-        *)
+         *)
             registry="DockerHub"
             docker_repo=$(echo "$uri" | sed 's|docker://\([^:]*\):.*|\1|')
             registry_url="https://hub.docker.com/r/${docker_repo}"
@@ -750,24 +670,14 @@ generate_new_modulefile() {
 
 repurpose_old_modulefile() {
     # repurpose_old_modulefile "URI" "TEMPLATE"
-    # Repurposes an existing modulefile template for a given application by
-    # updating it with the new version, image, and URI information. This function
-    # reads the specified template file, modifies relevant fields, and outputs
-    # the updated modulefile content.
-    #
-    # Arguments:
-    #   uri      - The image URI associated with the application.
-    #   template - The path to the existing modulefile that serves as the template.
-    #
-    # Returns:
-    #   0 if the modulefile was successfully updated and outputted,
-    #   1 if the modification fails and a new modulefile is generated instead.
-
     local uri="$1"
     local template="$2"
-    local image=$(uri2imgname "$uri")
-    local app=$(uri2app "$uri")
-    local ver=$(uri2ver "$uri")
+    local image
+    image=$(uri2imgname "$uri") || return 1
+    local app
+    app=$(uri2app "$uri") || return 1
+    local ver
+    ver=$(uri2ver "$uri") || return 1
 
     # Modify the template with new version, image, and URI
     local buf=$(awk -v ver="$ver" -v image="$image" -v uri="$uri" '
@@ -799,36 +709,14 @@ repurpose_old_modulefile() {
 ###############################################################################
 exec() {
     # exec "URI"
-    # Processes a given application URI to generate the corresponding
-    # executables in the designated output directory.
-    #
-    # This function performs the following tasks:
-    # 1. Parses the provided URI to extract the application name,
-    #    version, and image name.
-    # 2. Calls `parse_exec` to obtain an array of predefined
-    #    executables for the application.
-    # 3. Creates the output directory for the executables.
-    # 4. Checks if the executables exist and generates them.
-    #
-    # Note: If the force option is enabled, the existing output
-    #       directory will be removed before creating a new one.
-    # 
-    # Arguments:
-    #   URI - The application URI that identifies the desired image.
-    #
-    # Example Usage:
-    #   exec "docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5"
-    #
-    # Errors:
-    # If no executables are defined for the application, or if
-    # there is an issue creating directories, an error message will be
-    # displayed and the function will exit with a non-zero status.
-
     local uri="$1"
     # Parse the URI into app, version, and image
-    local app=$(uri2app "$uri")
-    local ver=$(uri2ver "$uri")
-    local image=$(uri2imgname "$uri")
+    local app
+    app=$(uri2app "$uri") || return 1
+    local ver
+    ver=$(uri2ver "$uri") || return 1
+    local image
+    image=$(uri2imgname "$uri") || return 1
 
     # Call the parse_exec function and capture output into an array
     exec_array=($(parse_exec))
@@ -888,7 +776,7 @@ exec() {
                     echo "Error: Failed to generate executable: $exec" >&2
                 fi
             else
-                echo "Warning: Executable not found: $exec in $image_outdir/$image" >&2
+                 echo "Warning: Executable not found: $exec in $image_outdir/$image" >&2
             fi
         done
     fi
@@ -896,21 +784,6 @@ exec() {
 
 confirm_exec_exists() {
     # confirm_exec_exists
-    # Checks if a specified executable is installed within a Singularity container.
-    #
-    # This function takes the name of an executable as an argument and uses 
-    # the `singularity exec` command to determine if the executable is present 
-    # in the container's environment. If the executable is found, a confirmation 
-    # message is printed; otherwise, an error message is displayed, and the script 
-    # exits with a non-zero status.
-    #
-    # Arguments:
-    #   exec: The name of the executable to check for within the container.
-    #
-    # Exits with:
-    #   0 if the executable is found,
-    #   1 if the executable is not found.
-
     local exec=$1
     local image=$2
     if ! singularity exec "$image" which "$exec" &> /dev/null; then
@@ -923,27 +796,6 @@ confirm_exec_exists() {
 
 generate_executable() {
     # generate_executable $app $version $image $command
-    # Generates a Bash wrapper script for executing application commands 
-    # within a Singularity container.
-    #
-    # This function takes the application name, version, container image, 
-    # and command as arguments. It checks for required variables, creates 
-    # a directory for the executable if necessary, and generates a Bash 
-    # script that acts as a wrapper to call the application command within 
-    # the specified Singularity container. The script includes provisions 
-    # for loading the Singularity module and handling Nvidia or AMD GPU 
-    # options.
-    #
-    # Arguments:
-    #   app: The name of the application for which the wrapper is being created.
-    #   version: The version of the application.
-    #   image: The name of the container image to use.
-    #   command: The command or program to execute within the container.
-    #
-    # Returns:
-    #   0 on success, 
-    #   1 if there are missing arguments or errors in execution.
-
     local app=$1
     local version=$2
     local image=$3
@@ -1013,12 +865,8 @@ EOF
 
 create_appinfo_file() {
     # create_appinfo_file
-    # Creates a new application information file in the 'repos' directory
-    # based on user input. The function prompts the user to enter a description,
-    # homepage, and list of available programs for the application.
     local app=$1
-    #localappinfo="$HOME/container-apps/repos/$app"
-    localappinfo=$2
+    local localappinfo=$2
     echo "$app is not found in our application information database."
     echo "let's create a new entry for $app."
     echo "Enter a simple description of your application (e.g., Blast is an algorithm and program for comparing primary biological sequence information): "
@@ -1035,18 +883,6 @@ create_appinfo_file() {
 
 parse_home_description() {
     # parse_home_description
-    # Parses the application file located in the 'repos' folder to extract the
-    # 'Description' and 'Home Page' fields. If the application file is not found,
-    # or if the fields cannot be extracted, appropriate error messages are displayed.
-    #
-    # This function sets the 'description' and 'homepage' variables with the
-    # extracted values or sets them to empty if not found. The function does not
-    # take any arguments.
-    #
-    # Returns:
-    #   0 if the fields are found and extracted successfully,
-    #   1 if the application file does not exist or the fields are missing.
-
     # Path to the app's file in the repos folder
     if [[ $personal -eq 1 ]]; then
         local app_file="$HOME/container-apps/repos/$app"
@@ -1078,18 +914,6 @@ parse_home_description() {
 
 parse_exec() {
     # parse_exec
-    # Parses the application file located in the 'repos' folder to extract the 
-    # 'Programs' field, which contains a list of executable names. The function
-    # checks if the file exists and whether the 'Programs' field is populated.
-    #
-    # This function sets the 'executables' variable with the extracted values
-    # and prints them as an array for debugging. It returns a non-zero status 
-    # if the application file does not exist or if the 'Programs' field is empty.
-    #
-    # Returns:
-    #   0 if executables are found and extracted successfully,
-    #   1 if the application file does not exist or if the 'Programs' field is empty.
-
     # Path to the app's file in the repos folder
     if [[ $personal -eq 1 ]]; then
         local app_file="$HOME/container-apps/repos/$app"
@@ -1122,7 +946,6 @@ parse_exec() {
     fi
 
     # Split the comma-delimited string into an array
-    #    IFS=',' read -r -a arr <<< "$executables"
     IFS=',' read -r -a arr <<< "$executables"
 
     # Return the array (if needed for further processing in the calling function)
@@ -1134,9 +957,13 @@ parse_exec() {
 # Functions for creating Jupyter kernels
 ###############################################################################
 jupyter() {
-    local app=$1
-    local ver=$2
-    local image=$3
+    local uri=$1 # Changed to accept URI
+    local app
+    app=$(uri2app "$uri") || return 1
+    local ver
+    ver=$(uri2ver "$uri") || return 1
+    local image
+    image=$(uri2imgname "$uri") || return 1
 
     # Define kernel name and directory
     kernel_name="${app}-${ver}"
@@ -1246,9 +1073,8 @@ if [[ -z "$SUBCOMMAND" ]]; then
     echo "Usage: ${0##*/} help"
     exit 1
 elif [[ "$SUBCOMMAND" == "-h" || "$SUBCOMMAND" == "--help" ]]; then
-    help_message
+     help_message
     exit 0
-    
 # List available profiles and exit if the -p or --profile flag is set
 elif [[ "$SUBCOMMAND" == "-l" || "$SUBCOMMAND" == "--list" ]]; then
     list_profiles
@@ -1275,14 +1101,14 @@ while [[ -n "$1" ]]; do
             force=1 ;;
         -m|--module-dir|--module-directory)
             shift
-            MOD_EXISTING_DIR="$1" ;;    # Specify module directory
+            MOD_EXISTING_DIR="$1" ;;
         -u|--update)                    # Update the repository
             update_repo=1 ;;
         -h|--help)                      # Display help message
             help_message
             graceful_exit ;;
         -l|--list)                      # List available profiles
-            list_profiles 
+            list_profiles
             graceful_exit ;;
         -p|--personal)                  # Enable personal modulefile creation
             personal=1 ;;
@@ -1291,7 +1117,7 @@ while [[ -n "$1" ]]; do
         --)                             # End of options
             shift
             break ;;
-        -*|--*)                         # Unknown option handling
+        -*)                         # Unknown option handling
             echo "Unknown option: $1"
             usage
             exit 1 ;;
@@ -1358,7 +1184,7 @@ fi
 # Subcommand Handling
 ###############################################################################
 if [ "$SUBCOMMAND" = "pull" ]; then
-    handle_subcommand pull "${ARGV[@]}" 
+    handle_subcommand pull "${ARGV[@]}"
 elif [ "$SUBCOMMAND" = "module" ]; then
     handle_subcommand module "${ARGV[@]}"
 elif [ "$SUBCOMMAND" = "exec" ]; then
@@ -1397,9 +1223,10 @@ if [[ "$SUBCOMMAND" == "module" || "$SUBCOMMAND" == "pipe" ]]; then
         fi
 
         # Extract app, version, and module name
-        app=$(uri2app "$URI")
-        ver=$(uri2ver "$URI")
-        modname=$(uri2modname "$URI")
+        app=$(uri2app "$URI") || continue
+        ver=$(uri2ver "$URI") || continue
+        modname=$(uri2modname "$URI") || continue
+
 
         # Validate modname resolution
         if [[ -z "$modname" ]]; then
@@ -1438,18 +1265,9 @@ fi
 ###############################################################################
 if [[ $jupyter -eq 1 ]]; then
     for URI in "${ARGV[@]}"; do
-        app=$(uri2app "$URI")
-        ver=$(uri2ver "$URI")
-        image=$(uri2imgname "$URI")
-
-        if [[ -z $app || -z $ver || -z $image ]]; then
-            echo "Error: Unable to parse URI: $URI" >&2
-            continue
-        fi
-
-        echo "Generating Jupyter kernel for $app version $ver"
-        if ! jupyter "$app" "$ver" "$image"; then
-            echo "Error: Failed to create Jupyter kernel for $app version $ver" >&2
+        echo "Generating Jupyter kernel for $URI"
+        if ! jupyter "$URI"; then # Pass the whole URI
+            echo "Error: Failed to create Jupyter kernel for $URI" >&2
         fi
     done
 fi
