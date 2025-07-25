@@ -8,7 +8,7 @@ This script is designed to streamline the management of Singularity/Apptainer co
 
 1. Pulling container images: retrieve Singularity/Apptainer images from specified URIs.
 2. Generating module files: create module files in Lmod format based on container images.
-3. Creating Executable Wrappers: Generate wrapper bash scripts for each program or command provided by the target application. These lightweight scripts simplify access to containerized tools by mimicking the behavior of native executables, allowing users to run commands as if the application were installed locally. 
+3. Creating Executable Wrappers: Generate wrapper bash scripts for each program or command provided by the target application. These lightweight scripts simplify access to containerized tools by mimicking the behavior of native executables, allowing users to run commands as if the application were installed locally.
 4. Pipeline Mode: Automatically pull images, generate module files, and create executables in one command.
 
 The script also provides flexible options, including specifying custom output directories, forcing overwrites of existing files, and updating repository files with new version information. Additionally, for containers that include **Python** and **ipykernel**, it can also generate a Jupyter kernel file, enabling users to run the container within Jupyter Lab or Notebook on the Open OnDemand platform.
@@ -29,7 +29,7 @@ The script also provides flexible options, including specifying custom output di
 
 ### Options
 
- - `-d, --dir DIR`: Specify the output directory for images, module files, and executables. Defaults to the current directory.
+- `-d, --dir DIR`: Specify the output directory for images, module files, and executables. Defaults to the current directory.
 - `-f, --force`: Force overwrite of existing module files, or executables. Default is to skip existing files.
 - `-j, --jupyter`: Generate Jupyter kernels for the specified URIs. With the jupyter kernel, users can run containers within Jupyter Lab or Jupyter Notebook. The prerequisite is that **ipykernel** must be installed within the container.
 - `-m, --moduledir DIR`: Specify the directory that stores module files that can be used as template. Defaults to modulefiles.
@@ -38,6 +38,7 @@ The script also provides flexible options, including specifying custom output di
 - `-h, --help`: Display this help message and exit.
 
 ## Repository database
+
 In the repos folder, each scientific application is represented by an individual information file, which serves as the basis for generating the corresponding module file. Each info file requires three fields: **Description**, **Home Page**, and **Programs**. The **Description** and **Home Page** fields provide metadata for the module file, while **Programs** is a comma-delimited list of commands or executables provided by the application. The workflow uses this list to generate bash wrappers for each command. Additionally, an optional **version** field helps track the URI of the pulled containers for reproducibility.
 
 ```
@@ -54,9 +55,36 @@ version("2.4.2", uri="docker://quay.io/biocontainers/bowtie2:2.4.2--py38hc2f83ea
 
 ### Pull an image
 
+### 1. From a Remote Registry ☁️
+
+This is the standard method. Use the `container-mod pull` command followed by the container's URI to download it from a public registry like Docker Hub or Quay.io. The wrapper script will be created automatically.
+
 ```
 $ container-mod pull docker://quay.io/biocontainers/vcftools:0.1.16--h9a82719_5
 ```
+
+### 2. From a Local Image File 💻
+
+If you already have a Singularity/Apptainer image file (.sif), you can use the `container-mod pipe` command with the path to the file. This process skips the download and uses the existing file.
+
+Because file names do not have a universal standard, `container-mod` will prompt you to manually enter the application's name and version. This ensures the wrapper script is generated with the correct details.
+
+**Example**
+
+```
+$ container-mod pipe /cluster/tufts/biocontainers/images/quay.io_biocontainers_bowtie2\:2.5.4--he96a11b_6.sif
+```
+
+You will then be prompted for input:
+
+```
+No profile specified. Running in personal mode!
+Local image file detected: /cluster/tufts/biocontainers/images/quay.io_biocontainers_bowtie2:2.5.4--he96a11b_6.sif
+-> Enter the application name: bowtie2
+-> Enter the application version: 2.5.4
+```
+
+> **Important Note:** When using a local file, the image is not moved or copied. The generated wrapper script will define its `IMAGE_DIR` variable to point to the original file's directory, rather than a system-wide image directory.
 
 ### Generate a lmod module file
 
@@ -117,8 +145,10 @@ $ bowtie2 --help
 
 ## Jupyter kernel
 
-For containerized applications that are able to run on Jupyter notebook/lab, container-mod is also able to create a jupyter kernel. The kernel will be stored in users' $HOME under `$HOME/.local/share/jupyter/kernels`. To create jupyter kernels, users need to run the script with `-j` or `--jupyter`.
+For containerized applications that are able to run on Jupyter notebook/lab, container-mod is also able to create a jupyter kernel. The kernel will be stored in users' $HOME under `$HOME/.local/share/jupyter/kernels`. To create jupyter kernels, users need to run the script with `-j`or`--jupyter`.
+
 ### Example
+
 ```
 container-mod pipe -p -j docker://tensorflow/tensorflow:2.18.0-jupyter
 ```

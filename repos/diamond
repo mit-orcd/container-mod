@@ -2,6 +2,7 @@ Description: Diamond is sequence aligner for protein and translated DNA searches
 Home Page: https://github.com/bbuchfink/diamond
 Programs: diamond
 
+version("2.1.12", uri="docker://staphb/diamond:2.1.12")
 version("2.1.6", uri="docker://quay.io/biocontainers/diamond:2.1.6--h5b5514e_1")
 version("2.0.15", uri="docker://quay.io/biocontainers/diamond:2.0.15--hb97b32f_0")
 version("2.0.14", uri="docker://quay.io/biocontainers/diamond:2.0.14--hdcc8f71_0")
