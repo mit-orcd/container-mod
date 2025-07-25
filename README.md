@@ -89,7 +89,8 @@ For individual use, the `-p` flag stores all files locally in your home director
 $ container-mod pipe -p docker://staphb/bowtie2:2.5.4
 
 # 2. Load your personal module environment and the new module
-$module load use.own$ module load bowtie2/2.5.4
+$ module load use.own
+$ module load bowtie2/2.5.4
 
 # 3. Run the containerized command as if it were native
 $ bowtie2 --help
