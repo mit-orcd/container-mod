@@ -2,5 +2,6 @@ Description: Fastp is an ultra-fast all-in-one FASTQ preprocessor (QC/adapters/t
 Home Page: https://github.com/OpenGene/fastp/
 Programs: fastp
 
+version("1.0.1", uri="docker://staphb/fastp:1.0.1")
 version("0.23.2", uri="docker://quay.io/biocontainers/fastp:0.23.2--hb7a2d85_2")
 version("0.20.1", uri="docker://quay.io/biocontainers/fastp:0.20.1--h2e03b76_1")
