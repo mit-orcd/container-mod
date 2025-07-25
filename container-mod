@@ -451,17 +451,20 @@ module() {
         return 0
     fi
 
+    # Ensure the directory exists and has 755 permissions
     mkdir -p "$(dirname "$OUTFILE")" || {
         warn -p "Error: Failed to create directory for '$OUTFILE'"
         exit 1
     }
+    chmod 755 "$(dirname "$OUTFILE")"
 
+    # This command substitution captures the output of print_modulefile
     local MODULE; MODULE=$(print_modulefile "$URI")
 
     if echo "$MODULE" > "$OUTFILE";
     then
-        # Set permissions to 755 (read-only for others).
-        chmod 755 "$OUTFILE"
+        # Set permissions to 644 (read-only for others).
+        chmod 644 "$OUTFILE"
         echo "   Generated module: $OUTFILE"
     else
         warn -p "Error: Failed to write to '$OUTFILE'"
@@ -677,11 +680,11 @@ exec() {
             warn -p "     -> Warning: Executable not found in container: $command_exec"
         fi
     done
-    chmod -R 755 "${exec_outdir}/${app}" || {
-            warn -p "Error: Failed to set permissions for directory ${exec_outdir}/${app}"
-            return 1
-        }
-    echo "   Executables generated in: ${exec_outdir}/${app}"
+
+    # Ensure all directories within the app's exec folder are 755
+    find "${exec_outdir}/${app}" -type d -exec chmod 755 {} +
+    
+    echo "   Executables generated in: ${exec_outdir}/${app}/${ver}"
 }
 
 # Checks if a given command exists inside the container.
