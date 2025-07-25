@@ -422,10 +422,10 @@ pull() {
         return 0
     fi
 
-    # Pull the image and set its permissions to 644 (read-only for others).
+    # Pull the image and set its permissions to 755 (read-only for others).
     echo -e "   \e[1mPulling Singularity image...\e[0m"
     singularity pull --force "$target_image_path" "$uri" || exit 1
-    chmod 644 "$target_image_path"
+    chmod 755 "$target_image_path"
     echo "   Pull complete."
 }
 
@@ -459,8 +459,8 @@ module() {
 
     if echo "$MODULE" > "$OUTFILE";
     then
-        # Set permissions to 644 (read-only for others).
-        chmod 644 "$OUTFILE"
+        # Set permissions to 755 (read-only for others).
+        chmod 755 "$OUTFILE"
         echo "   Generated module: $OUTFILE"
         echo "   (Remember to edit the file to fill in any TODO items)"
     else
