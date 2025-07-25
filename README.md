@@ -113,3 +113,4 @@ Use the `-j` flag to generate a Jupyter kernel, which will then be available to 
 ```bash
 $ container-mod pipe -p -j docker://tensorflow/tensorflow:2.18.0-jupyter
 ```
+![GitHub contributors](https://img.shields.io/github/contributors/TuftsRT/container-mod.svg)
