@@ -389,6 +389,7 @@ uri2ver() {
 # @param $1 - The remote container URI.
 pull() {
     local uri=$1
+    local is_local_file=0
     # If the URI is a local file, do nothing.
     if [[ -f "$uri" ]];
     then
@@ -422,12 +423,56 @@ pull() {
         return 0
     fi
 
-    # Pull the image and set its permissions to 755 (read-only for others).
+    # Pull the image and set its permissions to 644 (read-only for others).
     echo -e "   \e[1mPulling Singularity image...\e[0m"
     singularity pull --force "$target_image_path" "$uri" || exit 1
-    chmod 755 "$target_image_path"
+    chmod 644 "$target_image_path"
     echo "   Pull complete."
-    echo "Container image is pulled into: $target_image_path"
+    echo "   Container image is saved to: $target_image_path"
+
+    # --- RE-ADDED REPOSITORY UPDATE LOGIC ---
+    if [[ $update_repo -eq 1 ]];
+    then
+        local app; app=$(uri2app "$uri") || return 1
+        local version; version=$(uri2ver "$uri") || return 1
+        local app_file="$AppInfo_DIR/$app"
+        if [[ $personal -eq 1 ]];
+        then
+             app_file="$HOME/container-apps/repos/$app"
+        fi
+        if [[ ! -f "$app_file" ]]; then
+            warn -p "Error: App file '$app_file' not found. Please create it first."
+            # We don't want to leave a dangling image if the update fails
+            rm -f "$target_image_path"
+            return 1
+        fi
+
+        local repo_uri="$uri"
+        # Create a temporary file to build the updated content
+        local temp_file
+        temp_file=$(mktemp "${app_file}.XXXXXX") || { warn -p "Failed to create temp file"; return 1; }
+        # Ensure temp file is removed on exit
+        trap 'rm -f "$temp_file"' RETURN
+
+        # Rebuild the file:
+        # 1. Copy all lines EXCEPT the existing version lines.
+        # 2. Add the NEW version line at the top.
+        # 3. Append all the OLD version lines back.
+        {
+            grep -v '^version(' "$app_file"
+            echo "version(\"$version\", uri=\"$repo_uri\")"
+            grep '^version(' "$app_file"
+        } > "$temp_file"
+
+        # Atomically replace the old file with the new one
+        if mv "$temp_file" "$app_file"; then
+            echo "   Updated app info file: $app_file with new version $version"
+        else
+            warn -p "Error: Failed to update app info file '$app_file'."
+            rm -f "$target_image_path"
+            return 1
+        fi
+    fi
 }
 
 # Generates an Lmod modulefile for a container.
