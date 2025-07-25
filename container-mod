@@ -479,10 +479,10 @@ print_modulefile() {
 
     if [[ -z "$latest_modulefile" ]];
     then
-        echo "No existing modulefile found for $app. Generating a new one."
+        echo "   No existing modulefile found for '$app'. Generating a new one." >&2
         generate_new_modulefile "$uri"
     else
-        echo "Found existing modulefile: $latest_modulefile, will repurpose it for $uri."
+        echo "   Found existing modulefile: $latest_modulefile. Repurposing it for new version." >&2
         repurpose_old_modulefile "$uri" "$latest_modulefile"
     fi
     return $?
