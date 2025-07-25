@@ -462,7 +462,6 @@ module() {
         # Set permissions to 755 (read-only for others).
         chmod 755 "$OUTFILE"
         echo "   Generated module: $OUTFILE"
-        echo "   (Remember to edit the file to fill in any TODO items)"
     else
         warn -p "Error: Failed to write to '$OUTFILE'"
         exit 1
@@ -675,6 +674,11 @@ exec() {
             warn -p "     -> Warning: Executable not found in container: $command_exec"
         fi
     done
+    chmod -R 755 "$AppTool_dir" || {
+            warn -p "Error: Failed to set permissions for directory $AppTool_dir"
+            return 1
+        }
+    echo "   Executables generated in: $AppTool_dir"
 }
 
 # Checks if a given command exists inside the container.
@@ -1014,6 +1018,10 @@ then
             MSG=( "To use this module, load:" "" "    module use $MOD_OUTDIR" "    module load $app/$ver" )
         fi
         boxify_text "${MSG[@]}"
+        chmod -R 755 "$MOD_OUTDIR/$app" || {
+            warn -p "Error: Failed to set permissions for module directory $MOD_OUTDIR/$app"
+            exit 1
+        }
     done
 fi
 
