@@ -739,7 +739,7 @@ exec() {
 confirm_exec_exists() {
     local exec_cmd="$1"
     local image_path="$2"
-    if ! singularity exec "$image_path" which "$exec_cmd" &> /dev/null; then
+    if ! singularity exec "$image_path" bash -c "command -v \"$exec_cmd\"" &> /dev/null; then
         return 1
     else
         return 0
