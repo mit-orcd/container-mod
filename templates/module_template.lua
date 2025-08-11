@@ -47,4 +47,7 @@ conflict(myModuleName())
 local modroot="${EXECUTABLE_DIR}/${APP}/" .. "${VERSION}"
 prepend_path("PATH", modroot.."/bin", ":")
 
+-- Dependency
+depends_on("apptainer")
+
 -- Additional commands or environment variables, if any
